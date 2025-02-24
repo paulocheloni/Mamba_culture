@@ -5,11 +5,14 @@ import type { Mocked } from "@suites/doubles.jest";
 import { CreateCampaignBodyDto } from "./dto/create-campaign-body.dto";
 import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-campaign.usecase";
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
+import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { DeleteCampaignUseCase } from "src/campaign/application/delete-campaign/delete-campaign.usecase";
 
 describe("CampaignController", () => {
 	let controller: CampaignController;
 	let createCampaignUseCase: Mocked<CreateCampaignUseCase>;
 	let getCampaignUseCase: Mocked<GetCampaignUseCase>;
+	let deleteCampaignUseCase: Mocked<DeleteCampaignUseCase>;
 
 	beforeEach(async () => {
 		const { unit, unitRef } =
@@ -17,6 +20,7 @@ describe("CampaignController", () => {
 		controller = unit;
 		createCampaignUseCase = unitRef.get(CreateCampaignUseCase);
 		getCampaignUseCase = unitRef.get(GetCampaignUseCase);
+		deleteCampaignUseCase = unitRef.get(DeleteCampaignUseCase);
 	});
 
 	it("should be defined", () => {
@@ -84,6 +88,42 @@ describe("CampaignController", () => {
 				.spyOn(getCampaignUseCase, "execute")
 				.mockReturnValue(Promise.reject(new Error("Campaign not found")));
 			expect(() => controller.getCampaign("123")).rejects.toThrow(
+				"Campaign not found",
+			);
+		});
+	});
+
+	describe("deleteCampaign", () => {
+		it("should be defined", () => {
+			expect(controller.deleteCampaign).toBeDefined();
+		});
+
+		it("should call deleteCampaignUsecase.execute with the correct data", () => {
+			const campaign = new CampaignBuilder().aCampaign();
+			jest
+				.spyOn(createCampaignUseCase, "execute")
+				.mockReturnValue(Promise.resolve());
+
+			controller.deleteCampaign(campaign.id);
+		});
+
+		it("should return the result of deleteCampaignUsecase.execute", async () => {
+			const campaign = new CampaignBuilder().aCampaign();
+			const result = void 0;
+			jest
+				.spyOn(createCampaignUseCase, "execute")
+				.mockReturnValue(Promise.resolve(result));
+
+			const response = await controller.deleteCampaign(campaign.id);
+
+			expect(response).toBe(result);
+		});
+
+		it("should throw an error if the campaign does not exist", async () => {
+			jest
+				.spyOn(deleteCampaignUseCase, "execute")
+				.mockRejectedValue(new Error("Campaign not found"));
+			expect(() => controller.deleteCampaign("123")).rejects.toThrow(
 				"Campaign not found",
 			);
 		});

@@ -1,23 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="8" failures="0" errors="0" time="0.359">
-  <testsuite name="envSchema" errors="0" failures="0" skipped="0" timestamp="2025-02-24T17:05:48" time="0.2" tests="4">
-    <testcase classname="envSchema should validate a valid set of environment variables" name="envSchema should validate a valid set of environment variables" time="0.006">
+<testsuites name="jest tests" tests="20" failures="0" errors="0" time="0.445">
+  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T17:16:43" time="0.326" tests="10">
+    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.006">
     </testcase>
-    <testcase classname="envSchema should fail when required fields are missing" name="envSchema should fail when required fields are missing" time="0">
+    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.001">
     </testcase>
-    <testcase classname="envSchema should fail when NODE_ENV is not a valid enum" name="envSchema should fail when NODE_ENV is not a valid enum" time="0.001">
+    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0.001">
     </testcase>
-    <testcase classname="envSchema should allow FRONTEND_URL to be optional" name="envSchema should allow FRONTEND_URL to be optional" time="0">
+    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.004">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="envSchema" errors="0" failures="0" skipped="0" timestamp="2025-02-24T17:05:48" time="0.193" tests="4">
-    <testcase classname="envSchema should validate a valid set of environment variables" name="envSchema should validate a valid set of environment variables" time="0.003">
+  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T17:16:44" time="0.076" tests="10">
+    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.004">
     </testcase>
-    <testcase classname="envSchema should fail when required fields are missing" name="envSchema should fail when required fields are missing" time="0.003">
+    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0">
     </testcase>
-    <testcase classname="envSchema should fail when NODE_ENV is not a valid enum" name="envSchema should fail when NODE_ENV is not a valid enum" time="0">
+    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0.001">
     </testcase>
-    <testcase classname="envSchema should allow FRONTEND_URL to be optional" name="envSchema should allow FRONTEND_URL to be optional" time="0">
+    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0">
     </testcase>
   </testsuite>
 </testsuites>

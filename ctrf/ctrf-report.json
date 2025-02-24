@@ -4,103 +4,235 @@
       "name": "jest"
     },
     "summary": {
-      "tests": 8,
-      "passed": 8,
+      "tests": 20,
+      "passed": 20,
       "failed": 0,
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1740416748629,
-      "stop": 1740416748986
+      "start": 1740417403914,
+      "stop": 1740417404356
     },
     "tests": [
       {
-        "name": "envSchema should validate a valid set of environment variables",
+        "name": "CampaignController should be defined",
         "duration": 6,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/shared/infra/env/env.schema.spec.ts",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.ts > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController"
       },
       {
-        "name": "envSchema should fail when required fields are missing",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/shared/infra/env/env.schema.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "env.schema.spec.ts > envSchema"
-      },
-      {
-        "name": "envSchema should fail when NODE_ENV is not a valid enum",
+        "name": "CampaignController createCampaign should call createCampaignUsecase.execute with the correct data",
         "duration": 1,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/shared/infra/env/env.schema.spec.ts",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.ts > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController > createCampaign"
       },
       {
-        "name": "envSchema should allow FRONTEND_URL to be optional",
+        "name": "CampaignController createCampaign should return the result of createCampaignUsecase.execute",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should be defined",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/shared/infra/env/env.schema.spec.ts",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.ts > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
       },
       {
-        "name": "envSchema should validate a valid set of environment variables",
-        "duration": 3,
+        "name": "CampaignController getCampaign should return a campaign",
+        "duration": 1,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/shared/infra/env/env.schema.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.js > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
       },
       {
-        "name": "envSchema should fail when required fields are missing",
-        "duration": 3,
+        "name": "CampaignController getCampaign should throw an error if the campaign does not exist",
+        "duration": 4,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/shared/infra/env/env.schema.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.js > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
       },
       {
-        "name": "envSchema should fail when NODE_ENV is not a valid enum",
+        "name": "CampaignController deleteCampaign should be defined",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
+      },
+      {
+        "name": "CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/shared/infra/env/env.schema.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.js > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
       },
       {
-        "name": "envSchema should allow FRONTEND_URL to be optional",
+        "name": "CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/shared/infra/env/env.schema.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
         "retries": 0,
         "flaky": false,
-        "suite": "env.schema.spec.js > envSchema"
+        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
+      },
+      {
+        "name": "CampaignController deleteCampaign should throw an error if the campaign does not exist",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
+      },
+      {
+        "name": "CampaignController should be defined",
+        "duration": 4,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController"
+      },
+      {
+        "name": "CampaignController createCampaign should call createCampaignUsecase.execute with the correct data",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController createCampaign should return the result of createCampaignUsecase.execute",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should be defined",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should return a campaign",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should throw an error if the campaign does not exist",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController deleteCampaign should be defined",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
+      },
+      {
+        "name": "CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
+      },
+      {
+        "name": "CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
+      },
+      {
+        "name": "CampaignController deleteCampaign should throw an error if the campaign does not exist",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
       }
     ]
   }
