@@ -15,8 +15,8 @@ describe("AppController (e2e)", () => {
 		await app.init();
 	});
 
-	it("/campaign (GET)", () => {
-		return request(app.getHttpServer()).get("/campaign").expect(200);
+	it("/campaign (POST)", () => {
+		return request(app.getHttpServer()).post("/campaign").expect(200);
 	});
 
 	afterEach(async () => {

@@ -33,7 +33,7 @@ importers:
         specifier: 0.5.1
         version: 0.5.1
       class-validator:
-        specifier: ^0.14.1
+        specifier: 0.14.1
         version: 0.14.1
       express:
         specifier: 4.21.2
@@ -62,6 +62,9 @@ importers:
       winston-daily-rotate-file:
         specifier: 5.0.0
         version: 5.0.0(winston@3.17.0)
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@nestjs/cli':
         specifier: 11.0.4
@@ -82,7 +85,7 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
       '@swc-node/register':
-        specifier: ^1.10.9
+        specifier: 1.10.9
         version: 1.10.9(@swc/core@1.8.0)(@swc/types@0.1.17)(typescript@5.7.3)
       '@swc/cli':
         specifier: 0.6.0
@@ -109,7 +112,7 @@ importers:
         specifier: 0.3.3
         version: 0.3.3
       enforce-branch-name:
-        specifier: ^1.1.2
+        specifier: 1.1.2
         version: 1.1.2
       jest:
         specifier: 29.7.0
@@ -133,10 +136,10 @@ importers:
         specifier: 7.0.0
         version: 7.0.0
       tsconfig-paths:
-        specifier: ^4.2.0
+        specifier: 4.2.0
         version: 4.2.0
       typescript:
-        specifier: ^5.7.3
+        specifier: 5.7.3
         version: 5.7.3
 
 packages:
@@ -4045,6 +4048,9 @@ packages:
   yoctocolors-cjs@2.1.2:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
+
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
 snapshots:
 
@@ -8416,3 +8422,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoctocolors-cjs@2.1.2: {}
+
+  zod@3.24.2: {}

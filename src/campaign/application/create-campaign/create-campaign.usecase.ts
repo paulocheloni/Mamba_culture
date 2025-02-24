@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ICampaignRepository } from "../domain/repository/campaign.repository.interface";
+import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
 import type { CreateCampaignDto } from "./dto/create-campaign.dto";
-import { CampaignBuilder } from "../domain/builder/campaign.builder";
+import { CampaignBuilder } from "../../domain/campaign/builder/campaign.builder";
 import { v4 as uuid } from "uuid";
 
 @Injectable()

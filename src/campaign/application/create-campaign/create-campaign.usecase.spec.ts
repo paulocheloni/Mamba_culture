@@ -1,6 +1,6 @@
 import { TestBed } from "@suites/unit";
 import { CreateCampaignUseCase } from "./create-campaign.usecase";
-import { ICampaignRepository } from "../domain/repository/campaign.repository.interface";
+import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
 
 describe("CreateCampaignUsecase", () => {
 	let usecase: CreateCampaignUseCase;

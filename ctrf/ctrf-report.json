@@ -4,19 +4,85 @@
       "name": "jest"
     },
     "summary": {
-      "tests": 2,
-      "passed": 2,
+      "tests": 12,
+      "passed": 12,
       "failed": 0,
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1740403726667,
-      "stop": 1740403727673
+      "start": 1740414990585,
+      "stop": 1740414991020
     },
     "tests": [
       {
         "name": "CampaignController should be defined",
-        "duration": 17,
+        "duration": 7,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController"
+      },
+      {
+        "name": "CampaignController createCampaign should call createCampaignUsecase.execute with the correct data",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController createCampaign should return the result of createCampaignUsecase.execute",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should be defined",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should return a campaign",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should throw an error if the campaign does not exist",
+        "duration": 3,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController should be defined",
+        "duration": 2,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
@@ -35,6 +101,50 @@
         "retries": 0,
         "flaky": false,
         "suite": "campaign.controller.spec.ts > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController createCampaign should return the result of createCampaignUsecase.execute",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > createCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should be defined",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should return a campaign",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
+      },
+      {
+        "name": "CampaignController getCampaign should throw an error if the campaign does not exist",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
       }
     ]
   }
