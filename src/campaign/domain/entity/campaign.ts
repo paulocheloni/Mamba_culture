@@ -88,6 +88,12 @@ export class Campaign {
 	}
 
 	pause(): void {
+		if (this.isExpired()) {
+			throw new Error("Cannot pause an expired campaign");
+		}
+		if (this.isDeleted()) {
+			throw new Error("Cannot pause a deleted campaign");
+		}
 		this._status = CampaignStatus.paused;
 	}
 
