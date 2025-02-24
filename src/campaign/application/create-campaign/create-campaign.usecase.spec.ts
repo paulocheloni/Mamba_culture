@@ -52,7 +52,9 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
-		await expect(usecase.execute(data)).rejects.toThrow();
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("endDate must be greater than startDate");
 	});
 
 	it("should throw an error when startDate is less than createdAt", async () => {
@@ -70,7 +72,12 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
-		await expect(usecase.execute(data)).rejects.toThrow();
+
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe(
+			"startDate must be greater than createdAt",
+		);
 	});
 
 	it("should throw an error when startDate is missing", async () => {
@@ -87,7 +94,9 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
-		await expect(usecase.execute(data as any)).rejects.toThrow();
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("startDate is required");
 	});
 
 	it("should throw an error when endDate is missing", async () => {
@@ -104,10 +113,12 @@ describe("CreateCampaignUsecase", () => {
 			startDate: nexthour,
 			createdAt: now,
 		};
-		await expect(usecase.execute(data as any)).rejects.toThrow();
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("endDate is required");
 	});
 
-	it("should throw an error when createdAt is missing", async () => {
+	it("should throw an error when createdAt is bigger than startDate", async () => {
 		const now = new Date();
 		const nexthour = new Date();
 		const yesterday = new Date();
@@ -121,7 +132,11 @@ describe("CreateCampaignUsecase", () => {
 			startDate: nexthour,
 			endDate: yesterday,
 		};
-		await expect(usecase.execute(data as any)).rejects.toThrow();
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe(
+			"startDate must be greater than createdAt",
+		);
 	});
 
 	it("should throw an error when name is missing", async () => {
@@ -138,7 +153,9 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
-		await expect(usecase.execute(data as any)).rejects.toThrow();
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Name is required");
 	});
 
 	it("should throw an error when category is missing", async () => {
@@ -155,7 +172,9 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
-		await expect(usecase.execute(data as any)).rejects.toThrow();
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Category is required");
 	});
 
 	it("should create campaign active by default", async () => {

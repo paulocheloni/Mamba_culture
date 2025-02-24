@@ -3,6 +3,7 @@ import { ICampaignRepository } from "../../domain/campaign/repository/campaign.r
 import type { CreateCampaignDto } from "./dto/create-campaign.dto";
 import { CampaignBuilder } from "../../domain/campaign/builder/campaign.builder";
 import { v4 as uuid } from "uuid";
+import { Result } from "src/shared/domain/result/result";
 
 @Injectable()
 export class CreateCampaignUseCase {
@@ -11,16 +12,20 @@ export class CreateCampaignUseCase {
 		private readonly campaignRepository: ICampaignRepository,
 	) {}
 
-	async execute(data: CreateCampaignDto) {
+	async execute(data: CreateCampaignDto): Promise<Result<void>> {
 		const campaign = new CampaignBuilder()
 			.withCategory(data.category)
 			.withCreatedAt(new Date())
-			.withendDate(data.endDate)
+			.withEndDate(data.endDate)
 			.withId(uuid())
 			.withName(data.name)
-			.withstartDate(data.startDate)
+			.withStartDate(data.startDate)
 			.withStatus("active")
 			.build();
-		await this.campaignRepository.create(campaign);
+
+		if (campaign.isFailure) {
+			return Result.fail(campaign.error);
+		}
+		await this.campaignRepository.create(campaign.value);
 	}
 }

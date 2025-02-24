@@ -55,6 +55,7 @@ export class CampaignController {
 		});
 	}
 
+	/** Only Search methods don't go over usecases. The idea behind this is to have a separate flow for search avoiding extra complixity for database or orm related matters. */
 	@Get("")
 	getAllCampaigns(@Query() query: GetCampaignQueryDto) {
 		return this.campaignRepository.getAll({

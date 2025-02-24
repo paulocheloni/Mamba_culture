@@ -8,6 +8,7 @@ import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
 import { DeleteCampaignUseCase } from "src/campaign/application/delete-campaign/delete-campaign.usecase";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
+import { Result } from "src/shared/domain/result/result";
 
 describe("CampaignController", () => {
 	let controller: CampaignController;
@@ -33,9 +34,14 @@ describe("CampaignController", () => {
 	describe("createCampaign", () => {
 		it("should call createCampaignUsecase.execute with the correct data", () => {
 			const data = new CreateCampaignBodyDto();
-			jest
-				.spyOn(createCampaignUseCase, "execute")
-				.mockReturnValue(Promise.resolve());
+			jest.spyOn(createCampaignUseCase, "execute").mockReturnValue(
+				Promise.resolve({
+					isFailure: false,
+					error: null,
+					value: void 0,
+					isSuccess: true,
+				}),
+			);
 
 			controller.createCampaign(data);
 
@@ -63,27 +69,26 @@ describe("CampaignController", () => {
 		});
 
 		it("should return a campaign", async () => {
-			jest.spyOn(getCampaignUseCase, "execute").mockReturnValue(
-				Promise.resolve(
-					new Campaign({
-						id: "123",
-						name: "My Campaign",
-						category: "Marketing",
-						startDate: new Date("2023-01-01"),
-						endDate: new Date("2023-12-31"),
-						createdAt: new Date("2023-01-01"),
-						status: "active",
-					}),
-				),
-			);
+			const result = Campaign.create({
+				id: "123",
+				name: "My Campaign",
+				category: "Marketing",
+				startDate: new Date("2023-01-01"),
+				endDate: new Date("2023-12-31"),
+				createdAt: new Date("2023-01-01"),
+				status: "active",
+			});
+			jest
+				.spyOn(getCampaignUseCase, "execute")
+				.mockReturnValue(Promise.resolve(result));
 
 			const response = await controller.getCampaign("123");
-			expect(response.category).toBe("Marketing");
-			expect(response.name).toBe("My Campaign");
-			expect(response.startDate).toEqual(new Date("2023-01-01"));
-			expect(response.endDate).toEqual(new Date("2023-12-31"));
-			expect(response.createdAt).toBeInstanceOf(Date);
-			expect(response.status).toBe("expired");
+			expect(response.value.category).toBe("Marketing");
+			expect(response.value.name).toBe("My Campaign");
+			expect(response.value.startDate).toEqual(new Date("2023-01-01"));
+			expect(response.value.endDate).toEqual(new Date("2023-12-31"));
+			expect(response.value.createdAt).toBeInstanceOf(Date);
+			expect(response.value.status).toBe("expired");
 		});
 
 		it("should throw an error if the campaign does not exist", async () => {
@@ -103,11 +108,16 @@ describe("CampaignController", () => {
 
 		it("should call deleteCampaignUsecase.execute with the correct data", () => {
 			const campaign = new CampaignBuilder().aCampaign();
-			jest
-				.spyOn(createCampaignUseCase, "execute")
-				.mockReturnValue(Promise.resolve());
+			jest.spyOn(createCampaignUseCase, "execute").mockReturnValue(
+				Promise.resolve({
+					isFailure: false,
+					error: null,
+					value: void 0,
+					isSuccess: true,
+				}),
+			);
 
-			controller.deleteCampaign(campaign.id);
+			controller.deleteCampaign(campaign.value.id);
 		});
 
 		it("should return the result of deleteCampaignUsecase.execute", async () => {
@@ -117,7 +127,7 @@ describe("CampaignController", () => {
 				.spyOn(createCampaignUseCase, "execute")
 				.mockReturnValue(Promise.resolve(result));
 
-			const response = await controller.deleteCampaign(campaign.id);
+			const response = await controller.deleteCampaign(campaign.value.id);
 
 			expect(response).toBe(result);
 		});
@@ -142,7 +152,11 @@ describe("CampaignController", () => {
 				new CampaignBuilder().aCampaign(),
 				new CampaignBuilder().aCampaign(),
 			];
-			jest.spyOn(campaignRepository, "getAll").mockResolvedValue(campaigns);
+			const result = campaigns.map((c) => c.value);
+
+			jest
+				.spyOn(campaignRepository, "getAll")
+				.mockResolvedValue(Result.ok(result));
 
 			await controller.getAllCampaigns({});
 
@@ -155,11 +169,19 @@ describe("CampaignController", () => {
 				new CampaignBuilder().aCampaign(),
 				new CampaignBuilder().aCampaign(),
 			];
-			jest.spyOn(campaignRepository, "getAll").mockResolvedValue(campaigns);
+			const result = campaigns.map((c) => c.value);
+			jest
+				.spyOn(campaignRepository, "getAll")
+				.mockResolvedValue(Result.ok(result));
 
 			const response = await controller.getAllCampaigns({});
 
-			expect(response).toBe(campaigns);
+			expect(response).toHaveProperty("value");
+			expect(response.value).toHaveLength(2);
+			expect(response.error).toBeUndefined();
+			expect(response.isSuccess).toBe(true);
+			expect(response.isFailure).toBe(false);
+			expect(response.value).toMatchObject(result);
 		});
 	});
 });

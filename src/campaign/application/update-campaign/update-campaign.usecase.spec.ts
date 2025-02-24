@@ -30,9 +30,9 @@ describe("UpdateCampaignUseCase", () => {
 
 			status: "active",
 		};
-		await expect(useCase.execute(dto as UpdateCampaignDto)).rejects.toThrow(
-			"Campaign not found",
-		);
+		const result = await useCase.execute(dto as UpdateCampaignDto);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Campaign not found");
 	});
 
 	it("should throw an error if campaign is deleted", async () => {
@@ -47,9 +47,9 @@ describe("UpdateCampaignUseCase", () => {
 			createdAt: new Date("2023-01-01"),
 			status: "active",
 		};
-		await expect(useCase.execute(dto as UpdateCampaignDto)).rejects.toThrow(
-			"Campaign not found",
-		);
+		const result = await useCase.execute(dto as UpdateCampaignDto);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Campaign not found");
 	});
 
 	it("should update campaign if it exists and is not deleted", async () => {
@@ -73,9 +73,9 @@ describe("UpdateCampaignUseCase", () => {
 		const existingCampaign = new CampaignBuilder()
 			.withCategory(existingDto.category)
 			.withCreatedAt(existingDto.createdAt)
-			.withendDate(existingDto.endDate)
+			.withEndDate(existingDto.endDate)
 			.withStatus(existingDto.status as CampaignStatus)
-			.withstartDate(existingDto.startDate)
+			.withStartDate(existingDto.startDate)
 			.withId(existingDto.id)
 			.withName(existingDto.name)
 			.build();

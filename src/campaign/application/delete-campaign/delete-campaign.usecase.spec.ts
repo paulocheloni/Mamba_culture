@@ -17,19 +17,26 @@ describe("DeleteCampaignUseCase", () => {
 	});
 
 	it("should throw an error if campaign is not found", async () => {
-		campaignRepository.getById.mockResolvedValue(null);
-		await expect(useCase.execute("nonexistent-id")).rejects.toThrow(
-			"Campaign not found",
-		);
+		campaignRepository.getById.mockResolvedValue({
+			isSuccess: false,
+			isFailure: true,
+			error: new Error("Campaign not found"),
+		});
+
+		const result = await useCase.execute("123");
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Campaign not found");
 	});
 
 	it("should delete campaign if found and then save it", async () => {
 		const campaign = new CampaignBuilder().aCampaign();
-		campaign.delete = jest.fn();
+		campaign.value.delete = jest.fn().mockReturnValue({
+			isSuccess: true,
+		});
 
 		campaignRepository.getById.mockResolvedValue(campaign);
 		await useCase.execute("123");
-		expect(campaign.delete).toHaveBeenCalled();
-		expect(campaignRepository.save).toHaveBeenCalledWith(campaign);
+		expect(campaign.value.delete).toHaveBeenCalled();
+		expect(campaignRepository.save).toHaveBeenCalledWith(campaign.value);
 	});
 });

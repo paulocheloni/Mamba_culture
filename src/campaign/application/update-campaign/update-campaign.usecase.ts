@@ -2,6 +2,9 @@ import { Inject } from "@nestjs/common";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import type { UpdateCampaignDto } from "./dto/update-campaign.dto";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { Result } from "src/shared/domain/result/result";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
 
 export class UpdateCampaignUseCase {
 	constructor(
@@ -12,20 +15,32 @@ export class UpdateCampaignUseCase {
 	async execute(dto: UpdateCampaignDto) {
 		const campaignExists = await this.campaignRepository.getById(dto.id);
 
-		if (!campaignExists || campaignExists.isDeleted()) {
-			throw new Error("Campaign not found");
+		if (!campaignExists?.value || campaignExists?.value.isDeleted()) {
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.CAMPAING_NOT_FOUND,
+					"Campaign not found",
+				),
+			);
+		}
+
+		if (campaignExists.isFailure) {
+			return Result.fail(campaignExists.error);
 		}
 
 		const campaign = new CampaignBuilder()
-			.fromCampaign(campaignExists)
+			.fromCampaign(campaignExists.value)
 			.withCategory(dto.category)
-			.withCreatedAt(campaignExists.createdAt)
-			.withendDate(dto.endDate)
+			.withCreatedAt(campaignExists.value.createdAt)
+			.withEndDate(dto.endDate)
 			.withName(dto.name)
-			.withstartDate(dto.startDate)
+			.withStartDate(dto.startDate)
 			.withStatus(dto.status)
 			.build();
+		if (campaign.isFailure) {
+			return Result.fail(campaign.error);
+		}
 
-		await this.campaignRepository.save(campaign);
+		await this.campaignRepository.save(campaign.value);
 	}
 }

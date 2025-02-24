@@ -1,6 +1,10 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { Result } from "src/shared/domain/result/result";
 
+@Injectable()
 export class DeleteCampaignUseCase {
 	constructor(
 		@Inject(ICampaignRepository)
@@ -8,11 +12,24 @@ export class DeleteCampaignUseCase {
 	) {}
 
 	async execute(id: string) {
-		const campaign = await this.campaignRepository.getById(id);
-		if (!campaign) {
-			throw new Error("Campaign not found");
+		const findResult = await this.campaignRepository.getById(id);
+		if (findResult.isFailure) {
+			return Result.fail(findResult.error);
 		}
-		campaign.delete();
-		return this.campaignRepository.save(campaign);
+
+		if (!findResult?.value) {
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.CAMPAING_NOT_FOUND,
+					"Campaign not found",
+				),
+			);
+		}
+		const deletionResult = findResult.value.delete();
+		if (!deletionResult?.isSuccess) {
+			return Result.fail(deletionResult.error);
+		}
+
+		return this.campaignRepository.save(findResult.value);
 	}
 }

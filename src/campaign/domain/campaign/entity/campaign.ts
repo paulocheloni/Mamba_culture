@@ -1,4 +1,17 @@
+// campaign.entity.ts
 import { CampaignStatus, type ICampaign } from "./campaign.interface";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { Result } from "src/shared/domain/result/result";
+
+export enum CampaignErrorDomainCodes {
+	START_DATE_BEFORE_CREATED_AT = "START_DATE_BEFORE_CREATED_AT",
+	END_DATE_BEFORE_START_DATE = "END_DATE_BEFORE_START_DATE",
+	CANNOT_PAUSE_EXPIRED_CAMPAIGN = "CANNOT_PAUSE_EXPIRED_CAMPAIGN",
+	CANNOT_PAUSE_DELETED_CAMPAIGN = "CANNOT_PAUSE_DELETED_CAMPAIGN",
+	CANNOT_ACTIVATE_EXPIRED_CAMPAIGN = "CANNOT_ACTIVATE_EXPIRED_CAMPAIGN",
+	CANNOT_ACTIVATE_DELETED_CAMPAIGN = "CANNOT_ACTIVATE_DELETED_CAMPAIGN",
+}
 
 export class Campaign {
 	private readonly _id: string;
@@ -10,7 +23,7 @@ export class Campaign {
 	private _endDate: Date;
 	private _deletedAt?: Date;
 
-	constructor(campaign: ICampaign) {
+	private constructor(campaign: ICampaign) {
 		this._id = campaign.id;
 		this._name = campaign.name;
 		this._status = campaign.status;
@@ -18,18 +31,31 @@ export class Campaign {
 			this._status = CampaignStatus.expired;
 		}
 		this._category = campaign.category;
-		if (campaign.startDate < campaign.createdAt) {
-			throw new Error("startDate must be greater than createdAt");
-		}
-
 		this._createdAt = campaign.createdAt;
 		this._startDate = campaign.startDate;
-
-		if (campaign.endDate < campaign.startDate) {
-			throw new Error("endDate must be greater than startDate");
-		}
 		this._endDate = campaign.endDate;
 		this._deletedAt = campaign.deletedAt;
+	}
+
+	public static create(campaign: ICampaign): Result<Campaign> {
+		if (campaign.startDate < campaign.createdAt) {
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.START_DATE_BEFORE_CREATED_AT,
+					"startDate must be greater than createdAt",
+				),
+			);
+		}
+		if (campaign.endDate < campaign.startDate) {
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.END_DATE_BEFORE_START_DATE,
+					"endDate must be greater than startDate",
+				),
+			);
+		}
+		const instance = new Campaign(campaign);
+		return Result.ok(instance);
 	}
 
 	get id(): string {
@@ -61,25 +87,17 @@ export class Campaign {
 	}
 
 	isActive(): boolean {
-		if (this.isDeleted()) {
-			return false;
-		}
-
+		if (this.isDeleted()) return false;
 		return this._status === CampaignStatus.active;
 	}
 
 	isPaused(): boolean {
-		if (this.isDeleted()) {
-			return false;
-		}
-
+		if (this.isDeleted()) return false;
 		return this._status === CampaignStatus.paused;
 	}
 
 	isExpired(): boolean {
-		if (this.isDeleted()) {
-			return false;
-		}
+		if (this.isDeleted()) return false;
 		if (this._endDate < new Date()) {
 			this._status = CampaignStatus.expired;
 			return true;
@@ -87,28 +105,51 @@ export class Campaign {
 		return this._status === CampaignStatus.expired;
 	}
 
-	pause(): void {
+	pause(): Result<void> {
 		if (this.isExpired()) {
-			throw new Error("Cannot pause an expired campaign");
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.CANNOT_PAUSE_EXPIRED_CAMPAIGN,
+					"Cannot pause an expired campaign",
+				),
+			);
 		}
 		if (this.isDeleted()) {
-			throw new Error("Cannot pause a deleted campaign");
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.CANNOT_PAUSE_DELETED_CAMPAIGN,
+					"Cannot pause a deleted campaign",
+				),
+			);
 		}
 		this._status = CampaignStatus.paused;
+		return Result.ok();
 	}
 
-	activate(): void {
+	activate(): Result<void> {
 		if (this.isExpired()) {
-			throw new Error("Cannot activate an expired campaign");
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.CANNOT_ACTIVATE_EXPIRED_CAMPAIGN,
+					"Cannot activate an expired campaign",
+				),
+			);
 		}
 		if (this.isDeleted()) {
-			throw new Error("Cannot activate a deleted campaign");
+			return Result.fail(
+				new CampaignError(
+					CampaignErrorCodes.CANNOT_ACTIVATE_DELETED_CAMPAIGN,
+					"Cannot activate a deleted campaign",
+				),
+			);
 		}
 		this._status = CampaignStatus.active;
+		return Result.ok();
 	}
 
-	delete(): void {
+	delete(): Result<void> {
 		this._deletedAt = new Date();
+		return Result.ok();
 	}
 
 	isDeleted(): boolean {

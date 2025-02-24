@@ -1,15 +1,18 @@
+import { Result } from "src/shared/domain/result/result";
 import { Campaign } from "../entity/campaign";
-import { CampaignStatus } from "../entity/campaign.interface";
+import type { CampaignStatus } from "../entity/campaign.interface";
 import { v4 as uuid } from "uuid";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 
 export class CampaignBuilder {
-	private _id: string;
-	private _name: string;
-	private _status: keyof typeof CampaignStatus;
-	private _category: string;
-	private _createdAt: Date;
-	private _startDate: Date;
-	private _endDate: Date;
+	private _id?: string;
+	private _name?: string;
+	private _status?: keyof typeof CampaignStatus;
+	private _category?: string;
+	private _createdAt?: Date;
+	private _startDate?: Date;
+	private _endDate?: Date;
 
 	withId(id: string): this {
 		this._id = id;
@@ -22,9 +25,6 @@ export class CampaignBuilder {
 	}
 
 	withStatus(status: keyof typeof CampaignStatus): this {
-		if (!(status in CampaignStatus)) {
-			throw new Error("Invalid status");
-		}
 		this._status = status;
 		return this;
 	}
@@ -39,25 +39,24 @@ export class CampaignBuilder {
 		return this;
 	}
 
-	withstartDate(startDate: Date): this {
+	withStartDate(startDate: Date): this {
 		this._startDate = startDate;
 		return this;
 	}
 
-	withendDate(endDate: Date): this {
+	withEndDate(endDate: Date): this {
 		this._endDate = endDate;
 		return this;
 	}
 
-	aCampaign(): Campaign {
+	aCampaign(): Result<Campaign> {
 		const now = new Date();
 		const nexthour = new Date();
-		const tomorrow = new Date();
-
 		nexthour.setHours(now.getHours() + 1);
+		const tomorrow = new Date();
 		tomorrow.setDate(now.getDate() + 1);
 
-		return new Campaign({
+		return Campaign.create({
 			id: uuid(),
 			name: "Campaign 1",
 			status: "active",
@@ -65,6 +64,7 @@ export class CampaignBuilder {
 			createdAt: now,
 			startDate: nexthour,
 			endDate: tomorrow,
+			deletedAt: undefined,
 		});
 	}
 
@@ -73,57 +73,38 @@ export class CampaignBuilder {
 		this._name = campaign.name;
 		this._status = campaign.status;
 		this._category = campaign.category;
+		this._createdAt = campaign.createdAt;
 		this._startDate = campaign.startDate;
 		this._endDate = campaign.endDate;
-		this._createdAt = campaign.createdAt;
 		return this;
 	}
 
-	build(): Campaign {
-		if (!this._id) {
-			throw new Error("Id is required");
+	build(): Result<Campaign> {
+		const requiredFields = [
+			{ field: this._startDate, code: CampaignErrorCodes.START_DATE_REQUIRED },
+			{ field: this._endDate, code: CampaignErrorCodes.END_DATE_REQUIRED },
+			{ field: this._createdAt, code: CampaignErrorCodes.CREATED_AT_REQUIRED },
+			{ field: this._name, code: CampaignErrorCodes.NAME_REQUIRED },
+			{ field: this._status, code: CampaignErrorCodes.STATUS_REQUIRED },
+			{ field: this._category, code: CampaignErrorCodes.CATEGORY_REQUIRED },
+		];
+
+		for (const { field, code } of requiredFields) {
+			if (!field) {
+				return Result.fail(new CampaignError(code));
+			}
 		}
 
-		if (!this._name) {
-			throw new Error("Name is required");
-		}
-
-		if (!this._status) {
-			throw new Error("Status is required");
-		}
-
-		if (!this._category) {
-			throw new Error("Category is required");
-		}
-
-		if (!this._createdAt) {
-			throw new Error("CreatedAt is required");
-		}
-
-		if (!this._startDate) {
-			throw new Error("startDate is required");
-		}
-
-		if (!this._endDate) {
-			throw new Error("endDate is required");
-		}
-
-		if (this._endDate < this._startDate) {
-			throw new Error("endDate must be greater than startDate");
-		}
-
-		if (this._startDate < this._createdAt) {
-			throw new Error("startDate must be greater than createdAt");
-		}
-
-		return new Campaign({
-			id: this._id,
+		const id = this._id ?? uuid();
+		return Campaign.create({
+			id,
 			name: this._name,
 			status: this._status,
 			category: this._category,
 			createdAt: this._createdAt,
 			startDate: this._startDate,
 			endDate: this._endDate,
+			deletedAt: undefined,
 		});
 	}
 }
