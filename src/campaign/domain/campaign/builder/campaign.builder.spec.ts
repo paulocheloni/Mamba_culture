@@ -154,4 +154,16 @@ describe("CampaignBuilder", () => {
 			"startDate must be greater than createdAt",
 		);
 	});
+
+	test("aCampaign returns a campaign with default values", () => {
+		const campaign = new CampaignBuilder().aCampaign();
+		expect(campaign).toBeInstanceOf(Campaign);
+		expect(campaign.id).toBeDefined();
+		expect(campaign.name).toBe("Campaign 1");
+		expect(campaign.status).toBe("active");
+		expect(campaign.category).toBe("Category 1");
+		expect(campaign.createdAt).toBeInstanceOf(Date);
+		expect(campaign.startDate).toBeInstanceOf(Date);
+		expect(campaign.endDate).toBeInstanceOf(Date);
+	});
 });

@@ -1,5 +1,6 @@
 import { Campaign } from "../entity/campaign";
 import type { CampaignStatus } from "../entity/campaign.interface";
+import { v4 as uuid } from "uuid";
 
 export class CampaignBuilder {
 	private _id: string;
@@ -43,6 +44,25 @@ export class CampaignBuilder {
 	withendDate(endDate: Date): this {
 		this._endDate = endDate;
 		return this;
+	}
+
+	aCampaign(): Campaign {
+		const now = new Date();
+		const nexthour = new Date();
+		const tomorrow = new Date();
+
+		nexthour.setHours(now.getHours() + 1);
+		tomorrow.setDate(now.getDate() + 1);
+
+		return new Campaign({
+			id: uuid(),
+			name: "Campaign 1",
+			status: "active",
+			category: "Category 1",
+			createdAt: now,
+			startDate: nexthour,
+			endDate: tomorrow,
+		});
 	}
 
 	build(): Campaign {

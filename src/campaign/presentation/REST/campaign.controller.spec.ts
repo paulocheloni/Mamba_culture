@@ -4,6 +4,7 @@ import { TestBed } from "@suites/unit";
 import type { Mocked } from "@suites/doubles.jest";
 import { CreateCampaignBodyDto } from "./dto/create-campaign-body.dto";
 import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-campaign.usecase";
+import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 
 describe("CampaignController", () => {
 	let controller: CampaignController;
@@ -56,15 +57,17 @@ describe("CampaignController", () => {
 
 		it("should return a campaign", async () => {
 			jest.spyOn(getCampaignUseCase, "execute").mockReturnValue(
-				Promise.resolve({
-					id: "123",
-					name: "My Campaign",
-					category: "Marketing",
-					startDate: new Date("2023-01-01"),
-					endDate: new Date("2023-12-31"),
-					createdAt: new Date(),
-					status: "active",
-				}),
+				Promise.resolve(
+					new Campaign({
+						id: "123",
+						name: "My Campaign",
+						category: "Marketing",
+						startDate: new Date("2023-01-01"),
+						endDate: new Date("2023-12-31"),
+						createdAt: new Date("2023-01-01"),
+						status: "active",
+					}),
+				),
 			);
 
 			const response = await controller.getCampaign("123");
@@ -73,7 +76,7 @@ describe("CampaignController", () => {
 			expect(response.startDate).toEqual(new Date("2023-01-01"));
 			expect(response.endDate).toEqual(new Date("2023-12-31"));
 			expect(response.createdAt).toBeInstanceOf(Date);
-			expect(response.status).toBe("active");
+			expect(response.status).toBe("expired");
 		});
 
 		it("should throw an error if the campaign does not exist", async () => {
