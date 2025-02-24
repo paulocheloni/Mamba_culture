@@ -1,0 +1,140 @@
+{
+  "results": {
+    "tool": {
+      "name": "jest"
+    },
+    "summary": {
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "start": 1740364459693,
+      "stop": 1740364459834
+    },
+    "tests": [
+      {
+        "name": "CampaignBuilder builds a valid campaign",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if id is missing",
+        "duration": 5,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if name is missing",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if status is missing",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if category is missing",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if createdAt is missing",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if startDate is missing",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if endDate is missing",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder when creating it should not allow campaign with endDate < startDate",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if endDate is before startDate",
+        "duration": 1,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      },
+      {
+        "name": "CampaignBuilder throws if startDate is not greater than createdAt",
+        "duration": 0,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/domain/builder/campaign.builder.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "campaign.builder.spec.ts > CampaignBuilder"
+      }
+    ]
+  }
+}

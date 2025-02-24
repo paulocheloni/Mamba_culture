@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="11" failures="0" errors="0" time="0.143">
+  <testsuite name="CampaignBuilder" errors="0" failures="0" skipped="0" timestamp="2025-02-24T02:34:19" time="0.108" tests="11">
+    <testcase classname="CampaignBuilder builds a valid campaign" name="CampaignBuilder builds a valid campaign" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if id is missing" name="CampaignBuilder throws if id is missing" time="0.005">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if name is missing" name="CampaignBuilder throws if name is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if status is missing" name="CampaignBuilder throws if status is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if category is missing" name="CampaignBuilder throws if category is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if createdAt is missing" name="CampaignBuilder throws if createdAt is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if startDate is missing" name="CampaignBuilder throws if startDate is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if endDate is missing" name="CampaignBuilder throws if endDate is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder when creating it should not allow campaign with endDate &lt; startDate" name="CampaignBuilder when creating it should not allow campaign with endDate &lt; startDate" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if endDate is before startDate" name="CampaignBuilder throws if endDate is before startDate" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder throws if startDate is not greater than createdAt" name="CampaignBuilder throws if startDate is not greater than createdAt" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>
