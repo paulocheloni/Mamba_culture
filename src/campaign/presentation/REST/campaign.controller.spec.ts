@@ -7,12 +7,14 @@ import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-ca
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
 import { DeleteCampaignUseCase } from "src/campaign/application/delete-campaign/delete-campaign.usecase";
+import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 
 describe("CampaignController", () => {
 	let controller: CampaignController;
 	let createCampaignUseCase: Mocked<CreateCampaignUseCase>;
 	let getCampaignUseCase: Mocked<GetCampaignUseCase>;
 	let deleteCampaignUseCase: Mocked<DeleteCampaignUseCase>;
+	let campaignRepository: Mocked<ICampaignRepository>;
 
 	beforeEach(async () => {
 		const { unit, unitRef } =
@@ -21,6 +23,7 @@ describe("CampaignController", () => {
 		createCampaignUseCase = unitRef.get(CreateCampaignUseCase);
 		getCampaignUseCase = unitRef.get(GetCampaignUseCase);
 		deleteCampaignUseCase = unitRef.get(DeleteCampaignUseCase);
+		campaignRepository = unitRef.get(ICampaignRepository);
 	});
 
 	it("should be defined", () => {
@@ -126,6 +129,37 @@ describe("CampaignController", () => {
 			expect(() => controller.deleteCampaign("123")).rejects.toThrow(
 				"Campaign not found",
 			);
+		});
+	});
+
+	describe("getAllCampaigns", () => {
+		it("should be defined", () => {
+			expect(controller.getAllCampaigns).toBeDefined();
+		});
+
+		it("should call repository.getAll", async () => {
+			const campaigns = [
+				new CampaignBuilder().aCampaign(),
+				new CampaignBuilder().aCampaign(),
+			];
+			jest.spyOn(campaignRepository, "getAll").mockResolvedValue(campaigns);
+
+			await controller.getAllCampaigns({});
+
+			expect(campaignRepository.getAll).toHaveBeenCalled();
+			expect(campaignRepository.getAll).toHaveBeenCalledWith({});
+		});
+
+		it("should return the campaigns", async () => {
+			const campaigns = [
+				new CampaignBuilder().aCampaign(),
+				new CampaignBuilder().aCampaign(),
+			];
+			jest.spyOn(campaignRepository, "getAll").mockResolvedValue(campaigns);
+
+			const response = await controller.getAllCampaigns({});
+
+			expect(response).toBe(campaigns);
 		});
 	});
 });

@@ -1,5 +1,5 @@
 import { Campaign } from "../entity/campaign";
-import type { CampaignStatus } from "../entity/campaign.interface";
+import { CampaignStatus } from "../entity/campaign.interface";
 import { v4 as uuid } from "uuid";
 
 export class CampaignBuilder {
@@ -22,6 +22,9 @@ export class CampaignBuilder {
 	}
 
 	withStatus(status: keyof typeof CampaignStatus): this {
+		if (!(status in CampaignStatus)) {
+			throw new Error("Invalid status");
+		}
 		this._status = status;
 		return this;
 	}
@@ -65,6 +68,17 @@ export class CampaignBuilder {
 		});
 	}
 
+	fromCampaign(campaign: Campaign): this {
+		this._id = campaign.id;
+		this._name = campaign.name;
+		this._status = campaign.status;
+		this._category = campaign.category;
+		this._startDate = campaign.startDate;
+		this._endDate = campaign.endDate;
+		this._createdAt = campaign.createdAt;
+		return this;
+	}
+
 	build(): Campaign {
 		if (!this._id) {
 			throw new Error("Id is required");
@@ -98,7 +112,7 @@ export class CampaignBuilder {
 			throw new Error("endDate must be greater than startDate");
 		}
 
-		if (this._startDate <= this._createdAt) {
+		if (this._startDate < this._createdAt) {
 			throw new Error("startDate must be greater than createdAt");
 		}
 

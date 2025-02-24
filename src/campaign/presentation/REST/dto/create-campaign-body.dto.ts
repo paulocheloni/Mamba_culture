@@ -1,4 +1,5 @@
 import { IsDate, IsNotEmpty, IsString } from "@nestjs/class-validator";
+import { IsEnum, IsOptional } from "class-validator";
 
 export class CreateCampaignBodyDto {
 	@IsString()
@@ -16,4 +17,8 @@ export class CreateCampaignBodyDto {
 	@IsDate()
 	@IsNotEmpty()
 	endDate: Date;
+
+	@IsOptional()
+	@IsEnum(["active", "paused"])
+	status: "active" | "paused";
 }

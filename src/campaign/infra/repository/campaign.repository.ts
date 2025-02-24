@@ -45,4 +45,8 @@ export class CampaignRepository implements ICampaignRepository {
 		this.campaigns[index] = campaign;
 		return Promise.resolve();
 	}
+
+	getAll(): Promise<Campaign[]> {
+		return Promise.resolve(this.campaigns);
+	}
 }

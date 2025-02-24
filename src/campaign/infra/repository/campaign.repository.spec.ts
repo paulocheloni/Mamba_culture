@@ -61,7 +61,9 @@ describe("CampaignRepository", () => {
 			await repository.create(campaign);
 			await expect(repository.save(updatedCampaign)).resolves.toBeUndefined();
 		});
+	});
 
+	describe("getById", () => {
 		it("should get a campaign by ID", async () => {
 			const campaign = { id: "1", name: "Campaign One" } as any;
 			await repository.create(campaign);
@@ -72,6 +74,17 @@ describe("CampaignRepository", () => {
 			await expect(repository.getById("1")).rejects.toThrow(
 				"Campaign not found",
 			);
+		});
+	});
+
+	describe("getAll", () => {
+		it("should get all campaigns", async () => {
+			const campaigns = [
+				{ id: "1", name: "Campaign One" },
+				{ id: "2", name: "Campaign Two" },
+			] as any[];
+			await Promise.all(campaigns.map((c) => repository.create(c)));
+			await expect(repository.getAll()).resolves.toEqual(campaigns);
 		});
 	});
 });

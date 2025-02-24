@@ -3,4 +3,5 @@ export class CreateCampaignDto {
 	category: string;
 	startDate: Date;
 	endDate: Date;
+	status?: "active" | "paused" = "active";
 }

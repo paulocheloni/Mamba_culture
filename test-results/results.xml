@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="20" failures="0" errors="0" time="0.445">
-  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T17:16:43" time="0.326" tests="10">
+<testsuites name="jest tests" tests="26" failures="0" errors="0" time="0.487">
+  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T19:21:25" time="0.366" tests="13">
     <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.006">
     </testcase>
     <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.001">
@@ -11,29 +11,35 @@
     </testcase>
     <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0.001">
     </testcase>
-    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.004">
+    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.005">
     </testcase>
     <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0.001">
     </testcase>
-    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0">
+    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0.001">
     </testcase>
-    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0">
+    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.001">
     </testcase>
-    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0.001">
+    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should be defined" name="CampaignController getAllCampaigns should be defined" time="0">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should call repository.getAll" name="CampaignController getAllCampaigns should call repository.getAll" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should return the campaigns" name="CampaignController getAllCampaigns should return the campaigns" time="0">
     </testcase>
   </testsuite>
-  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T17:16:44" time="0.076" tests="10">
-    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.004">
+  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T19:21:26" time="0.079" tests="13">
+    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.001">
     </testcase>
-    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0">
+    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.001">
     </testcase>
-    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0.001">
+    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0">
     </testcase>
-    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0">
+    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0.001">
     </testcase>
     <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0">
     </testcase>
-    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.001">
+    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.002">
     </testcase>
     <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0">
     </testcase>
@@ -42,6 +48,12 @@
     <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.001">
     </testcase>
     <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should be defined" name="CampaignController getAllCampaigns should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should call repository.getAll" name="CampaignController getAllCampaigns should call repository.getAll" time="0">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should return the campaigns" name="CampaignController getAllCampaigns should return the campaigns" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
