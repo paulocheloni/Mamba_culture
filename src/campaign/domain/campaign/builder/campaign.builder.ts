@@ -1,6 +1,6 @@
 import { Result } from "src/shared/domain/result/result";
 import { Campaign } from "../entity/campaign";
-import type { CampaignStatus } from "../entity/campaign.interface";
+import type { CampaignStatus, ICampaign } from "../entity/campaign.interface";
 import { v4 as uuid } from "uuid";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
@@ -64,6 +64,19 @@ export class CampaignBuilder {
 			createdAt: now,
 			startDate: nexthour,
 			endDate: tomorrow,
+			deletedAt: undefined,
+		});
+	}
+
+	customCampaign(campaign: Partial<ICampaign>): Result<Campaign> {
+		return Campaign.create({
+			id: campaign.id ?? uuid(),
+			name: campaign.name ?? "Campaign 1",
+			status: campaign.status ?? "active",
+			category: campaign.category ?? "Category 1",
+			createdAt: campaign.createdAt ?? new Date(),
+			startDate: campaign.startDate ?? new Date(),
+			endDate: campaign.endDate ?? new Date(),
 			deletedAt: undefined,
 		});
 	}
