@@ -9,30 +9,35 @@ import {
 } from "class-validator";
 
 export class GetCampaignQueryDto {
-	@IsNumber()
-	@IsOptional()
-	page? = 1;
 	@Type(() => Number)
+	@IsNumber()
+	page? = 1;
 
 	@IsNumber()
-	limit? = 10;
 	@Type(() => Number)
+	limit? = 10;
 
 	@IsString()
+	@IsOptional()
 	category?: string;
 
+	@IsOptional()
 	@IsEnum(["active", "paused"])
-	status?: string;
+	status? = "active";
 
 	@IsBoolean()
-	includeDeleted?: boolean;
+	@IsOptional()
+	includeDeleted? = false;
 
 	@IsEnum(["asc", "desc"])
-	order?: string;
+	@IsOptional()
+	order? = "asc";
 
 	@MaxLength(30)
-	orderBy?: string;
+	@IsOptional()
+	orderBy? = "createdAt";
 
 	@MaxLength(255)
+	@IsOptional()
 	search?: string;
 }

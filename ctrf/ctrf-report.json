@@ -4,301 +4,114 @@
       "name": "jest"
     },
     "summary": {
-      "tests": 26,
-      "passed": 26,
+      "tests": 9,
+      "passed": 9,
       "failed": 0,
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1740424885748,
-      "stop": 1740424886234
+      "start": 1740425913749,
+      "stop": 1740425914018
     },
     "tests": [
       {
-        "name": "CampaignController should be defined",
-        "duration": 6,
+        "name": "GetCampaignQueryDto should validate with default values",
+        "duration": 3,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController createCampaign should call createCampaignUsecase.execute with the correct data",
+        "name": "GetCampaignQueryDto should validate with valid custom values",
+        "duration": 13,
+        "status": "passed",
+        "rawStatus": "passed",
+        "type": "unit",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
+      },
+      {
+        "name": "GetCampaignQueryDto should fail if page is not a valid number",
         "duration": 1,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > createCampaign"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController createCampaign should return the result of createCampaignUsecase.execute",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > createCampaign"
-      },
-      {
-        "name": "CampaignController getCampaign should be defined",
+        "name": "GetCampaignQueryDto should fail if limit is not a valid number",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController getCampaign should return a campaign",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
-      },
-      {
-        "name": "CampaignController getCampaign should throw an error if the campaign does not exist",
-        "duration": 5,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > getCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should be defined",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should throw an error if the campaign does not exist",
+        "name": "GetCampaignQueryDto should fail if status is not \"active\" or \"paused\"",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > deleteCampaign"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController getAllCampaigns should be defined",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > getAllCampaigns"
-      },
-      {
-        "name": "CampaignController getAllCampaigns should call repository.getAll",
+        "name": "GetCampaignQueryDto should fail if includeDeleted is not a boolean",
         "duration": 1,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > getAllCampaigns"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController getAllCampaigns should return the campaigns",
+        "name": "GetCampaignQueryDto should fail if order is not \"asc\" or \"desc\"",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/dist/campaign/presentation/REST/campaign.controller.spec.js",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.js > CampaignController > getAllCampaigns"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController should be defined",
+        "name": "GetCampaignQueryDto should fail if orderBy exceeds maximum length",
         "duration": 1,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       },
       {
-        "name": "CampaignController createCampaign should call createCampaignUsecase.execute with the correct data",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > createCampaign"
-      },
-      {
-        "name": "CampaignController createCampaign should return the result of createCampaignUsecase.execute",
+        "name": "GetCampaignQueryDto should fail if search exceeds maximum length",
         "duration": 0,
         "status": "passed",
         "rawStatus": "passed",
         "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
+        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/dto/get-campaign/get-campaign-query.dto.spec.ts",
         "retries": 0,
         "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > createCampaign"
-      },
-      {
-        "name": "CampaignController getCampaign should be defined",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
-      },
-      {
-        "name": "CampaignController getCampaign should return a campaign",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
-      },
-      {
-        "name": "CampaignController getCampaign should throw an error if the campaign does not exist",
-        "duration": 2,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > getCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should be defined",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController deleteCampaign should throw an error if the campaign does not exist",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > deleteCampaign"
-      },
-      {
-        "name": "CampaignController getAllCampaigns should be defined",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > getAllCampaigns"
-      },
-      {
-        "name": "CampaignController getAllCampaigns should call repository.getAll",
-        "duration": 0,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > getAllCampaigns"
-      },
-      {
-        "name": "CampaignController getAllCampaigns should return the campaigns",
-        "duration": 1,
-        "status": "passed",
-        "rawStatus": "passed",
-        "type": "unit",
-        "filePath": "/home/paul/projects-2/Mamba_culture/backend/src/campaign/presentation/REST/campaign.controller.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "suite": "campaign.controller.spec.ts > CampaignController > getAllCampaigns"
+        "suite": "get-campaign-query.dto.spec.ts > GetCampaignQueryDto"
       }
     ]
   }

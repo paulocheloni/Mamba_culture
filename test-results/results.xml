@@ -1,59 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="26" failures="0" errors="0" time="0.487">
-  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T19:21:25" time="0.366" tests="13">
-    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.006">
+<testsuites name="jest tests" tests="9" failures="0" errors="0" time="0.269">
+  <testsuite name="GetCampaignQueryDto" errors="0" failures="0" skipped="0" timestamp="2025-02-24T19:38:33" time="0.24" tests="9">
+    <testcase classname="GetCampaignQueryDto should validate with default values" name="GetCampaignQueryDto should validate with default values" time="0.003">
     </testcase>
-    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.001">
+    <testcase classname="GetCampaignQueryDto should validate with valid custom values" name="GetCampaignQueryDto should validate with valid custom values" time="0.013">
     </testcase>
-    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0.001">
+    <testcase classname="GetCampaignQueryDto should fail if page is not a valid number" name="GetCampaignQueryDto should fail if page is not a valid number" time="0.001">
     </testcase>
-    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0">
+    <testcase classname="GetCampaignQueryDto should fail if limit is not a valid number" name="GetCampaignQueryDto should fail if limit is not a valid number" time="0">
     </testcase>
-    <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0.001">
+    <testcase classname="GetCampaignQueryDto should fail if status is not &quot;active&quot; or &quot;paused&quot;" name="GetCampaignQueryDto should fail if status is not &quot;active&quot; or &quot;paused&quot;" time="0">
     </testcase>
-    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.005">
+    <testcase classname="GetCampaignQueryDto should fail if includeDeleted is not a boolean" name="GetCampaignQueryDto should fail if includeDeleted is not a boolean" time="0.001">
     </testcase>
-    <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0.001">
+    <testcase classname="GetCampaignQueryDto should fail if order is not &quot;asc&quot; or &quot;desc&quot;" name="GetCampaignQueryDto should fail if order is not &quot;asc&quot; or &quot;desc&quot;" time="0">
     </testcase>
-    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0.001">
+    <testcase classname="GetCampaignQueryDto should fail if orderBy exceeds maximum length" name="GetCampaignQueryDto should fail if orderBy exceeds maximum length" time="0.001">
     </testcase>
-    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0">
-    </testcase>
-    <testcase classname="CampaignController getAllCampaigns should be defined" name="CampaignController getAllCampaigns should be defined" time="0">
-    </testcase>
-    <testcase classname="CampaignController getAllCampaigns should call repository.getAll" name="CampaignController getAllCampaigns should call repository.getAll" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController getAllCampaigns should return the campaigns" name="CampaignController getAllCampaigns should return the campaigns" time="0">
-    </testcase>
-  </testsuite>
-  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-24T19:21:26" time="0.079" tests="13">
-    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0">
-    </testcase>
-    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0">
-    </testcase>
-    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.002">
-    </testcase>
-    <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0">
-    </testcase>
-    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0">
-    </testcase>
-    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0">
-    </testcase>
-    <testcase classname="CampaignController getAllCampaigns should be defined" name="CampaignController getAllCampaigns should be defined" time="0.001">
-    </testcase>
-    <testcase classname="CampaignController getAllCampaigns should call repository.getAll" name="CampaignController getAllCampaigns should call repository.getAll" time="0">
-    </testcase>
-    <testcase classname="CampaignController getAllCampaigns should return the campaigns" name="CampaignController getAllCampaigns should return the campaigns" time="0.001">
+    <testcase classname="GetCampaignQueryDto should fail if search exceeds maximum length" name="GetCampaignQueryDto should fail if search exceeds maximum length" time="0">
     </testcase>
   </testsuite>
 </testsuites>
