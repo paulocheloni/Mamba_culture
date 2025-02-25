@@ -22,7 +22,7 @@ describe("DeleteCampaignUseCase", () => {
 		campaignRepository.getById.mockResolvedValue({
 			isSuccess: false,
 			isFailure: true,
-			error: new CampaignError(CampaignErrorCodes.CAMPAING_NOT_FOUND),
+			error: new CampaignError(CampaignErrorCodes.CAMPAIGN_NOT_FOUND),
 		});
 
 		const result = await useCase.execute("123");

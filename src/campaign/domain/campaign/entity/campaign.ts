@@ -90,6 +90,10 @@ export class Campaign {
 		return this._endDate;
 	}
 
+	get deletedAt(): Date | undefined {
+		return this._deletedAt;
+	}
+
 	isActive(): boolean {
 		if (this.isDeleted()) return false;
 		return this._status === CampaignStatus.active;

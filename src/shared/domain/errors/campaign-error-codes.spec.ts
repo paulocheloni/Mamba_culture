@@ -27,7 +27,7 @@ describe("CampaignErrorCodes", () => {
 		expect(CampaignErrorCodes.CANNOT_ACTIVATE_DELETED_CAMPAIGN).toBe(
 			"CANNOT_ACTIVATE_DELETED_CAMPAIGN",
 		);
-		expect(CampaignErrorCodes.CAMPAING_NOT_FOUND).toBe("CAMPAING_NOT_FOUND");
+		expect(CampaignErrorCodes.CAMPAIGN_NOT_FOUND).toBe("CAMPAIGN_NOT_FOUND");
 		expect(CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS).toBe(
 			"CAMPAIGN_ALREADY_EXISTS",
 		);

@@ -34,7 +34,7 @@ describe("CampaignError", () => {
 			CampaignErrorCodes.CANNOT_ACTIVATE_DELETED_CAMPAIGN,
 			"Cannot activate a deleted campaign",
 		],
-		[CampaignErrorCodes.CAMPAING_NOT_FOUND, "Campaign not found"],
+		[CampaignErrorCodes.CAMPAIGN_NOT_FOUND, "Campaign not found"],
 		[CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS, "Campaign already exists"],
 	];
 

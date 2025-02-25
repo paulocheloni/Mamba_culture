@@ -30,7 +30,7 @@ export class CampaignRepository
 			return Promise.resolve(
 				Result.fail(
 					new CampaignError(
-						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 						"Campaign not found",
 					),
 				),
@@ -43,7 +43,7 @@ export class CampaignRepository
 			return Promise.resolve(
 				Result.fail(
 					new CampaignError(
-						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 						"Campaign not found",
 					),
 				),
@@ -62,7 +62,7 @@ export class CampaignRepository
 			return Promise.resolve(
 				Result.fail(
 					new CampaignError(
-						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 						"Campaign not found",
 					),
 				),
@@ -99,7 +99,7 @@ export class CampaignRepository
 			return Promise.resolve(
 				Result.fail(
 					new CampaignError(
-						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 						"Campaign not found",
 					),
 				),

@@ -104,6 +104,15 @@ describe("Campaign", () => {
 	});
 
 	it("should be possible to delete a campaign", () => {
+		campaign = Campaign.create({
+			id: "1",
+			name: "Campaign 1",
+			status: "active",
+			category: "seasonal",
+			createdAt: new Date(),
+			startDate: new Date(),
+			endDate: new Date(),
+		}).value;
 		campaign.delete();
 		expect(campaign.isDeleted()).toBe(true);
 	});

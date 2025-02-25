@@ -26,7 +26,7 @@ describe("UpdateCampaignUseCase", () => {
 	it("should throw an error if campaign does not exist", async () => {
 		campaignRepository.getById.mockResolvedValue({
 			isFailure: true,
-			error: new CampaignError(CampaignErrorCodes.CAMPAING_NOT_FOUND),
+			error: new CampaignError(CampaignErrorCodes.CAMPAIGN_NOT_FOUND),
 			isSuccess: false,
 		});
 		const dto = {

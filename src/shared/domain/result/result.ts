@@ -30,12 +30,10 @@ export function isResult<T>(obj: any): obj is Result<T> {
 		return false;
 	}
 
-	// Check required properties
 	if (!("isSuccess" in obj) || !("isFailure" in obj)) {
 		return false;
 	}
 
-	// Check property types
 	if (
 		typeof obj.isSuccess !== "boolean" ||
 		typeof obj.isFailure !== "boolean"
@@ -43,12 +41,10 @@ export function isResult<T>(obj: any): obj is Result<T> {
 		return false;
 	}
 
-	// Check that isSuccess and isFailure are opposites
 	if (obj.isSuccess === obj.isFailure) {
 		return false;
 	}
 
-	// Check error property (optional)
 	if ("error" in obj && obj.error !== undefined) {
 		const error = obj.error;
 		if (
@@ -61,6 +57,5 @@ export function isResult<T>(obj: any): obj is Result<T> {
 		}
 	}
 
-	// Value is optional and can be any type (T), so no strict check needed
 	return true;
 }

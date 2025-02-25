@@ -20,7 +20,7 @@ export class DeleteCampaignUseCase {
 		if (!findResult?.value) {
 			return Result.fail(
 				new CampaignError(
-					CampaignErrorCodes.CAMPAING_NOT_FOUND,
+					CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 					"Campaign not found",
 				),
 			);

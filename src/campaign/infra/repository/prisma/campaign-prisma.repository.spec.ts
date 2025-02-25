@@ -136,7 +136,7 @@ describe("CampaignPrismaRepository", () => {
 			expect(result.value.id).toBe("1");
 			expect(result.value.name).toBe("Campaign One");
 			expect(prismaService.campaign.findUnique).toHaveBeenCalledWith({
-				where: { id: "1" },
+				where: { id: "1", deletedAt: null },
 			});
 		});
 
@@ -147,9 +147,9 @@ describe("CampaignPrismaRepository", () => {
 
 			expect(result.isFailure).toBe(true);
 			expect(result.error.message).toBe("Campaign not found");
-			expect(result.error.code).toBe("CAMPAING_NOT_FOUND");
+			expect(result.error.code).toBe("CAMPAIGN_NOT_FOUND");
 			expect(prismaService.campaign.findUnique).toHaveBeenCalledWith({
-				where: { id: "1" },
+				where: { id: "1", deletedAt: null },
 			});
 		});
 
@@ -241,8 +241,10 @@ describe("CampaignPrismaRepository", () => {
 			expect(result.value[0].deletedAt).toBeNull();
 			expect(prismaService.campaign.findMany).toHaveBeenCalledWith({
 				where: {
-					OR: [{ name: { contains: "Campaign" } }],
+					name: { contains: "Campaign" },
+					deletedAt: null,
 				},
+
 				distinct: ["id"],
 				skip: 0,
 				take: 10,
@@ -301,7 +303,8 @@ describe("CampaignPrismaRepository", () => {
 			expect(result.value.name).toBe("Campaign One");
 			expect(prismaService.campaign.findFirst).toHaveBeenCalledWith({
 				where: {
-					AND: [{ name: "Campaign One" }, { NOT: { deletedAt: null } }],
+					name: "Campaign One",
+					deletedAt: null,
 				},
 			});
 		});
@@ -313,11 +316,9 @@ describe("CampaignPrismaRepository", () => {
 
 			expect(result.isFailure).toBe(true);
 			expect(result.error.message).toBe("Campaign not found");
-			expect(result.error.code).toBe("CAMPAING_NOT_FOUND");
+			expect(result.error.code).toBe("CAMPAIGN_NOT_FOUND");
 			expect(prismaService.campaign.findFirst).toHaveBeenCalledWith({
-				where: {
-					AND: [{ name: "Campaign One" }, { NOT: { deletedAt: null } }],
-				},
+				where: { name: "Campaign One", deletedAt: null },
 			});
 		});
 

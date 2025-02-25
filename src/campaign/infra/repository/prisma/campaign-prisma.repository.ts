@@ -47,12 +47,12 @@ export class CampaignPrismaRepository
 	async getById(id: string): Promise<Result<Campaign>> {
 		try {
 			const campaignData = await this.prismaService.campaign.findUnique({
-				where: { id },
+				where: { id, deletedAt: null },
 			});
 			if (!campaignData) {
 				return Result.fail(
 					new CampaignError(
-						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 						"Campaign not found",
 					),
 				);
@@ -82,6 +82,7 @@ export class CampaignPrismaRepository
 					status: campaign.status,
 					startDate: campaign.startDate,
 					endDate: campaign.endDate,
+					deletedAt: campaign.deletedAt,
 				},
 			});
 			return Result.ok();
@@ -93,13 +94,8 @@ export class CampaignPrismaRepository
 		try {
 			const response = await this.prismaService.campaign.findMany({
 				where: {
-					OR: [
-						{
-							name: {
-								contains: query.search,
-							},
-						},
-					],
+					name: { contains: query.search },
+					deletedAt: null,
 				},
 				distinct: ["id"],
 
@@ -126,12 +122,12 @@ export class CampaignPrismaRepository
 	async getByName(name: string): Promise<Result<Campaign>> {
 		try {
 			const prismaResponse = await this.prismaService.campaign.findFirst({
-				where: { AND: [{ name }, { NOT: { deletedAt: null } }] },
+				where: { name, deletedAt: null },
 			});
 			if (!prismaResponse) {
 				return Result.fail(
 					new CampaignError(
-						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 						"Campaign not found",
 					),
 				);

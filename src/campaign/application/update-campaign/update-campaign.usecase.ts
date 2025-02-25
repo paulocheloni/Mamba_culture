@@ -21,7 +21,7 @@ export class UpdateCampaignUseCase {
 		if (!campaignExists?.value || campaignExists?.value.isDeleted()) {
 			return Result.fail(
 				new CampaignError(
-					CampaignErrorCodes.CAMPAING_NOT_FOUND,
+					CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 					"Campaign not found",
 				),
 			);

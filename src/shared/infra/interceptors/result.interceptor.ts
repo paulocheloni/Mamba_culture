@@ -73,7 +73,7 @@ export class ResultInterceptor<T> implements NestInterceptor {
 			case CampaignErrorCodes.INVALID_STATUS:
 			case CampaignErrorCodes.INVALID_CATEGORY:
 				return 400;
-			case CampaignErrorCodes.CAMPAING_NOT_FOUND:
+			case CampaignErrorCodes.CAMPAIGN_NOT_FOUND:
 				return 404;
 			case CampaignErrorCodes.CANNOT_PAUSE_EXPIRED_CAMPAIGN:
 			case CampaignErrorCodes.CANNOT_PAUSE_DELETED_CAMPAIGN:
