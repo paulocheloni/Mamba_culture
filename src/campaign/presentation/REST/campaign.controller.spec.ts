@@ -2,7 +2,7 @@ import { CreateCampaignUseCase } from "src/campaign/application/create-campaign/
 import { CampaignController } from "./campaign.controller";
 import { TestBed } from "@suites/unit";
 import type { Mocked } from "@suites/doubles.jest";
-import { CreateCampaignBodyDto } from "./dto/create-campaign-body.dto";
+import { CreateCampaignBodyDto } from "./dto/request/create-campaign-body.dto";
 import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-campaign.usecase";
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";

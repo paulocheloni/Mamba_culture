@@ -1,5 +1,12 @@
-import { IsDate, IsNotEmpty, IsString } from "@nestjs/class-validator";
-import { IsEnum, IsOptional } from "class-validator";
+import { Transform, Type } from "class-transformer";
+import {
+	IsDate,
+	IsEnum,
+	IsISO8601,
+	IsNotEmpty,
+	IsOptional,
+	IsString,
+} from "class-validator";
 
 export class CreateCampaignBodyDto {
 	@IsString()
@@ -11,11 +18,12 @@ export class CreateCampaignBodyDto {
 	category: "seasonal" | "regular" | "special";
 
 	@IsDate()
+	@Transform(({ value }) => new Date(value))
 	@IsNotEmpty()
 	startDate: Date;
 
 	@IsDate()
-	@IsNotEmpty()
+	@Transform(({ value }) => new Date(value))
 	endDate: Date;
 
 	@IsOptional()

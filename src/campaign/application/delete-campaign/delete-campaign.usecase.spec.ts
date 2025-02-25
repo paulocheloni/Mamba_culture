@@ -3,6 +3,8 @@ import { DeleteCampaignUseCase } from "./delete-campaign.usecase";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { TestBed } from "@suites/unit";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 
 describe("DeleteCampaignUseCase", () => {
 	let useCase: DeleteCampaignUseCase;
@@ -20,7 +22,7 @@ describe("DeleteCampaignUseCase", () => {
 		campaignRepository.getById.mockResolvedValue({
 			isSuccess: false,
 			isFailure: true,
-			error: new Error("Campaign not found"),
+			error: new CampaignError(CampaignErrorCodes.CAMPAING_NOT_FOUND),
 		});
 
 		const result = await useCase.execute("123");

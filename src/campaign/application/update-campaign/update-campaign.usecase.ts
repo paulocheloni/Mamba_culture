@@ -15,6 +15,9 @@ export class UpdateCampaignUseCase {
 	async execute(dto: UpdateCampaignDto) {
 		const campaignExists = await this.campaignRepository.getById(dto.id);
 
+		if (campaignExists.isFailure) {
+			return Result.fail(campaignExists.error);
+		}
 		if (!campaignExists?.value || campaignExists?.value.isDeleted()) {
 			return Result.fail(
 				new CampaignError(
@@ -22,10 +25,6 @@ export class UpdateCampaignUseCase {
 					"Campaign not found",
 				),
 			);
-		}
-
-		if (campaignExists.isFailure) {
-			return Result.fail(campaignExists.error);
 		}
 
 		const campaignNameExists = await this.campaignRepository.getByName(

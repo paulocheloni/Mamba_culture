@@ -1,11 +1,18 @@
 import { Test, type TestingModule } from "@nestjs/testing";
-import type { INestApplication } from "@nestjs/common";
+import {
+	ClassSerializerInterceptor,
+	ValidationPipe,
+	type INestApplication,
+} from "@nestjs/common";
 import request from "supertest";
 import { AppModule } from "src/shared/infra/app.module";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignRepository } from "src/campaign/infra/repository/campaign.repository";
-import type { CreateCampaignBodyDto } from "src/campaign/presentation/REST/dto/create-campaign-body.dto";
+import type { CreateCampaignBodyDto } from "src/campaign/presentation/REST/dto/request/create-campaign-body.dto";
 import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
+import { HttpExceptionFilter } from "src/shared/infra/filters/http-exception.filter";
+import { ResultInterceptor } from "src/shared/infra/interceptors/result.interceptor";
+import { Reflector } from "@nestjs/core";
 
 describe("AppController (e2e)", () => {
 	let app: INestApplication;
@@ -20,6 +27,16 @@ describe("AppController (e2e)", () => {
 			.compile();
 
 		app = moduleFixture.createNestApplication();
+		app.useGlobalFilters(new HttpExceptionFilter());
+		app.useGlobalPipes(
+			new ValidationPipe({
+				transform: true,
+			}),
+		);
+		app.useGlobalInterceptors(new ResultInterceptor());
+		app.useGlobalInterceptors(
+			new ClassSerializerInterceptor(app.get(Reflector)),
+		);
 		const campaignRepository =
 			app.get<ICampaignRepository>(ICampaignRepository);
 		await campaignRepository.reset();
@@ -121,17 +138,128 @@ describe("AppController (e2e)", () => {
 			expect(Array.isArray(response.body.value)).toBe(true);
 			expect(response.body.value.length).toBe(1);
 			expect(response.body.value[0].name).toBe("Active Campaign");
-			expect(response.body.value[0].category).toBe(
-				"seasonal" as CampaignCategory,
-			);
-			expect(response.body.value[0].status).toBe("paused");
+			expect(response.body.value[0].category).toBe("seasonal");
+			expect(response.body.value[0].status).toBe("active");
 			expect(response.body.value[0].deletedAt).toBeUndefined();
+			expect(response.body.error).toBeUndefined();
+		});
+
+		it("should not return deleted campaigns in the list", async () => {
+			const futureStart = new Date("2025-03-01");
+			const futureEnd = new Date("2025-04-01");
+
+			await createCampaign({
+				name: "To Delete",
+				category: "seasonal" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			const responseGetAll = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+			const campaignId = responseGetAll.body.value[0].id;
+
+			await request(app.getHttpServer())
+				.delete(`/campaign/${campaignId}`)
+				.expect(200);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(Array.isArray(response.body.value)).toBe(true);
+			expect(response.body.value.length).toBe(0);
+			expect(response.body.error).toBeUndefined();
+		});
+
+		it("should return only active campaigns when mixed with deleted ones", async () => {
+			const futureStart = new Date("2025-03-01");
+			const futureEnd = new Date("2025-04-01");
+
+			await createCampaign({
+				name: "Active Campaign 1",
+				category: "seasonal" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			await createCampaign({
+				name: "To Delete",
+				category: "regular" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			const responseGetAll = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+			const campaignToDeleteId = responseGetAll.body.value.find(
+				(c: any) => c.name === "To Delete",
+			).id;
+
+			await request(app.getHttpServer())
+				.delete(`/campaign/${campaignToDeleteId}`)
+				.expect(200);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(Array.isArray(response.body.value)).toBe(true);
+			expect(response.body.value.length).toBe(1);
+			expect(response.body.value[0].name).toBe("Active Campaign 1");
+			expect(response.body.value[0].deletedAt).toBeUndefined();
+			expect(response.body.error).toBeUndefined();
+		});
+
+		it("should return empty list when all campaigns are deleted", async () => {
+			const futureStart = new Date("2025-03-01");
+			const futureEnd = new Date("2025-04-01");
+
+			await createCampaign({
+				name: "Campaign 1",
+				category: "seasonal" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			await createCampaign({
+				name: "Campaign 2",
+				category: "regular" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			const responseGetAll = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+			const campaignIds = responseGetAll.body.value.map((c: any) => c.id);
+
+			for (const id of campaignIds) {
+				await request(app.getHttpServer())
+					.delete(`/campaign/${id}`)
+					.expect(200);
+			}
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(Array.isArray(response.body.value)).toBe(true);
+			expect(response.body.value.length).toBe(0);
 			expect(response.body.error).toBeUndefined();
 		});
 	});
 
 	describe("GET /campaign/:id", () => {
-		it("should return a campaign by ID", async () => {
+		it("should return a campaign by ID when not deleted", async () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
@@ -155,8 +283,8 @@ describe("AppController (e2e)", () => {
 			expect(response.body.isFailure).toBe(false);
 			expect(response.body.value.id).toBe(campaignId);
 			expect(response.body.value.name).toBe("Specific Campaign");
-			expect(response.body.value.category).toBe("seasonal" as CampaignCategory);
-			expect(response.body.value.status).toBe("paused");
+			expect(response.body.value.category).toBe("seasonal");
+			expect(response.body.value.status).toBe("active");
 			expect(response.body.value.deletedAt).toBeUndefined();
 			expect(response.body.error).toBeUndefined();
 		});
@@ -168,9 +296,94 @@ describe("AppController (e2e)", () => {
 
 			expect(response.body.isSuccess).toBe(false);
 			expect(response.body.isFailure).toBe(true);
-			expect(response.body.error.code).toBe("CAMPAIGN_NOT_FOUND");
+			expect(response.body.error.code).toBe("CAMPAING_NOT_FOUND");
 			expect(response.body.error.message).toBe("Campaign not found");
 			expect(response.body.value).toBeUndefined();
+		});
+
+		it("should return 404 if campaign is deleted", async () => {
+			const futureStart = new Date("2025-03-01");
+			const futureEnd = new Date("2025-04-01");
+
+			await createCampaign({
+				name: "To Delete",
+				category: "seasonal" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			const responseGetAll = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+			const campaignId = responseGetAll.body.value[0].id;
+
+			await request(app.getHttpServer())
+				.delete(`/campaign/${campaignId}`)
+				.expect(200);
+
+			const response = await request(app.getHttpServer())
+				.get(`/campaign/${campaignId}`)
+				.expect(404);
+
+			expect(response.body.isSuccess).toBe(false);
+			expect(response.body.isFailure).toBe(true);
+			expect(response.body.error.code).toBe("CAMPAING_NOT_FOUND");
+			expect(response.body.error.message).toBe("Campaign not found");
+			expect(response.body.value).toBeUndefined();
+		});
+
+		it("should return active campaign and ignore deleted ones with same ID pattern", async () => {
+			const futureStart = new Date("2025-03-01");
+			const futureEnd = new Date("2025-04-01");
+
+			await createCampaign({
+				name: "Campaign 1",
+				category: "seasonal" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			const responseGetAll1 = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+			const campaignIdToDelete = responseGetAll1.body.value[0].id;
+
+			await request(app.getHttpServer())
+				.delete(`/campaign/${campaignIdToDelete}`)
+				.expect(200);
+
+			await createCampaign({
+				name: "Campaign 2",
+				category: "regular" as CampaignCategory,
+				startDate: futureStart,
+				endDate: futureEnd,
+			}).expect(201);
+
+			const responseGetAll2 = await request(app.getHttpServer())
+				.get("/campaign")
+				.expect(200);
+			const newCampaignId = responseGetAll2.body.value[0].id;
+
+			const responseDeleted = await request(app.getHttpServer())
+				.get(`/campaign/${campaignIdToDelete}`)
+				.expect(404);
+
+			expect(responseDeleted.body.isSuccess).toBe(false);
+			expect(responseDeleted.body.isFailure).toBe(true);
+			expect(responseDeleted.body.error.code).toBe("CAMPAING_NOT_FOUND");
+			expect(responseDeleted.body.value).toBeUndefined();
+
+			const responseActive = await request(app.getHttpServer())
+				.get(`/campaign/${newCampaignId}`)
+				.expect(200);
+
+			expect(responseActive.body.isSuccess).toBe(true);
+			expect(responseActive.body.isFailure).toBe(false);
+			expect(responseActive.body.value.id).toBe(newCampaignId);
+			expect(responseActive.body.value.name).toBe("Campaign 2");
+			expect(responseActive.body.value.category).toBe("regular");
+			expect(responseActive.body.value.status).toBe("active");
+			expect(responseActive.body.value.deletedAt).toBeUndefined();
 		});
 	});
 
@@ -196,6 +409,7 @@ describe("AppController (e2e)", () => {
 				category: "special",
 				startDate: new Date("2025-03-02"),
 				endDate: new Date("2025-04-02"),
+				status: "active",
 			};
 
 			const response = await request(app.getHttpServer())
@@ -224,6 +438,10 @@ describe("AppController (e2e)", () => {
 
 			const invalidData = {
 				endDate: new Date("2025-02-01"),
+				startDate: new Date("2025-03-01"),
+				name: "Invalid Dates",
+				category: "seasonal" as CampaignCategory,
+				status: "active",
 			};
 
 			const response = await request(app.getHttpServer())
@@ -248,7 +466,7 @@ describe("AppController (e2e)", () => {
 				category: "seasonal" as CampaignCategory,
 				startDate: new Date("2025-03-01"),
 				endDate: new Date("2025-04-01"),
-			});
+			}).expect(201);
 
 			const responseGetAll = await request(app.getHttpServer())
 				.get("/campaign")
@@ -270,7 +488,7 @@ describe("AppController (e2e)", () => {
 
 			expect(getResponse.body.isSuccess).toBe(false);
 			expect(getResponse.body.isFailure).toBe(true);
-			expect(getResponse.body.error.code).toBe("CAMPAIGN_NOT_FOUND");
+			expect(getResponse.body.error.code).toBe("CAMPAING_NOT_FOUND");
 			expect(getResponse.body.error.message).toBe("Campaign not found");
 		});
 	});

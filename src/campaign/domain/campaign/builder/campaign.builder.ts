@@ -123,6 +123,7 @@ export class CampaignBuilder {
 		}
 
 		const id = this._id ?? uuid();
+
 		return Campaign.create({
 			id,
 			name: this._name,

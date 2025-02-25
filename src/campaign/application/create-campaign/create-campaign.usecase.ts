@@ -4,6 +4,8 @@ import type { CreateCampaignDto } from "./dto/create-campaign.dto";
 import { CampaignBuilder } from "../../domain/campaign/builder/campaign.builder";
 import { v4 as uuid } from "uuid";
 import { Result } from "src/shared/domain/result/result";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 
 @Injectable()
 export class CreateCampaignUseCase {
@@ -32,7 +34,9 @@ export class CreateCampaignUseCase {
 		);
 
 		if (campaignNameExists?.isSuccess) {
-			return Result.fail(campaignNameExists.error);
+			return Result.fail(
+				new CampaignError(CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS),
+			);
 		}
 
 		return this.campaignRepository.create(campaign.value);

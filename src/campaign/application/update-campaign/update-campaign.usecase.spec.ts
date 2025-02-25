@@ -8,6 +8,8 @@ import type {
 	CampaignCategory,
 	CampaignStatus,
 } from "src/campaign/domain/campaign/entity/campaign.interface";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
 
 describe("UpdateCampaignUseCase", () => {
 	let useCase: UpdateCampaignUseCase;
@@ -22,7 +24,11 @@ describe("UpdateCampaignUseCase", () => {
 	});
 
 	it("should throw an error if campaign does not exist", async () => {
-		campaignRepository.getById.mockResolvedValue(null);
+		campaignRepository.getById.mockResolvedValue({
+			isFailure: true,
+			error: new CampaignError(CampaignErrorCodes.CAMPAING_NOT_FOUND),
+			isSuccess: false,
+		});
 		const dto = {
 			id: "123",
 			category: "New Category",
@@ -138,7 +144,7 @@ describe("UpdateCampaignUseCase", () => {
 		};
 		campaignRepository.save.mockResolvedValue({
 			isFailure: true,
-			error: new Error("Campaign already exists"),
+			error: new CampaignError(CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS),
 			isSuccess: false,
 		});
 		const result = await useCase.execute(dto as UpdateCampaignDto);

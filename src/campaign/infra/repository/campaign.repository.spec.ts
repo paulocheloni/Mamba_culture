@@ -1,5 +1,7 @@
 import { TestBed } from "@suites/unit";
 import { CampaignRepository } from "./campaign.repository";
+import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { GetCampaignResponseDto } from "src/campaign/presentation/REST/dto/response/get-campaign/get-campaign.response.dto";
 
 describe("CampaignRepository", () => {
 	let repository: CampaignRepository;
@@ -27,14 +29,19 @@ describe("CampaignRepository", () => {
 
 	describe("save", () => {
 		it("should update existing campaign", async () => {
-			const campaign = { id: "1", name: "Campaign One" } as any;
+			const campaign = new CampaignBuilder().aCampaign().value;
 			await repository.create(campaign);
 
-			const updatedCampaign = { id: "1", name: "Updated Campaign" } as any;
-			const result = await repository.save(updatedCampaign);
+			const updatedCampaign = new CampaignBuilder()
+				.fromCampaign(campaign)
+				.withName("Updated Campaign")
+				.withId(campaign.id)
+				.build();
+
+			const result = await repository.save(updatedCampaign.value);
 
 			expect(result.isSuccess).toBe(true);
-			const getResult = await repository.getById("1");
+			const getResult = await repository.getById(campaign.id);
 			expect(getResult.value.name).toBe("Updated Campaign");
 		});
 
@@ -49,10 +56,10 @@ describe("CampaignRepository", () => {
 
 	describe("getById", () => {
 		it("should get a campaign by ID", async () => {
-			const campaign = { id: "1", name: "Campaign One" } as any;
+			const campaign = new CampaignBuilder().aCampaign().value;
 			await repository.create(campaign);
 
-			const result = await repository.getById("1");
+			const result = await repository.getById(campaign.id);
 			expect(result.value).toEqual(campaign);
 			expect(result.isSuccess).toBe(true);
 		});
@@ -66,15 +73,21 @@ describe("CampaignRepository", () => {
 
 	describe("getAll", () => {
 		it("should get all campaigns", async () => {
-			const campaigns = [
-				{ id: "1", name: "Campaign One" },
-				{ id: "2", name: "Campaign Two" },
-			] as any[];
+			const campaignOne = new CampaignBuilder().aCampaign();
+			const campaignTwo = new CampaignBuilder().customCampaign({
+				id: "2",
+				name: "Campaign Two",
+			});
+			const campaigns = [campaignOne, campaignTwo]
+				.filter((c) => c.isSuccess)
+				.map((c) => c.value);
 
 			await Promise.all(campaigns.map((c) => repository.create(c)));
 			const result = await repository.getAll();
-
-			expect(result.value).toEqual(campaigns);
+			const campainsResponse = result.value.map((c) => {
+				return new GetCampaignResponseDto(c);
+			});
+			expect(result.value).toEqual(campainsResponse);
 			expect(result.isSuccess).toBe(true);
 		});
 

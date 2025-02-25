@@ -10,11 +10,11 @@ import {
 	Query,
 } from "@nestjs/common";
 import { CreateCampaignUseCase } from "src/campaign/application/create-campaign/create-campaign.usecase";
-import type { CreateCampaignBodyDto } from "./dto/create-campaign-body.dto";
+import { CreateCampaignBodyDto } from "./dto/request/create-campaign-body.dto";
 import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-campaign.usecase";
 import { DeleteCampaignUseCase } from "src/campaign/application/delete-campaign/delete-campaign.usecase";
 import { UpdateCampaignUseCase } from "src/campaign/application/update-campaign/update-campaign.usecase";
-import type { GetCampaignQueryDto } from "./dto/get-campaign/get-campaign-query.dto";
+import { GetCampaignQueryDto } from "./dto/request/get-campaign/get-campaign-query.dto";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 
 @Controller("campaign")

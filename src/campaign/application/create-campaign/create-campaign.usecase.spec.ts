@@ -3,6 +3,8 @@ import { CreateCampaignUseCase } from "./create-campaign.usecase";
 import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
 import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
 import type { Mocked } from "@suites/doubles.jest";
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 
 describe("CreateCampaignUsecase", () => {
 	let usecase: CreateCampaignUseCase;
@@ -219,7 +221,7 @@ describe("CreateCampaignUsecase", () => {
 		};
 		repository.create.mockResolvedValue({
 			isFailure: true,
-			error: new Error("Campaign already exists"),
+			error: new CampaignError(CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS),
 			isSuccess: false,
 			value: null,
 		});
