@@ -1,6 +1,5 @@
 import type { Result } from "src/shared/domain/result/result";
 import type { Campaign } from "../entity/campaign";
-import type { Campaign as CampaignModel } from "@prisma/client";
 import type { ICampaign } from "../entity/campaign.interface";
 
 export type IQueryable = {
@@ -22,6 +21,8 @@ export interface ICampaignRepository {
 	save(campaign: Campaign): Promise<Result<void>>;
 	getByName(name: string): Promise<Result<Campaign>>;
 	getAll(query: IQueryable): Promise<Result<ICampaign[]>>;
+	/** only works if NODE_ENV is test */
+	reset(): void | Promise<void>;
 }
 
 export const ICampaignRepository = Symbol.for("ICampaignRepository");

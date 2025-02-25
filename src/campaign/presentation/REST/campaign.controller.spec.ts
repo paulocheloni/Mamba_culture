@@ -72,7 +72,7 @@ describe("CampaignController", () => {
 			const result = Campaign.create({
 				id: "123",
 				name: "My Campaign",
-				category: "Marketing",
+				category: "regular",
 				startDate: new Date("2023-01-01"),
 				endDate: new Date("2023-12-31"),
 				createdAt: new Date("2023-01-01"),
@@ -83,7 +83,7 @@ describe("CampaignController", () => {
 				.mockReturnValue(Promise.resolve(result));
 
 			const response = await controller.getCampaign("123");
-			expect(response.value.category).toBe("Marketing");
+			expect(response.value.category).toBe("regular");
 			expect(response.value.name).toBe("My Campaign");
 			expect(response.value.startDate).toEqual(new Date("2023-01-01"));
 			expect(response.value.endDate).toEqual(new Date("2023-12-31"));

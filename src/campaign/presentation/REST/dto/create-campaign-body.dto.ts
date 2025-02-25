@@ -6,9 +6,9 @@ export class CreateCampaignBodyDto {
 	@IsNotEmpty()
 	name: string;
 
-	@IsString()
+	@IsEnum(["seasonal", "regular", "special"])
 	@IsNotEmpty()
-	category: string;
+	category: "seasonal" | "regular" | "special";
 
 	@IsDate()
 	@IsNotEmpty()
@@ -20,5 +20,5 @@ export class CreateCampaignBodyDto {
 
 	@IsOptional()
 	@IsEnum(["active", "paused"])
-	status: "active" | "paused";
+	status?: "active" | "paused";
 }

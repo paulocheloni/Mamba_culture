@@ -7,7 +7,7 @@ describe("CreateCampaignBodyDto", () => {
 	beforeEach(() => {
 		validDto = new CreateCampaignBodyDto();
 		validDto.name = "My Campaign";
-		validDto.category = "Marketing";
+		validDto.category = "regular";
 		validDto.startDate = new Date("2023-01-01");
 		validDto.endDate = new Date("2023-12-31");
 	});

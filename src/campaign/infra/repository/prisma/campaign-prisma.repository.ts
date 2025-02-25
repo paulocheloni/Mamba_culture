@@ -9,12 +9,22 @@ import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 import { Result } from "src/shared/domain/result/result";
 import type { Campaign as CampaignModel } from "@prisma/client";
+import { TestableRepository } from "src/shared/domain/repository/testable.repository";
 
 @Injectable()
-export class CampaignPrismaRepository implements ICampaignRepository {
+export class CampaignPrismaRepository
+	extends TestableRepository
+	implements ICampaignRepository
+{
 	constructor(
 		@Inject(PrismaService) private readonly prismaService: PrismaService,
-	) {}
+	) {
+		super();
+	}
+
+	protected async callReset(): Promise<void> {
+		await this.prismaService.campaign.deleteMany();
+	}
 
 	async create(campaign: Campaign): Promise<Result<void>> {
 		try {
