@@ -33,8 +33,8 @@ describe("CampaignErrorCodes", () => {
 		);
 	});
 
-	it("should have exactly 15 error codes", () => {
+	it("should have exactly 17 error codes", () => {
 		const keys = Object.keys(CampaignErrorCodes);
-		expect(keys.length).toBe(15);
+		expect(keys.length).toBe(17);
 	});
 });

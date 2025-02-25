@@ -28,6 +28,14 @@ export class UpdateCampaignUseCase {
 			return Result.fail(campaignExists.error);
 		}
 
+		const campaignNameExists = await this.campaignRepository.getByName(
+			dto.name,
+		);
+
+		if (campaignNameExists?.isSuccess) {
+			return Result.fail(campaignNameExists.error);
+		}
+
 		const campaign = new CampaignBuilder()
 			.fromCampaign(campaignExists.value)
 			.withCategory(dto.category)
@@ -41,6 +49,6 @@ export class UpdateCampaignUseCase {
 			return Result.fail(campaign.error);
 		}
 
-		await this.campaignRepository.save(campaign.value);
+		return this.campaignRepository.save(campaign.value);
 	}
 }

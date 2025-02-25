@@ -1,5 +1,9 @@
 // campaign.entity.ts
-import { CampaignStatus, type ICampaign } from "./campaign.interface";
+import {
+	type CampaignCategory,
+	CampaignStatus,
+	type ICampaign,
+} from "./campaign.interface";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 import { Result } from "src/shared/domain/result/result";
@@ -17,7 +21,7 @@ export class Campaign {
 	private readonly _id: string;
 	private _name: string;
 	private _status: keyof typeof CampaignStatus;
-	private _category: string;
+	private _category: keyof typeof CampaignCategory;
 	private readonly _createdAt: Date;
 	private _startDate: Date;
 	private _endDate: Date;
@@ -70,7 +74,7 @@ export class Campaign {
 		return this._status;
 	}
 
-	get category(): string {
+	get category(): keyof typeof CampaignCategory {
 		return this._category;
 	}
 

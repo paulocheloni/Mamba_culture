@@ -17,7 +17,6 @@ const bootStrap = async () => {
 		optionsSuccessStatus: 204,
 		credentials: true,
 	});
-
 	await app.listen(`${port}`, `${host}`, () => {
 		console.log(`Server is running on ${port}`);
 	});

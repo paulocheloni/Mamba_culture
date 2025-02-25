@@ -4,6 +4,11 @@ describe("CreateCampaignDto", () => {
 	let dto: CreateCampaignDto;
 	beforeAll(() => {
 		dto = new CreateCampaignDto();
+		dto.category = "seasonal";
+		dto.name = "Campaign One";
+		dto.startDate = new Date();
+		dto.endDate = new Date();
+		dto.status = "active";
 	});
 
 	it("should be defined", () => {
@@ -11,7 +16,7 @@ describe("CreateCampaignDto", () => {
 	});
 
 	it("should have a category property", () => {
-		expect(dto).toHaveProperty("category");
+		expect(dto.category).toBeDefined();
 	});
 
 	it("should have a name property", () => {

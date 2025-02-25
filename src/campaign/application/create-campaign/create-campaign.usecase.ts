@@ -26,6 +26,15 @@ export class CreateCampaignUseCase {
 		if (campaign.isFailure) {
 			return Result.fail(campaign.error);
 		}
-		await this.campaignRepository.create(campaign.value);
+
+		const campaignNameExists = await this.campaignRepository.getByName(
+			data.name,
+		);
+
+		if (campaignNameExists?.isSuccess) {
+			return Result.fail(campaignNameExists.error);
+		}
+
+		return this.campaignRepository.create(campaign.value);
 	}
 }

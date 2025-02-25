@@ -13,8 +13,8 @@ export class CampaignRepository implements ICampaignRepository {
 		this.campaigns = [];
 	}
 	getById(id: string): Promise<Result<Campaign>> {
-		const campaign = this.campaigns.find((c) => c.id === id);
-		if (!campaign) {
+		const index = this.campaigns.findIndex((c) => c.id === id);
+		if (index === -1) {
 			return Promise.resolve(
 				Result.fail(
 					new CampaignError(
@@ -24,36 +24,18 @@ export class CampaignRepository implements ICampaignRepository {
 				),
 			);
 		}
+
+		const campaign = this.campaigns[index];
 
 		return Promise.resolve(Result.ok(campaign));
 	}
 	create(campaign: Campaign): Promise<Result<void>> {
-		if (this.campaigns.some((c) => c.id === campaign.id)) {
-			return Promise.resolve(
-				Result.fail(
-					new CampaignError(
-						CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS,
-						"Campaign already exists",
-					),
-				),
-			);
-		}
-		if (this.campaigns.some((c) => c.name === campaign.name)) {
-			return Promise.resolve(
-				Result.fail(
-					new CampaignError(
-						CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS,
-						"Campaign already exists",
-					),
-				),
-			);
-		}
-
 		this.campaigns.push(campaign);
 		return Promise.resolve(Result.ok());
 	}
 	save(campaign: Campaign): Promise<Result<void>> {
-		if (!this.campaigns.some((c) => c.id === campaign.id)) {
+		const index = this.campaigns.findIndex((c) => c.id === campaign.id);
+		if (index === -1) {
 			return Promise.resolve(
 				Result.fail(
 					new CampaignError(
@@ -63,28 +45,28 @@ export class CampaignRepository implements ICampaignRepository {
 				),
 			);
 		}
-
-		if (
-			this.campaigns.some(
-				(c) => c.name === campaign.name && c.id !== campaign.id,
-			)
-		) {
-			return Promise.resolve(
-				Result.fail(
-					new CampaignError(
-						CampaignErrorCodes.CAMPAIGN_ALREADY_EXISTS,
-						"Campaign name already exists",
-					),
-				),
-			);
-		}
-
-		const index = this.campaigns.findIndex((c) => c.id === campaign.id);
 		this.campaigns[index] = campaign;
 		return Promise.resolve(Result.ok());
 	}
 
 	getAll(): Promise<Result<Campaign[]>> {
 		return Promise.resolve(Result.ok(this.campaigns));
+	}
+
+	getByName(name: string): Promise<Result<Campaign>> {
+		const index = this.campaigns.findIndex((c) => c.name === name);
+		if (index === -1) {
+			return Promise.resolve(
+				Result.fail(
+					new CampaignError(
+						CampaignErrorCodes.CAMPAING_NOT_FOUND,
+						"Campaign not found",
+					),
+				),
+			);
+		}
+		const campaign = this.campaigns[index];
+
+		return Promise.resolve(Result.ok(campaign));
 	}
 }

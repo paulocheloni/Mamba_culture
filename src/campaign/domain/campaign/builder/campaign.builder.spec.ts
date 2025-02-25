@@ -11,7 +11,7 @@ describe("CampaignBuilder", () => {
 			.withId("1")
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(new Date())
 			.withStartDate(startDate)
 			.withEndDate(endDate);
@@ -27,7 +27,7 @@ describe("CampaignBuilder", () => {
 		const builder = new CampaignBuilder()
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(new Date())
 			.withStartDate(new Date())
 			.withEndDate(new Date());
@@ -39,7 +39,7 @@ describe("CampaignBuilder", () => {
 		const builder = new CampaignBuilder()
 			.withId("1")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(new Date())
 			.withStartDate(new Date())
 			.withEndDate(new Date());
@@ -52,7 +52,7 @@ describe("CampaignBuilder", () => {
 		const builder = new CampaignBuilder()
 			.withId("1")
 			.withName("Test")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(new Date())
 			.withStartDate(new Date())
 			.withEndDate(new Date());
@@ -79,7 +79,7 @@ describe("CampaignBuilder", () => {
 			.withId("1")
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withStartDate(new Date())
 			.withEndDate(new Date());
 		const result = builder.build();
@@ -92,7 +92,7 @@ describe("CampaignBuilder", () => {
 			.withId("1")
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(new Date())
 			.withEndDate(new Date());
 		const result = builder.build();
@@ -105,7 +105,7 @@ describe("CampaignBuilder", () => {
 			.withId("1")
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(new Date())
 			.withStartDate(new Date());
 		const result = builder.build();
@@ -123,7 +123,7 @@ describe("CampaignBuilder", () => {
 			.withId("1")
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(createdAt)
 			.withStartDate(start)
 			.withEndDate(end);
@@ -141,7 +141,7 @@ describe("CampaignBuilder", () => {
 			.withId("1")
 			.withName("Test")
 			.withStatus("active")
-			.withCategory("example")
+			.withCategory("seasonal")
 			.withCreatedAt(createdAt)
 			.withStartDate(start)
 			.withEndDate(end);
@@ -156,7 +156,7 @@ describe("CampaignBuilder", () => {
 		expect(result.value.id).toBeDefined();
 		expect(result.value.name).toBe("Campaign 1");
 		expect(result.value.status).toBe("active");
-		expect(result.value.category).toBe("Category 1");
+		expect(result.value.category).toBe("seasonal");
 		expect(result.value.createdAt).toBeInstanceOf(Date);
 		expect(result.value.startDate).toBeInstanceOf(Date);
 		expect(result.value.endDate).toBeInstanceOf(Date);

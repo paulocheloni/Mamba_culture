@@ -1,10 +1,12 @@
 import { TestBed } from "@suites/unit";
 import { CreateCampaignUseCase } from "./create-campaign.usecase";
 import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
+import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
+import type { Mocked } from "@suites/doubles.jest";
 
 describe("CreateCampaignUsecase", () => {
 	let usecase: CreateCampaignUseCase;
-	let repository: ICampaignRepository;
+	let repository: Mocked<ICampaignRepository>;
 
 	beforeAll(async () => {
 		const { unit, unitRef } = await TestBed.solitary(
@@ -27,7 +29,7 @@ describe("CreateCampaignUsecase", () => {
 		tomorrow.setDate(now.getDate() + 1);
 
 		const data = {
-			category: "Category 1",
+			category: "regular" as keyof typeof CampaignCategory,
 			name: "Campaign 1",
 			startDate: nexthour,
 			endDate: tomorrow,
@@ -46,7 +48,7 @@ describe("CreateCampaignUsecase", () => {
 		yesterday.setDate(now.getDate() - 1);
 
 		const data = {
-			category: "Category 1",
+			category: "seasonal",
 			name: "Campaign 1",
 			startDate: nexthour,
 			endDate: yesterday,
@@ -66,7 +68,7 @@ describe("CreateCampaignUsecase", () => {
 		yesterday.setDate(now.getDate() + 1);
 
 		const data = {
-			category: "Category 1",
+			category: "seasonal",
 			name: "Campaign 1",
 			startDate: nexthour,
 			endDate: yesterday,
@@ -127,7 +129,7 @@ describe("CreateCampaignUsecase", () => {
 		yesterday.setDate(now.getDate() + 1);
 
 		const data = {
-			category: "Category 1",
+			category: "seasonal",
 			name: "Campaign 1",
 			startDate: nexthour,
 			endDate: yesterday,
@@ -192,11 +194,37 @@ describe("CreateCampaignUsecase", () => {
 			endDate: tomorrow,
 			createdAt: now,
 		};
-		await usecase.execute(data);
+		await usecase.execute(data as any);
 		expect(repository.create).toHaveBeenCalledWith(
 			expect.objectContaining({
 				status: "active",
 			}),
 		);
+	});
+
+	it("should fail when an campaign with the same name already exists", async () => {
+		const now = new Date();
+		const nexthour = new Date();
+		const tomorrow = new Date();
+
+		nexthour.setHours(now.getHours() + 1);
+		tomorrow.setDate(now.getDate() + 1);
+
+		const data = {
+			category: "seasonal",
+			name: "Campaign 1",
+			startDate: nexthour,
+			endDate: tomorrow,
+			createdAt: now,
+		};
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			error: new Error("Campaign already exists"),
+			isSuccess: false,
+			value: null,
+		});
+		const result = await usecase.execute(data as any);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Campaign already exists");
 	});
 });

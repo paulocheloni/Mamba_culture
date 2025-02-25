@@ -4,7 +4,10 @@ import { UpdateCampaignUseCase } from "./update-campaign.usecase";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { TestBed } from "@suites/unit";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
-import type { CampaignStatus } from "src/campaign/domain/campaign/entity/campaign.interface";
+import type {
+	CampaignCategory,
+	CampaignStatus,
+} from "src/campaign/domain/campaign/entity/campaign.interface";
 
 describe("UpdateCampaignUseCase", () => {
 	let useCase: UpdateCampaignUseCase;
@@ -64,7 +67,7 @@ describe("UpdateCampaignUseCase", () => {
 			id: "123",
 			isDeleted: () => false,
 			createdAt: now,
-			category: "Category",
+			category: "seasonal" as keyof typeof CampaignCategory,
 			name: "Campaign",
 			startDate: now,
 			endDate: nexthour,
@@ -83,7 +86,7 @@ describe("UpdateCampaignUseCase", () => {
 		campaignRepository.getById.mockResolvedValue(existingCampaign);
 		const dto = {
 			id: "123",
-			category: "Updated Category",
+			category: "seasonal",
 			endDate: nexthour,
 			name: "Updated Campaign",
 			startDate: now,
@@ -93,5 +96,53 @@ describe("UpdateCampaignUseCase", () => {
 		const result = await useCase.execute(dto as UpdateCampaignDto);
 		expect(result).toBe(undefined);
 		expect(campaignRepository.save).toHaveBeenCalled();
+	});
+
+	it("should fail when a campaign already exists with the same name", async () => {
+		const now = new Date();
+		const nexthour = new Date();
+		const yesterday = new Date();
+
+		nexthour.setHours(now.getHours() + 1);
+		yesterday.setDate(now.getDate() - 1);
+
+		const existingDto = {
+			id: "123",
+			isDeleted: () => false,
+			createdAt: now,
+			category: "seasonal" as keyof typeof CampaignCategory,
+			name: "Campaign",
+			startDate: now,
+			endDate: nexthour,
+			status: "active",
+		};
+		const existingCampaign = new CampaignBuilder()
+			.withCategory(existingDto.category)
+			.withCreatedAt(existingDto.createdAt)
+			.withEndDate(existingDto.endDate)
+			.withStatus(existingDto.status as CampaignStatus)
+			.withStartDate(existingDto.startDate)
+			.withId(existingDto.id)
+			.withName(existingDto.name)
+			.build();
+
+		campaignRepository.getById.mockResolvedValue(existingCampaign);
+		const dto = {
+			id: "123",
+			category: "seasonal",
+			endDate: nexthour,
+			name: "Updated Campaign",
+			startDate: now,
+			createdAt: yesterday,
+			status: "active",
+		};
+		campaignRepository.save.mockResolvedValue({
+			isFailure: true,
+			error: new Error("Campaign already exists"),
+			isSuccess: false,
+		});
+		const result = await useCase.execute(dto as UpdateCampaignDto);
+		expect(result.isFailure).toBe(true);
+		expect(result.error.message).toBe("Campaign already exists");
 	});
 });
