@@ -6,6 +6,7 @@ module.exports = {
 	setupFilesAfterEnv: ["<rootDir>/jest.setup.cjs"],
 	transformIgnorePatterns: ["<rootDir>/jest.setup.cjs"],
 	collectCoverageFrom: ["src/**/*.{ts,tsx}"],
+
 	reporters: [
 		"default",
 		[

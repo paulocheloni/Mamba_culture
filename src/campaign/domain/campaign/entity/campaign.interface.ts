@@ -4,12 +4,18 @@ export enum CampaignStatus {
 	expired = "expired",
 }
 
+export enum CampaignCategory {
+	seasonal = "seasonal",
+	regular = "regular",
+	special = "special",
+}
+
 export interface ICampaign {
 	id: string;
 	name: string;
 
 	status: keyof typeof CampaignStatus;
-	category: string;
+	category: keyof typeof CampaignCategory;
 
 	createdAt: Date;
 	startDate: Date;
