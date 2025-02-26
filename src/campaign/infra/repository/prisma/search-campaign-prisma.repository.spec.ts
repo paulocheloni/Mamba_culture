@@ -2,10 +2,11 @@ import { TestBed } from "@suites/unit";
 import { SearchCampaignPrismaRepository } from "./search-campaign-prisma.repository";
 import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
 import type { QueryableDTO } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
+import type { Mocked } from "@suites/doubles.jest";
 
 describe("SearchCampaignPrismaRepository", () => {
 	let repository: SearchCampaignPrismaRepository;
-	let prismaService: any;
+	let prismaService: Mocked<any>;
 
 	beforeAll(async () => {
 		const { unit, unitRef } = await TestBed.solitary(
@@ -16,62 +17,55 @@ describe("SearchCampaignPrismaRepository", () => {
 	});
 
 	beforeEach(() => {
-		prismaService.client.campaign.paginate.mockReset();
+		prismaService.client.campaign.findMany.mockReset();
+		prismaService.client.campaign.count.mockReset();
 	});
 
 	it("should be defined", () => {
 		expect(repository).toBeDefined();
 	});
 
-	it("should perform a successful search with results", async () => {
+	it("should return a list of active campaigns", async () => {
+		const mockData = [
+			{
+				id: "1",
+				name: "Active Campaign 1",
+				category: "seasonal",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+			{
+				id: "2",
+				name: "Active Campaign 2",
+				category: "regular",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+		];
+
 		const query: QueryableDTO = {
 			page: 1,
 			limit: 10,
-			search: "campaign",
+			search: "",
 			orderBy: "name",
 			order: "asc",
 		};
 
-		const mockResponse = {
-			result: [
-				{
-					id: "1",
-					name: "Campaign One",
-					category: "seasonal",
-					status: "active",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-				{
-					id: "2",
-					name: "Campaign Two",
-					category: "regular",
-					status: "paused",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-			],
-			page: 1,
-			limit: 10,
-			count: 2,
-			totalPages: 1,
-			hasPrevPage: false,
-			hasNextPage: false,
-		};
+		prismaService.client.campaign.findMany.mockResolvedValue(mockData);
+		prismaService.client.campaign.count.mockResolvedValue(mockData.length);
 
-		prismaService.client.campaign.paginate.mockResolvedValue(mockResponse);
+		const response = await repository.getAll(query);
 
-		const result = await repository.getAll(query);
-
-		expect(result.isSuccess).toBe(true);
-		expect(result.isFailure).toBe(false);
-		expect(result.error).toBeUndefined();
-		expect(result.value).toStrictEqual(mockResponse.result);
-		expect(result.metadata).toStrictEqual({
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual(mockData);
+		expect(response.metadata).toMatchObject({
 			currentPage: 1,
 			perPage: 10,
 			total: 2,
@@ -90,24 +84,15 @@ describe("SearchCampaignPrismaRepository", () => {
 			order: "asc",
 		};
 
-		const noResultsResponse = {
-			result: [],
-			page: 1,
-			limit: 10,
-			count: 0,
-			totalPages: 0,
-			hasPrevPage: false,
-			hasNextPage: false,
-		};
+		prismaService.client.campaign.findMany.mockResolvedValue([]);
+		prismaService.client.campaign.count.mockResolvedValue(0);
 
-		prismaService.client.campaign.paginate.mockResolvedValue(noResultsResponse);
+		const response = await repository.getAll(query);
 
-		const result = await repository.getAll(query);
-
-		expect(result.isSuccess).toBe(true);
-		expect(result.isFailure).toBe(false);
-		expect(result.value).toStrictEqual([]);
-		expect(result.metadata).toStrictEqual({
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual([]);
+		expect(response.metadata).toMatchObject({
 			currentPage: 1,
 			perPage: 10,
 			total: 0,
@@ -117,7 +102,7 @@ describe("SearchCampaignPrismaRepository", () => {
 		});
 	});
 
-	it("should handle errors gracefully", async () => {
+	it("should handle database errors", async () => {
 		const query: QueryableDTO = {
 			page: 1,
 			limit: 10,
@@ -127,18 +112,17 @@ describe("SearchCampaignPrismaRepository", () => {
 		};
 
 		const error = new Error("Database error");
-		prismaService.client.campaign.paginate.mockRejectedValue(error);
+		prismaService.client.campaign.findMany.mockRejectedValue(error);
 
-		const result = await repository.getAll(query);
+		const response = await repository.getAll(query);
 
-		expect(result.isSuccess).toBe(false);
-		expect(result.isFailure).toBe(true);
-		expect(result.error).toStrictEqual(error);
-		expect(result.value).toStrictEqual([]);
-		expect(result.metadata).toBeUndefined();
+		expect(response.isSuccess).toBe(false);
+		expect(response.isFailure).toBe(true);
+		expect(response.error).toStrictEqual(error);
+		expect(response.value).toStrictEqual([]);
 	});
 
-	it("should handle pagination correctly with multiple pages", async () => {
+	it("should handle pagination with multiple pages", async () => {
 		const query: QueryableDTO = {
 			page: 1,
 			limit: 5,
@@ -147,77 +131,70 @@ describe("SearchCampaignPrismaRepository", () => {
 			order: "asc",
 		};
 
-		const paginationResponse = {
-			result: [
-				{
-					id: "2",
-					name: "Campaign B",
-					category: "regular",
-					status: "paused",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-				{
-					id: "1",
-					name: "Campaign A",
-					category: "seasonal",
-					status: "active",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-				{
-					id: "3",
-					name: "Campaign C",
-					category: "regular",
-					status: "active",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-				{
-					id: "4",
-					name: "Campaign D",
-					category: "seasonal",
-					status: "active",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-				{
-					id: "5",
-					name: "Campaign E",
-					category: "regular",
-					status: "active",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-			],
-			page: 1,
-			limit: 5,
-			count: 10,
-			totalPages: 2,
-			hasPrevPage: false,
-			hasNextPage: true,
-		};
+		const paginationResponse = [
+			{
+				id: "1",
+				name: "Campaign A",
+				category: "seasonal",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+			{
+				id: "2",
+				name: "Campaign B",
+				category: "regular",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+			{
+				id: "3",
+				name: "Campaign C",
+				category: "special",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+			{
+				id: "4",
+				name: "Campaign D",
+				category: "seasonal",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+			{
+				id: "5",
+				name: "Campaign E",
+				category: "regular",
+				status: "active",
+				startDate: new Date("2025-03-01"),
+				end_date: new Date("2025-04-01"),
+				createdAt: new Date(),
+				deletedAt: null,
+			},
+		];
 
-		prismaService.client.campaign.paginate.mockResolvedValue(
-			paginationResponse,
+		prismaService.client.campaign.findMany.mockResolvedValue(
+			paginationResponse.slice(0, 5),
 		);
+		prismaService.client.campaign.count.mockResolvedValue(10);
 
-		const result = await repository.getAll(query);
+		const response = await repository.getAll(query);
 
-		expect(result.isSuccess).toBe(true);
-		expect(result.isFailure).toBe(false);
-		expect(result.value).toStrictEqual(paginationResponse.result);
-		expect(result.metadata).toStrictEqual({
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toHaveLength(5);
+		expect(response.metadata).toMatchObject({
 			currentPage: 1,
 			perPage: 5,
 			total: 10,
@@ -227,54 +204,91 @@ describe("SearchCampaignPrismaRepository", () => {
 		});
 	});
 
-	it("should pass the correct where clause to Prisma", async () => {
+	it("should search campaigns by name with partial match", async () => {
+		const matchingData = {
+			id: "1",
+			name: "Summer Campaign",
+			category: "seasonal",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date(),
+			deletedAt: null,
+		};
+
 		const query: QueryableDTO = {
 			page: 1,
 			limit: 10,
-			search: "campaign",
+			search: "sum",
 			orderBy: "name",
 			order: "asc",
 		};
 
-		const expectedWhere = {
-			name: { contains: "campaign" },
+		prismaService.client.campaign.findMany.mockResolvedValue([matchingData]);
+		prismaService.client.campaign.count.mockResolvedValue(1);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual([matchingData]);
+		expect(response.metadata.total).toBe(1);
+	});
+
+	it("should handle case-insensitive search", async () => {
+		const data = {
+			id: "1",
+			name: "SUMMER Campaign",
+			category: "seasonal",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date(),
 			deletedAt: null,
 		};
 
-		const mockResponse = {
-			result: [],
+		const query: QueryableDTO = {
 			page: 1,
 			limit: 10,
-			count: 0,
-			totalPages: 0,
-			hasPrevPage: false,
-			hasNextPage: false,
+			search: "summer",
+			orderBy: "name",
+			order: "asc",
 		};
 
-		prismaService.client.campaign.paginate.mockResolvedValue(mockResponse);
+		prismaService.client.campaign.findMany.mockResolvedValue([data]);
+		prismaService.client.campaign.count.mockResolvedValue(1);
 
-		await repository.getAll(query);
+		const response = await repository.getAll(query);
 
-		expect(prismaService.client.campaign.paginate).toHaveBeenCalledWith({
-			page: 1,
-			limit: 10,
-			where: expectedWhere,
-			distinct: ["id"],
-			select: {
-				id: true,
-				name: true,
-				category: true,
-				status: true,
-				createdAt: true,
-				startDate: true,
-				endDate: true,
-				deletedAt: true,
-			},
-			orderBy: { name: "asc" },
-		});
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual([data]);
+		expect(response.metadata.total).toBe(1);
 	});
 
-	it("should handle empty search correctly", async () => {
+	it("should return all campaigns for empty search", async () => {
+		const data1 = {
+			id: "1",
+			name: "Campaign One",
+			category: "seasonal",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date(),
+			deletedAt: null,
+		};
+
+		const data2 = {
+			id: "2",
+			name: "Campaign Two",
+			category: "regular",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date(),
+			deletedAt: null,
+		};
+
 		const query: QueryableDTO = {
 			page: 1,
 			limit: 10,
@@ -283,39 +297,188 @@ describe("SearchCampaignPrismaRepository", () => {
 			order: "asc",
 		};
 
-		const mockResponse = {
-			result: [
-				{
-					id: "1",
-					name: "Campaign One",
-					category: "seasonal",
-					status: "active",
-					createdAt: new Date(),
-					startDate: new Date(),
-					endDate: new Date(),
-					deletedAt: null,
-				},
-			],
-			page: 1,
-			limit: 10,
-			count: 1,
-			totalPages: 1,
-			hasPrevPage: false,
-			hasNextPage: false,
+		prismaService.client.campaign.findMany.mockResolvedValue([data1, data2]);
+		prismaService.client.campaign.count.mockResolvedValue(2);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual([data1, data2]);
+		expect(response.metadata.total).toBe(2);
+	});
+
+	it("should order by createdAt ascending", async () => {
+		const dataOld = {
+			id: "1",
+			name: "Older Campaign",
+			category: "seasonal",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date("2025-01-01"),
+			deletedAt: null,
 		};
 
-		prismaService.client.campaign.paginate.mockResolvedValue(mockResponse);
+		const dataNew = {
+			id: "2",
+			name: "Newer Campaign",
+			category: "regular",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date("2025-02-01"),
+			deletedAt: null,
+		};
 
-		const result = await repository.getAll(query);
+		const query: QueryableDTO = {
+			page: 1,
+			limit: 10,
+			search: "",
+			orderBy: "createdAt",
+			order: "asc",
+		};
 
-		expect(result.isSuccess).toBe(true);
-		expect(result.isFailure).toBe(false);
-		expect(result.value).toStrictEqual(mockResponse.result);
-		expect(result.metadata).toStrictEqual({
+		prismaService.client.campaign.findMany.mockResolvedValue([
+			dataOld,
+			dataNew,
+		]);
+		prismaService.client.campaign.count.mockResolvedValue(2);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value[0]).toStrictEqual(dataOld);
+		expect(response.value[1]).toStrictEqual(dataNew);
+		expect(response.metadata.total).toBe(2);
+	});
+
+	it("should order by name descending", async () => {
+		const dataA = {
+			id: "1",
+			name: "Zebra Campaign",
+			category: "seasonal",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date(),
+			deletedAt: null,
+		};
+
+		const dataB = {
+			id: "2",
+			name: "Apple Campaign",
+			category: "regular",
+			status: "active",
+			startDate: new Date("2025-03-01"),
+			end_date: new Date("2025-04-01"),
+			createdAt: new Date(),
+			deletedAt: null,
+		};
+
+		const query: QueryableDTO = {
+			page: 1,
+			limit: 10,
+			search: "",
+			orderBy: "name",
+			order: "desc",
+		};
+
+		prismaService.client.campaign.findMany.mockResolvedValue([dataA, dataB]);
+		prismaService.client.campaign.count.mockResolvedValue(2);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value[0]).toStrictEqual(dataA);
+		expect(response.value[1]).toStrictEqual(dataB);
+		expect(response.metadata.total).toBe(2);
+	});
+
+	it("should handle page beyond total pages", async () => {
+		const query: QueryableDTO = {
+			page: 10,
+			limit: 1,
+			search: "",
+			orderBy: "name",
+			order: "asc",
+		};
+
+		const mockData = [];
+
+		prismaService.client.campaign.findMany.mockResolvedValue(mockData);
+		prismaService.client.campaign.count.mockResolvedValue(0);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual(mockData);
+		expect(response.metadata).toMatchObject({
+			currentPage: 10,
+			perPage: 1,
+			total: 0,
+			totalPages: 0,
+			hasPrevPage: false,
+			hasNextPage: false,
+		});
+	});
+
+	it("should handle invalid page number", async () => {
+		const query: QueryableDTO = {
+			page: -1,
+			limit: 10,
+			search: "",
+			orderBy: "name",
+			order: "asc",
+		};
+
+		const mockData = [];
+
+		prismaService.client.campaign.findMany.mockResolvedValue(mockData);
+		prismaService.client.campaign.count.mockResolvedValue(0);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual(mockData);
+		expect(response.metadata).toMatchObject({
 			currentPage: 1,
 			perPage: 10,
-			total: 1,
-			totalPages: 1,
+			total: 0,
+			totalPages: 0,
+			hasPrevPage: false,
+			hasNextPage: false,
+		});
+	});
+
+	it("should handle zero limit", async () => {
+		const query: QueryableDTO = {
+			page: 1,
+			limit: 0,
+			search: "",
+			orderBy: "name",
+			order: "asc",
+		};
+
+		const mockData = [];
+
+		prismaService.client.campaign.findMany.mockResolvedValue(mockData);
+		prismaService.client.campaign.count.mockResolvedValue(0);
+
+		const response = await repository.getAll(query);
+
+		expect(response.isSuccess).toBe(true);
+		expect(response.isFailure).toBe(false);
+		expect(response.value).toStrictEqual(mockData);
+		expect(response.metadata).toMatchObject({
+			currentPage: 1,
+			perPage: 1,
+			total: 0,
+			totalPages: 0,
 			hasPrevPage: false,
 			hasNextPage: false,
 		});

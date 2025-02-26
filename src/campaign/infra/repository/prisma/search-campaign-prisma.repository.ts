@@ -1,9 +1,9 @@
 import type { CustomPrismaService } from "nestjs-prisma";
-import type { QueryableDTO } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
 import { SearchCampaignDTO } from "./dto/search-campaign.dto";
 import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import type { QueryableDTO } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 
 @Injectable()
 export class SearchCampaignPrismaRepository {
@@ -11,8 +11,11 @@ export class SearchCampaignPrismaRepository {
 		@Inject(PrismaService)
 		private readonly prismaExtended: CustomPrismaService<ExtendedPrismaClient>,
 	) {}
+
 	async getAll(query: QueryableDTO): Promise<SearchCampaignDTO> {
-		const { page, limit, search, orderBy, order } = query;
+		let { page, limit, search, orderBy, order } = query;
+		page = Math.max(1, page);
+		limit = Math.max(1, limit);
 		const skip = (page - 1) * limit;
 
 		const orderOptions = order ? { [orderBy]: order } : undefined;
@@ -46,21 +49,11 @@ export class SearchCampaignPrismaRepository {
 				}),
 			]);
 
-			const totalPages = Math.ceil(total / limit);
-			const hasPrevPage = page > 1;
-			const hasNextPage = page < totalPages;
+			const totalPages = total > 0 ? Math.ceil(total / limit) : 0;
+			const hasPrevPage = totalPages > 0 && page > 1;
+			const hasNextPage = totalPages > 0 && page < totalPages;
 
-			const response = {
-				result: data,
-				page,
-				limit,
-				count: total,
-				totalPages,
-				hasPrevPage,
-				hasNextPage,
-			};
-
-			const dto = new SearchCampaignDTO(response.result);
+			const dto = new SearchCampaignDTO(data);
 			dto.isSuccess = true;
 			dto.isFailure = false;
 			dto.metadata = {
