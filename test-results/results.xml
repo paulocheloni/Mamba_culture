@@ -1,27 +1,643 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="11" failures="0" errors="0" time="0.143">
-  <testsuite name="CampaignBuilder" errors="0" failures="0" skipped="0" timestamp="2025-02-24T02:34:19" time="0.108" tests="11">
-    <testcase classname="CampaignBuilder builds a valid campaign" name="CampaignBuilder builds a valid campaign" time="0.001">
+<testsuites name="jest tests" tests="280" failures="0" errors="0" time="3.092">
+  <testsuite name="CampaignPrismaRepository" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.372" tests="15">
+    <testcase classname="CampaignPrismaRepository should be defined" name="CampaignPrismaRepository should be defined" time="0.019">
     </testcase>
-    <testcase classname="CampaignBuilder throws if id is missing" name="CampaignBuilder throws if id is missing" time="0.005">
+    <testcase classname="CampaignPrismaRepository should have a create method" name="CampaignPrismaRepository should have a create method" time="0.001">
     </testcase>
-    <testcase classname="CampaignBuilder throws if name is missing" name="CampaignBuilder throws if name is missing" time="0">
+    <testcase classname="CampaignPrismaRepository should have a save method" name="CampaignPrismaRepository should have a save method" time="0">
     </testcase>
-    <testcase classname="CampaignBuilder throws if status is missing" name="CampaignBuilder throws if status is missing" time="0.001">
+    <testcase classname="CampaignPrismaRepository should have a getById method" name="CampaignPrismaRepository should have a getById method" time="0">
     </testcase>
-    <testcase classname="CampaignBuilder throws if category is missing" name="CampaignBuilder throws if category is missing" time="0">
+    <testcase classname="CampaignPrismaRepository should have a getByName method" name="CampaignPrismaRepository should have a getByName method" time="0.001">
     </testcase>
-    <testcase classname="CampaignBuilder throws if createdAt is missing" name="CampaignBuilder throws if createdAt is missing" time="0">
+    <testcase classname="CampaignPrismaRepository create should create a new campaign successfully" name="CampaignPrismaRepository create should create a new campaign successfully" time="0.004">
     </testcase>
-    <testcase classname="CampaignBuilder throws if startDate is missing" name="CampaignBuilder throws if startDate is missing" time="0.001">
+    <testcase classname="CampaignPrismaRepository create should return failure when creation fails" name="CampaignPrismaRepository create should return failure when creation fails" time="0.002">
     </testcase>
-    <testcase classname="CampaignBuilder throws if endDate is missing" name="CampaignBuilder throws if endDate is missing" time="0">
+    <testcase classname="CampaignPrismaRepository getById should return campaign when found" name="CampaignPrismaRepository getById should return campaign when found" time="0.003">
     </testcase>
-    <testcase classname="CampaignBuilder when creating it should not allow campaign with endDate &lt; startDate" name="CampaignBuilder when creating it should not allow campaign with endDate &lt; startDate" time="0.001">
+    <testcase classname="CampaignPrismaRepository getById should return failure when campaign not found" name="CampaignPrismaRepository getById should return failure when campaign not found" time="0.002">
     </testcase>
-    <testcase classname="CampaignBuilder throws if endDate is before startDate" name="CampaignBuilder throws if endDate is before startDate" time="0.001">
+    <testcase classname="CampaignPrismaRepository getById should return failure on database error" name="CampaignPrismaRepository getById should return failure on database error" time="0.002">
     </testcase>
-    <testcase classname="CampaignBuilder throws if startDate is not greater than createdAt" name="CampaignBuilder throws if startDate is not greater than createdAt" time="0">
+    <testcase classname="CampaignPrismaRepository save should update campaign successfully" name="CampaignPrismaRepository save should update campaign successfully" time="0.005">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository save should return failure when update fails" name="CampaignPrismaRepository save should return failure when update fails" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getByName should return campaign when found by name" name="CampaignPrismaRepository getByName should return campaign when found by name" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getByName should return failure when campaign not found by name" name="CampaignPrismaRepository getByName should return failure when campaign not found by name" time="0.003">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getByName should return failure on database error" name="CampaignPrismaRepository getByName should return failure on database error" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="DeleteCampaignUseCase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.712" tests="2">
+    <testcase classname="DeleteCampaignUseCase should throw an error if campaign is not found" name="DeleteCampaignUseCase should throw an error if campaign is not found" time="0.028">
+    </testcase>
+    <testcase classname="DeleteCampaignUseCase should delete campaign if found and then save it" name="DeleteCampaignUseCase should delete campaign if found and then save it" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="UpdateCampaignUseCase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.696" tests="4">
+    <testcase classname="UpdateCampaignUseCase should throw an error if campaign does not exist" name="UpdateCampaignUseCase should throw an error if campaign does not exist" time="0.048">
+    </testcase>
+    <testcase classname="UpdateCampaignUseCase should throw an error if campaign is deleted" name="UpdateCampaignUseCase should throw an error if campaign is deleted" time="0.002">
+    </testcase>
+    <testcase classname="UpdateCampaignUseCase should update campaign if it exists and is not deleted" name="UpdateCampaignUseCase should update campaign if it exists and is not deleted" time="0.003">
+    </testcase>
+    <testcase classname="UpdateCampaignUseCase should fail when a campaign already exists with the same name" name="UpdateCampaignUseCase should fail when a campaign already exists with the same name" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="UpdateCampaignUseCase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.797" tests="4">
+    <testcase classname="UpdateCampaignUseCase should throw an error if campaign does not exist" name="UpdateCampaignUseCase should throw an error if campaign does not exist" time="0.027">
+    </testcase>
+    <testcase classname="UpdateCampaignUseCase should throw an error if campaign is deleted" name="UpdateCampaignUseCase should throw an error if campaign is deleted" time="0.001">
+    </testcase>
+    <testcase classname="UpdateCampaignUseCase should update campaign if it exists and is not deleted" name="UpdateCampaignUseCase should update campaign if it exists and is not deleted" time="0.004">
+    </testcase>
+    <testcase classname="UpdateCampaignUseCase should fail when a campaign already exists with the same name" name="UpdateCampaignUseCase should fail when a campaign already exists with the same name" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignRepository" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.861" tests="10">
+    <testcase classname="CampaignRepository should be defined" name="CampaignRepository should be defined" time="0.04">
+    </testcase>
+    <testcase classname="CampaignRepository create should store a new campaign" name="CampaignRepository create should store a new campaign" time="0.003">
+    </testcase>
+    <testcase classname="CampaignRepository save should update existing campaign" name="CampaignRepository save should update existing campaign" time="0.005">
+    </testcase>
+    <testcase classname="CampaignRepository save should fail when campaign doesn&apos;t exist" name="CampaignRepository save should fail when campaign doesn&apos;t exist" time="0.001">
+    </testcase>
+    <testcase classname="CampaignRepository getById should get a campaign by ID" name="CampaignRepository getById should get a campaign by ID" time="0.003">
+    </testcase>
+    <testcase classname="CampaignRepository getById should fail when campaign is not found" name="CampaignRepository getById should fail when campaign is not found" time="0.001">
+    </testcase>
+    <testcase classname="CampaignRepository getAll should get all campaigns" name="CampaignRepository getAll should get all campaigns" time="0.002">
+    </testcase>
+    <testcase classname="CampaignRepository getAll should return empty array when no campaigns exist" name="CampaignRepository getAll should return empty array when no campaigns exist" time="0.001">
+    </testcase>
+    <testcase classname="CampaignRepository getByName should get a campaign by name" name="CampaignRepository getByName should get a campaign by name" time="0.001">
+    </testcase>
+    <testcase classname="CampaignRepository getByName should fail when campaign is not found" name="CampaignRepository getByName should fail when campaign is not found" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CreateCampaignUsecase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.851" tests="11">
+    <testcase classname="CreateCampaignUsecase should be defined" name="CreateCampaignUsecase should be defined" time="0.015">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should create a campaign" name="CreateCampaignUsecase should create a campaign" time="0.004">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when endDate is less than startDate" name="CreateCampaignUsecase should throw an error when endDate is less than startDate" time="0.002">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when startDate is less than createdAt" name="CreateCampaignUsecase should throw an error when startDate is less than createdAt" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when startDate is missing" name="CreateCampaignUsecase should throw an error when startDate is missing" time="0.003">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when endDate is missing" name="CreateCampaignUsecase should throw an error when endDate is missing" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when createdAt is bigger than startDate" name="CreateCampaignUsecase should throw an error when createdAt is bigger than startDate" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when name is missing" name="CreateCampaignUsecase should throw an error when name is missing" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when category is missing" name="CreateCampaignUsecase should throw an error when category is missing" time="0">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should create campaign active by default" name="CreateCampaignUsecase should create campaign active by default" time="0.002">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should fail when an campaign with the same name already exists" name="CreateCampaignUsecase should fail when an campaign with the same name already exists" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignRepository" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="1.883" tests="10">
+    <testcase classname="CampaignRepository should be defined" name="CampaignRepository should be defined" time="0.048">
+    </testcase>
+    <testcase classname="CampaignRepository create should store a new campaign" name="CampaignRepository create should store a new campaign" time="0.002">
+    </testcase>
+    <testcase classname="CampaignRepository save should update existing campaign" name="CampaignRepository save should update existing campaign" time="0.008">
+    </testcase>
+    <testcase classname="CampaignRepository save should fail when campaign doesn&apos;t exist" name="CampaignRepository save should fail when campaign doesn&apos;t exist" time="0.001">
+    </testcase>
+    <testcase classname="CampaignRepository getById should get a campaign by ID" name="CampaignRepository getById should get a campaign by ID" time="0.007">
+    </testcase>
+    <testcase classname="CampaignRepository getById should fail when campaign is not found" name="CampaignRepository getById should fail when campaign is not found" time="0.004">
+    </testcase>
+    <testcase classname="CampaignRepository getAll should get all campaigns" name="CampaignRepository getAll should get all campaigns" time="0.018">
+    </testcase>
+    <testcase classname="CampaignRepository getAll should return empty array when no campaigns exist" name="CampaignRepository getAll should return empty array when no campaigns exist" time="0.001">
+    </testcase>
+    <testcase classname="CampaignRepository getByName should get a campaign by name" name="CampaignRepository getByName should get a campaign by name" time="0.003">
+    </testcase>
+    <testcase classname="CampaignRepository getByName should fail when campaign is not found" name="CampaignRepository getByName should fail when campaign is not found" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="UpdateCampaignDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="0.068" tests="1">
+    <testcase classname="UpdateCampaignDto should allow assignment of inherited properties and id" name="UpdateCampaignDto should allow assignment of inherited properties and id" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignBuilder" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="0.137" tests="11">
+    <testcase classname="CampaignBuilder builds a valid campaign" name="CampaignBuilder builds a valid campaign" time="0.008">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if id is missing" name="CampaignBuilder returns failure if id is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if name is missing" name="CampaignBuilder returns failure if name is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if status is missing" name="CampaignBuilder returns failure if status is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if category is missing" name="CampaignBuilder returns failure if category is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if createdAt is missing" name="CampaignBuilder returns failure if createdAt is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if startDate is missing" name="CampaignBuilder returns failure if startDate is missing" time="0.002">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if endDate is missing" name="CampaignBuilder returns failure if endDate is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure when endDate is less than startDate" name="CampaignBuilder returns failure when endDate is less than startDate" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure when startDate is not greater than createdAt" name="CampaignBuilder returns failure when startDate is not greater than createdAt" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder aCampaign returns a valid campaign with default values" name="CampaignBuilder aCampaign returns a valid campaign with default values" time="0.013">
+    </testcase>
+  </testsuite>
+  <testsuite name="CreateCampaignUsecase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="0.298" tests="11">
+    <testcase classname="CreateCampaignUsecase should be defined" name="CreateCampaignUsecase should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should create a campaign" name="CreateCampaignUsecase should create a campaign" time="0.01">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when endDate is less than startDate" name="CreateCampaignUsecase should throw an error when endDate is less than startDate" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when startDate is less than createdAt" name="CreateCampaignUsecase should throw an error when startDate is less than createdAt" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when startDate is missing" name="CreateCampaignUsecase should throw an error when startDate is missing" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when endDate is missing" name="CreateCampaignUsecase should throw an error when endDate is missing" time="0.006">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when createdAt is bigger than startDate" name="CreateCampaignUsecase should throw an error when createdAt is bigger than startDate" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when name is missing" name="CreateCampaignUsecase should throw an error when name is missing" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should throw an error when category is missing" name="CreateCampaignUsecase should throw an error when category is missing" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should create campaign active by default" name="CreateCampaignUsecase should create campaign active by default" time="0.006">
+    </testcase>
+    <testcase classname="CreateCampaignUsecase should fail when an campaign with the same name already exists" name="CreateCampaignUsecase should fail when an campaign with the same name already exists" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignError" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.085" tests="16">
+    <testcase classname="CampaignError should return default message for code ID_REQUIRED" name="CampaignError should return default message for code ID_REQUIRED" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code NAME_REQUIRED" name="CampaignError should return default message for code NAME_REQUIRED" time="0.018">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code STATUS_REQUIRED" name="CampaignError should return default message for code STATUS_REQUIRED" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CATEGORY_REQUIRED" name="CampaignError should return default message for code CATEGORY_REQUIRED" time="0.004">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CREATED_AT_REQUIRED" name="CampaignError should return default message for code CREATED_AT_REQUIRED" time="0">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code START_DATE_REQUIRED" name="CampaignError should return default message for code START_DATE_REQUIRED" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code END_DATE_REQUIRED" name="CampaignError should return default message for code END_DATE_REQUIRED" time="0">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code END_DATE_BEFORE_START_DATE" name="CampaignError should return default message for code END_DATE_BEFORE_START_DATE" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code START_DATE_BEFORE_CREATED_AT" name="CampaignError should return default message for code START_DATE_BEFORE_CREATED_AT" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_PAUSE_EXPIRED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_PAUSE_EXPIRED_CAMPAIGN" time="0">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_PAUSE_DELETED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_PAUSE_DELETED_CAMPAIGN" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_ACTIVATE_EXPIRED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_ACTIVATE_EXPIRED_CAMPAIGN" time="0.005">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_ACTIVATE_DELETED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_ACTIVATE_DELETED_CAMPAIGN" time="0">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CAMPAIGN_NOT_FOUND" name="CampaignError should return default message for code CAMPAIGN_NOT_FOUND" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CAMPAIGN_ALREADY_EXISTS" name="CampaignError should return default message for code CAMPAIGN_ALREADY_EXISTS" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should use custom message when provided" name="CampaignError should use custom message when provided" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="Result" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.114" tests="3">
+    <testcase classname="Result ok should return a success result with a value" name="Result ok should return a success result with a value" time="0.002">
+    </testcase>
+    <testcase classname="Result ok should return a success result with undefined value when no value is provided" name="Result ok should return a success result with undefined value when no value is provided" time="0.001">
+    </testcase>
+    <testcase classname="Result fail should return a failure result with an error" name="Result fail should return a failure result with an error" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.15" tests="13">
+    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.026">
+    </testcase>
+    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.003">
+    </testcase>
+    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0.003">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.016">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0.004">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.004">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0.005">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should be defined" name="CampaignController getAllCampaigns should be defined" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should call repository.getAll" name="CampaignController getAllCampaigns should call repository.getAll" time="0.004">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should return the campaigns" name="CampaignController getAllCampaigns should return the campaigns" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="DeleteCampaignUseCase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.153" tests="2">
+    <testcase classname="DeleteCampaignUseCase should throw an error if campaign is not found" name="DeleteCampaignUseCase should throw an error if campaign is not found" time="0.062">
+    </testcase>
+    <testcase classname="DeleteCampaignUseCase should delete campaign if found and then save it" name="DeleteCampaignUseCase should delete campaign if found and then save it" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="Result" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.153" tests="3">
+    <testcase classname="Result ok should return a success result with a value" name="Result ok should return a success result with a value" time="0.002">
+    </testcase>
+    <testcase classname="Result ok should return a success result with undefined value when no value is provided" name="Result ok should return a success result with undefined value when no value is provided" time="0.005">
+    </testcase>
+    <testcase classname="Result fail should return a failure result with an error" name="Result fail should return a failure result with an error" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Campaign" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.096" tests="11">
+    <testcase classname="Campaign should be defined" name="Campaign should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should return true when status is active" name="Campaign should return true when status is active" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should return true when status is paused" name="Campaign should return true when status is paused" time="0">
+    </testcase>
+    <testcase classname="Campaign should return true when status is expired" name="Campaign should return true when status is expired" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should throw an error when endDate is less than startDate" name="Campaign should throw an error when endDate is less than startDate" time="0">
+    </testcase>
+    <testcase classname="Campaign should throw an error when startDate is less than createdAt" name="Campaign should throw an error when startDate is less than createdAt" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should be possible to delete a campaign" name="Campaign should be possible to delete a campaign" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should be possible to pause a campaign" name="Campaign should be possible to pause a campaign" time="0">
+    </testcase>
+    <testcase classname="Campaign should be possible to activate a campaign" name="Campaign should be possible to activate a campaign" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should not be possible to activate a deleted campaign" name="Campaign should not be possible to activate a deleted campaign" time="0.024">
+    </testcase>
+    <testcase classname="Campaign should not be possible to activate an expired campaign" name="Campaign should not be possible to activate an expired campaign" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="CreateCampaignDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.076" tests="5">
+    <testcase classname="CreateCampaignDto should be defined" name="CreateCampaignDto should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a category property" name="CreateCampaignDto should have a category property" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a name property" name="CreateCampaignDto should have a name property" time="0">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a startDate property" name="CreateCampaignDto should have a startDate property" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a endDate property" name="CreateCampaignDto should have a endDate property" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignPrismaRepository" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="0.384" tests="15">
+    <testcase classname="CampaignPrismaRepository should be defined" name="CampaignPrismaRepository should be defined" time="0.002">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository should have a create method" name="CampaignPrismaRepository should have a create method" time="0">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository should have a save method" name="CampaignPrismaRepository should have a save method" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository should have a getById method" name="CampaignPrismaRepository should have a getById method" time="0">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository should have a getByName method" name="CampaignPrismaRepository should have a getByName method" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository create should create a new campaign successfully" name="CampaignPrismaRepository create should create a new campaign successfully" time="0.003">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository create should return failure when creation fails" name="CampaignPrismaRepository create should return failure when creation fails" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getById should return campaign when found" name="CampaignPrismaRepository getById should return campaign when found" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getById should return failure when campaign not found" name="CampaignPrismaRepository getById should return failure when campaign not found" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getById should return failure on database error" name="CampaignPrismaRepository getById should return failure on database error" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository save should update campaign successfully" name="CampaignPrismaRepository save should update campaign successfully" time="0.004">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository save should return failure when update fails" name="CampaignPrismaRepository save should return failure when update fails" time="0.011">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getByName should return campaign when found by name" name="CampaignPrismaRepository getByName should return campaign when found by name" time="0.002">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getByName should return failure when campaign not found by name" name="CampaignPrismaRepository getByName should return failure when campaign not found by name" time="0.001">
+    </testcase>
+    <testcase classname="CampaignPrismaRepository getByName should return failure on database error" name="CampaignPrismaRepository getByName should return failure on database error" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="envSchema" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.169" tests="4">
+    <testcase classname="envSchema should validate a valid set of environment variables" name="envSchema should validate a valid set of environment variables" time="0.003">
+    </testcase>
+    <testcase classname="envSchema should fail when required fields are missing" name="envSchema should fail when required fields are missing" time="0.003">
+    </testcase>
+    <testcase classname="envSchema should fail when NODE_ENV is not a valid enum" name="envSchema should fail when NODE_ENV is not a valid enum" time="0.003">
+    </testcase>
+    <testcase classname="envSchema should allow FRONTEND_URL to be optional" name="envSchema should allow FRONTEND_URL to be optional" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignErrorCodes" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.084" tests="2">
+    <testcase classname="CampaignErrorCodes should contain all the correct error codes" name="CampaignErrorCodes should contain all the correct error codes" time="0.013">
+    </testcase>
+    <testcase classname="CampaignErrorCodes should have exactly 17 error codes" name="CampaignErrorCodes should have exactly 17 error codes" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="GetCampaignQueryDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.343" tests="9">
+    <testcase classname="GetCampaignQueryDto should validate with default values" name="GetCampaignQueryDto should validate with default values" time="0.017">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should validate with valid custom values" name="GetCampaignQueryDto should validate with valid custom values" time="0.005">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if page is not a valid number" name="GetCampaignQueryDto should fail if page is not a valid number" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if limit is not a valid number" name="GetCampaignQueryDto should fail if limit is not a valid number" time="0.013">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if status is not &quot;active&quot; or &quot;paused&quot;" name="GetCampaignQueryDto should fail if status is not &quot;active&quot; or &quot;paused&quot;" time="0.003">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if includeDeleted is not a boolean" name="GetCampaignQueryDto should fail if includeDeleted is not a boolean" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if order is not &quot;asc&quot; or &quot;desc&quot;" name="GetCampaignQueryDto should fail if order is not &quot;asc&quot; or &quot;desc&quot;" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if orderBy exceeds maximum length" name="GetCampaignQueryDto should fail if orderBy exceeds maximum length" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if search exceeds maximum length" name="GetCampaignQueryDto should fail if search exceeds maximum length" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="Campaign" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.137" tests="11">
+    <testcase classname="Campaign should be defined" name="Campaign should be defined" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should return true when status is active" name="Campaign should return true when status is active" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should return true when status is paused" name="Campaign should return true when status is paused" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should return true when status is expired" name="Campaign should return true when status is expired" time="0">
+    </testcase>
+    <testcase classname="Campaign should throw an error when endDate is less than startDate" name="Campaign should throw an error when endDate is less than startDate" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should throw an error when startDate is less than createdAt" name="Campaign should throw an error when startDate is less than createdAt" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should be possible to delete a campaign" name="Campaign should be possible to delete a campaign" time="0">
+    </testcase>
+    <testcase classname="Campaign should be possible to pause a campaign" name="Campaign should be possible to pause a campaign" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should be possible to activate a campaign" name="Campaign should be possible to activate a campaign" time="0">
+    </testcase>
+    <testcase classname="Campaign should not be possible to activate a deleted campaign" name="Campaign should not be possible to activate a deleted campaign" time="0.001">
+    </testcase>
+    <testcase classname="Campaign should not be possible to activate an expired campaign" name="Campaign should not be possible to activate an expired campaign" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignError" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.182" tests="16">
+    <testcase classname="CampaignError should return default message for code ID_REQUIRED" name="CampaignError should return default message for code ID_REQUIRED" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code NAME_REQUIRED" name="CampaignError should return default message for code NAME_REQUIRED" time="0.004">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code STATUS_REQUIRED" name="CampaignError should return default message for code STATUS_REQUIRED" time="0.021">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CATEGORY_REQUIRED" name="CampaignError should return default message for code CATEGORY_REQUIRED" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CREATED_AT_REQUIRED" name="CampaignError should return default message for code CREATED_AT_REQUIRED" time="0.002">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code START_DATE_REQUIRED" name="CampaignError should return default message for code START_DATE_REQUIRED" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code END_DATE_REQUIRED" name="CampaignError should return default message for code END_DATE_REQUIRED" time="0">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code END_DATE_BEFORE_START_DATE" name="CampaignError should return default message for code END_DATE_BEFORE_START_DATE" time="0.002">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code START_DATE_BEFORE_CREATED_AT" name="CampaignError should return default message for code START_DATE_BEFORE_CREATED_AT" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_PAUSE_EXPIRED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_PAUSE_EXPIRED_CAMPAIGN" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_PAUSE_DELETED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_PAUSE_DELETED_CAMPAIGN" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_ACTIVATE_EXPIRED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_ACTIVATE_EXPIRED_CAMPAIGN" time="0.005">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CANNOT_ACTIVATE_DELETED_CAMPAIGN" name="CampaignError should return default message for code CANNOT_ACTIVATE_DELETED_CAMPAIGN" time="0.001">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CAMPAIGN_NOT_FOUND" name="CampaignError should return default message for code CAMPAIGN_NOT_FOUND" time="0">
+    </testcase>
+    <testcase classname="CampaignError should return default message for code CAMPAIGN_ALREADY_EXISTS" name="CampaignError should return default message for code CAMPAIGN_ALREADY_EXISTS" time="0">
+    </testcase>
+    <testcase classname="CampaignError should use custom message when provided" name="CampaignError should use custom message when provided" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="envSchema" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.132" tests="4">
+    <testcase classname="envSchema should validate a valid set of environment variables" name="envSchema should validate a valid set of environment variables" time="0.012">
+    </testcase>
+    <testcase classname="envSchema should fail when required fields are missing" name="envSchema should fail when required fields are missing" time="0.005">
+    </testcase>
+    <testcase classname="envSchema should fail when NODE_ENV is not a valid enum" name="envSchema should fail when NODE_ENV is not a valid enum" time="0.001">
+    </testcase>
+    <testcase classname="envSchema should allow FRONTEND_URL to be optional" name="envSchema should allow FRONTEND_URL to be optional" time="0.011">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignErrorCodes" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.14" tests="2">
+    <testcase classname="CampaignErrorCodes should contain all the correct error codes" name="CampaignErrorCodes should contain all the correct error codes" time="0.009">
+    </testcase>
+    <testcase classname="CampaignErrorCodes should have exactly 17 error codes" name="CampaignErrorCodes should have exactly 17 error codes" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="CreateCampaignDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.061" tests="5">
+    <testcase classname="CreateCampaignDto should be defined" name="CreateCampaignDto should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a category property" name="CreateCampaignDto should have a category property" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a name property" name="CreateCampaignDto should have a name property" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a startDate property" name="CreateCampaignDto should have a startDate property" time="0">
+    </testcase>
+    <testcase classname="CreateCampaignDto should have a endDate property" name="CreateCampaignDto should have a endDate property" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignBuilder" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.129" tests="11">
+    <testcase classname="CampaignBuilder builds a valid campaign" name="CampaignBuilder builds a valid campaign" time="0.002">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if id is missing" name="CampaignBuilder returns failure if id is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if name is missing" name="CampaignBuilder returns failure if name is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if status is missing" name="CampaignBuilder returns failure if status is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if category is missing" name="CampaignBuilder returns failure if category is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if createdAt is missing" name="CampaignBuilder returns failure if createdAt is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if startDate is missing" name="CampaignBuilder returns failure if startDate is missing" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure if endDate is missing" name="CampaignBuilder returns failure if endDate is missing" time="0">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure when endDate is less than startDate" name="CampaignBuilder returns failure when endDate is less than startDate" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder returns failure when startDate is not greater than createdAt" name="CampaignBuilder returns failure when startDate is not greater than createdAt" time="0.001">
+    </testcase>
+    <testcase classname="CampaignBuilder aCampaign returns a valid campaign with default values" name="CampaignBuilder aCampaign returns a valid campaign with default values" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="UpdateCampaignDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:05" time="0.092" tests="1">
+    <testcase classname="UpdateCampaignDto should allow assignment of inherited properties and id" name="UpdateCampaignDto should allow assignment of inherited properties and id" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppModule" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.471" tests="1">
+    <testcase classname="AppModule should be defined" name="AppModule should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignController" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.526" tests="13">
+    <testcase classname="CampaignController should be defined" name="CampaignController should be defined" time="0.047">
+    </testcase>
+    <testcase classname="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" name="CampaignController createCampaign should call createCampaignUsecase.execute with the correct data" time="0.013">
+    </testcase>
+    <testcase classname="CampaignController createCampaign should return the result of createCampaignUsecase.execute" name="CampaignController createCampaign should return the result of createCampaignUsecase.execute" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should be defined" name="CampaignController getCampaign should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should return a campaign" name="CampaignController getCampaign should return a campaign" time="0.004">
+    </testcase>
+    <testcase classname="CampaignController getCampaign should throw an error if the campaign does not exist" name="CampaignController getCampaign should throw an error if the campaign does not exist" time="0.018">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should be defined" name="CampaignController deleteCampaign should be defined" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" name="CampaignController deleteCampaign should call deleteCampaignUsecase.execute with the correct data" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" name="CampaignController deleteCampaign should return the result of deleteCampaignUsecase.execute" time="0.002">
+    </testcase>
+    <testcase classname="CampaignController deleteCampaign should throw an error if the campaign does not exist" name="CampaignController deleteCampaign should throw an error if the campaign does not exist" time="0.003">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should be defined" name="CampaignController getAllCampaigns should be defined" time="0.001">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should call repository.getAll" name="CampaignController getAllCampaigns should call repository.getAll" time="0.003">
+    </testcase>
+    <testcase classname="CampaignController getAllCampaigns should return the campaigns" name="CampaignController getAllCampaigns should return the campaigns" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="GetCampaignUsecase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.532" tests="1">
+    <testcase classname="GetCampaignUsecase should be defined" name="GetCampaignUsecase should be defined" time="0.008">
+    </testcase>
+  </testsuite>
+  <testsuite name="CreateCampaignBodyDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.577" tests="7">
+    <testcase classname="CreateCampaignBodyDto should validate correctly with valid data" name="CreateCampaignBodyDto should validate correctly with valid data" time="0.013">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;name&quot; is empty" name="CreateCampaignBodyDto should fail validation if &quot;name&quot; is empty" time="0.003">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;category&quot; is empty" name="CreateCampaignBodyDto should fail validation if &quot;category&quot; is empty" time="0.003">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is invalid" name="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is invalid" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is invalid" name="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is invalid" time="0.002">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is missing" name="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is missing" time="0.011">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is missing" name="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is missing" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="CreateCampaignBodyDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.55" tests="7">
+    <testcase classname="CreateCampaignBodyDto should validate correctly with valid data" name="CreateCampaignBodyDto should validate correctly with valid data" time="0.009">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;name&quot; is empty" name="CreateCampaignBodyDto should fail validation if &quot;name&quot; is empty" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;category&quot; is empty" name="CreateCampaignBodyDto should fail validation if &quot;category&quot; is empty" time="0">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is invalid" name="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is invalid" time="0">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is invalid" name="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is invalid" time="0.001">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is missing" name="CreateCampaignBodyDto should fail validation if &quot;startDate&quot; is missing" time="0">
+    </testcase>
+    <testcase classname="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is missing" name="CreateCampaignBodyDto should fail validation if &quot;endDate&quot; is missing" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppModule" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.578" tests="1">
+    <testcase classname="AppModule should be defined" name="AppModule should be defined" time="0.006">
+    </testcase>
+  </testsuite>
+  <testsuite name="GetCampaignQueryDto" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.579" tests="9">
+    <testcase classname="GetCampaignQueryDto should validate with default values" name="GetCampaignQueryDto should validate with default values" time="0.01">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should validate with valid custom values" name="GetCampaignQueryDto should validate with valid custom values" time="0.003">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if page is not a valid number" name="GetCampaignQueryDto should fail if page is not a valid number" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if limit is not a valid number" name="GetCampaignQueryDto should fail if limit is not a valid number" time="0.006">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if status is not &quot;active&quot; or &quot;paused&quot;" name="GetCampaignQueryDto should fail if status is not &quot;active&quot; or &quot;paused&quot;" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if includeDeleted is not a boolean" name="GetCampaignQueryDto should fail if includeDeleted is not a boolean" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if order is not &quot;asc&quot; or &quot;desc&quot;" name="GetCampaignQueryDto should fail if order is not &quot;asc&quot; or &quot;desc&quot;" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if orderBy exceeds maximum length" name="GetCampaignQueryDto should fail if orderBy exceeds maximum length" time="0.001">
+    </testcase>
+    <testcase classname="GetCampaignQueryDto should fail if search exceeds maximum length" name="GetCampaignQueryDto should fail if search exceeds maximum length" time="0">
+    </testcase>
+  </testsuite>
+  <testsuite name="SearchCampaignPrismaRepository" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="0.817" tests="13">
+    <testcase classname="SearchCampaignPrismaRepository should be defined" name="SearchCampaignPrismaRepository should be defined" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should return a list of active campaigns" name="SearchCampaignPrismaRepository should return a list of active campaigns" time="0.003">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle a search with no results" name="SearchCampaignPrismaRepository should handle a search with no results" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle database errors" name="SearchCampaignPrismaRepository should handle database errors" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle pagination with multiple pages" name="SearchCampaignPrismaRepository should handle pagination with multiple pages" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should search campaigns by name with partial match" name="SearchCampaignPrismaRepository should search campaigns by name with partial match" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle case-insensitive search" name="SearchCampaignPrismaRepository should handle case-insensitive search" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should return all campaigns for empty search" name="SearchCampaignPrismaRepository should return all campaigns for empty search" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should order by createdAt ascending" name="SearchCampaignPrismaRepository should order by createdAt ascending" time="0.008">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should order by name descending" name="SearchCampaignPrismaRepository should order by name descending" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle page beyond total pages" name="SearchCampaignPrismaRepository should handle page beyond total pages" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle invalid page number" name="SearchCampaignPrismaRepository should handle invalid page number" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle zero limit" name="SearchCampaignPrismaRepository should handle zero limit" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="SearchCampaignPrismaRepository" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="0.949" tests="13">
+    <testcase classname="SearchCampaignPrismaRepository should be defined" name="SearchCampaignPrismaRepository should be defined" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should return a list of active campaigns" name="SearchCampaignPrismaRepository should return a list of active campaigns" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle a search with no results" name="SearchCampaignPrismaRepository should handle a search with no results" time="0.001">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle database errors" name="SearchCampaignPrismaRepository should handle database errors" time="0.007">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle pagination with multiple pages" name="SearchCampaignPrismaRepository should handle pagination with multiple pages" time="0.003">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should search campaigns by name with partial match" name="SearchCampaignPrismaRepository should search campaigns by name with partial match" time="0.003">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle case-insensitive search" name="SearchCampaignPrismaRepository should handle case-insensitive search" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should return all campaigns for empty search" name="SearchCampaignPrismaRepository should return all campaigns for empty search" time="0.003">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should order by createdAt ascending" name="SearchCampaignPrismaRepository should order by createdAt ascending" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should order by name descending" name="SearchCampaignPrismaRepository should order by name descending" time="0.003">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle page beyond total pages" name="SearchCampaignPrismaRepository should handle page beyond total pages" time="0.002">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle invalid page number" name="SearchCampaignPrismaRepository should handle invalid page number" time="0.008">
+    </testcase>
+    <testcase classname="SearchCampaignPrismaRepository should handle zero limit" name="SearchCampaignPrismaRepository should handle zero limit" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignModule" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.66" tests="1">
+    <testcase classname="CampaignModule should be defined" name="CampaignModule should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="GetCampaignUsecase" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:03" time="2.652" tests="1">
+    <testcase classname="GetCampaignUsecase should be defined" name="GetCampaignUsecase should be defined" time="0.004">
+    </testcase>
+  </testsuite>
+  <testsuite name="CampaignModule" errors="0" failures="0" skipped="0" timestamp="2025-02-26T06:53:04" time="1.365" tests="1">
+    <testcase classname="CampaignModule should be defined" name="CampaignModule should be defined" time="0.001">
     </testcase>
   </testsuite>
 </testsuites>
