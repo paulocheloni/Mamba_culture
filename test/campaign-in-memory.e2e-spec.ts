@@ -68,7 +68,7 @@ describe("AppController (e2e)", () => {
 
 			expect(response.body.isSuccess).toBe(true);
 			expect(response.body.isFailure).toBe(false);
-			expect(response.body.value).toBeUndefined();
+			expect(response.body.value).toBeDefined();
 			expect(response.body.error).toBeUndefined();
 		});
 
@@ -117,163 +117,19 @@ describe("AppController (e2e)", () => {
 		});
 	});
 
-	describe("GET /campaign", () => {
-		it("should return a list of active campaigns", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
-
-			await createCampaign({
-				name: "Active Campaign",
-				category: "seasonal" as CampaignCategory,
-				startDate: futureStart,
-				endDate: futureEnd,
-			}).expect(201);
-
-			const response = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-
-			expect(response.body.isSuccess).toBe(true);
-			expect(response.body.isFailure).toBe(false);
-			expect(Array.isArray(response.body.value)).toBe(true);
-			expect(response.body.value.length).toBe(1);
-			expect(response.body.value[0].name).toBe("Active Campaign");
-			expect(response.body.value[0].category).toBe("seasonal");
-			expect(response.body.value[0].status).toBe("active");
-			expect(response.body.value[0].deletedAt).toBeUndefined();
-			expect(response.body.error).toBeUndefined();
-		});
-
-		it("should not return deleted campaigns in the list", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
-
-			await createCampaign({
-				name: "To Delete",
-				category: "seasonal" as CampaignCategory,
-				startDate: futureStart,
-				endDate: futureEnd,
-			}).expect(201);
-
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
-
-			await request(app.getHttpServer())
-				.delete(`/campaign/${campaignId}`)
-				.expect(200);
-
-			const response = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-
-			expect(response.body.isSuccess).toBe(true);
-			expect(response.body.isFailure).toBe(false);
-			expect(Array.isArray(response.body.value)).toBe(true);
-			expect(response.body.value.length).toBe(0);
-			expect(response.body.error).toBeUndefined();
-		});
-
-		it("should return only active campaigns when mixed with deleted ones", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
-
-			await createCampaign({
-				name: "Active Campaign 1",
-				category: "seasonal" as CampaignCategory,
-				startDate: futureStart,
-				endDate: futureEnd,
-			}).expect(201);
-
-			await createCampaign({
-				name: "To Delete",
-				category: "regular" as CampaignCategory,
-				startDate: futureStart,
-				endDate: futureEnd,
-			}).expect(201);
-
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignToDeleteId = responseGetAll.body.value.find(
-				(c: any) => c.name === "To Delete",
-			).id;
-
-			await request(app.getHttpServer())
-				.delete(`/campaign/${campaignToDeleteId}`)
-				.expect(200);
-
-			const response = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-
-			expect(response.body.isSuccess).toBe(true);
-			expect(response.body.isFailure).toBe(false);
-			expect(Array.isArray(response.body.value)).toBe(true);
-			expect(response.body.value.length).toBe(1);
-			expect(response.body.value[0].name).toBe("Active Campaign 1");
-			expect(response.body.value[0].deletedAt).toBeUndefined();
-			expect(response.body.error).toBeUndefined();
-		});
-
-		it("should return empty list when all campaigns are deleted", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
-
-			await createCampaign({
-				name: "Campaign 1",
-				category: "seasonal" as CampaignCategory,
-				startDate: futureStart,
-				endDate: futureEnd,
-			}).expect(201);
-
-			await createCampaign({
-				name: "Campaign 2",
-				category: "regular" as CampaignCategory,
-				startDate: futureStart,
-				endDate: futureEnd,
-			}).expect(201);
-
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignIds = responseGetAll.body.value.map((c: any) => c.id);
-
-			for (const id of campaignIds) {
-				await request(app.getHttpServer())
-					.delete(`/campaign/${id}`)
-					.expect(200);
-			}
-
-			const response = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-
-			expect(response.body.isSuccess).toBe(true);
-			expect(response.body.isFailure).toBe(false);
-			expect(Array.isArray(response.body.value)).toBe(true);
-			expect(response.body.value.length).toBe(0);
-			expect(response.body.error).toBeUndefined();
-		});
-	});
-
 	describe("GET /campaign/:id", () => {
 		it("should return a campaign by ID when not deleted", async () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Specific Campaign",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id as string;
 
 			const response = await request(app.getHttpServer())
 				.get(`/campaign/${campaignId}`)
@@ -305,17 +161,14 @@ describe("AppController (e2e)", () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "To Delete",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id as string;
 
 			await request(app.getHttpServer())
 				.delete(`/campaign/${campaignId}`)
@@ -336,33 +189,27 @@ describe("AppController (e2e)", () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Campaign 1",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll1 = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignIdToDelete = responseGetAll1.body.value[0].id;
+			const campaignIdToDelete = created.body.value.id as string;
 
 			await request(app.getHttpServer())
 				.delete(`/campaign/${campaignIdToDelete}`)
 				.expect(200);
 
-			await createCampaign({
+			const created2 = await createCampaign({
 				name: "Campaign 2",
 				category: "regular" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll2 = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const newCampaignId = responseGetAll2.body.value[0].id;
+			const newCampaignId = created2.body.value.id as string;
 
 			const responseDeleted = await request(app.getHttpServer())
 				.get(`/campaign/${campaignIdToDelete}`)
@@ -392,17 +239,14 @@ describe("AppController (e2e)", () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Old Campaign",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			const updatedData = {
 				name: "Updated Campaign",
@@ -424,17 +268,14 @@ describe("AppController (e2e)", () => {
 		});
 
 		it("should fail if endDate is before startDate", async () => {
-			await createCampaign({
+			const created = await createCampaign({
 				name: "To Update",
 				category: "seasonal" as CampaignCategory,
 				startDate: new Date("2025-03-01"),
 				endDate: new Date("2025-04-01"),
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			const invalidData = {
 				endDate: new Date("2025-02-01"),
@@ -461,17 +302,14 @@ describe("AppController (e2e)", () => {
 
 	describe("DELETE /campaign/:id", () => {
 		it("should soft delete a campaign", async () => {
-			await createCampaign({
+			const response = await createCampaign({
 				name: "To Delete",
 				category: "seasonal" as CampaignCategory,
 				startDate: new Date("2025-03-01"),
 				endDate: new Date("2025-04-01"),
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = response.body.value.id;
 
 			const deleteResponse = await request(app.getHttpServer())
 				.delete(`/campaign/${campaignId}`)

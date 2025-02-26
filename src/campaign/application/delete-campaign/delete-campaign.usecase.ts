@@ -14,11 +14,11 @@ export class DeleteCampaignUseCase {
 	async execute(id: string) {
 		const findResult = await this.campaignRepository.getById(id);
 		if (findResult.isFailure) {
-			return Result.fail(findResult.error);
+			return Result.fail<void>(findResult.error);
 		}
 
 		if (!findResult?.value) {
-			return Result.fail(
+			return Result.fail<void>(
 				new CampaignError(
 					CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 					"Campaign not found",
@@ -27,7 +27,7 @@ export class DeleteCampaignUseCase {
 		}
 		const deletionResult = findResult.value.delete();
 		if (!deletionResult?.isSuccess) {
-			return Result.fail(deletionResult.error);
+			return Result.fail<void>(deletionResult.error);
 		}
 
 		return this.campaignRepository.save(findResult.value);

@@ -14,7 +14,7 @@ export class CreateCampaignUseCase {
 		private readonly campaignRepository: ICampaignRepository,
 	) {}
 
-	async execute(data: CreateCampaignDto): Promise<Result<void>> {
+	async execute(data: CreateCampaignDto): Promise<Result<{ id: string }>> {
 		const campaign = new CampaignBuilder()
 			.withCategory(data.category)
 			.withCreatedAt(new Date())
@@ -39,6 +39,12 @@ export class CreateCampaignUseCase {
 			);
 		}
 
-		return this.campaignRepository.create(campaign.value);
+		const result = await this.campaignRepository.create(campaign.value);
+
+		if (result.isFailure) {
+			return Result.fail(result.error);
+		}
+
+		return Result.ok({ id: campaign.value.id });
 	}
 }

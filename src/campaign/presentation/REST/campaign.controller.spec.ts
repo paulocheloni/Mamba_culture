@@ -7,15 +7,17 @@ import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-ca
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
 import { DeleteCampaignUseCase } from "src/campaign/application/delete-campaign/delete-campaign.usecase";
-import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
-import { Result } from "src/shared/domain/result/result";
+import { SearchMetadataDTO } from "src/shared/infra/result/search.metadata.dto";
+import { SearchCampaignDTO } from "src/campaign/infra/repository/prisma/dto/search-campaign.dto";
+import { GetCampaignResponseDto } from "./dto/response/get-campaign/get-campaign.response.dto";
+import { SearchCampaignPrismaRepository } from "src/campaign/infra/repository/prisma/search-campaign-prisma.repository";
 
 describe("CampaignController", () => {
 	let controller: CampaignController;
 	let createCampaignUseCase: Mocked<CreateCampaignUseCase>;
 	let getCampaignUseCase: Mocked<GetCampaignUseCase>;
 	let deleteCampaignUseCase: Mocked<DeleteCampaignUseCase>;
-	let campaignRepository: Mocked<ICampaignRepository>;
+	let campaignRepository: Mocked<SearchCampaignPrismaRepository>;
 
 	beforeEach(async () => {
 		const { unit, unitRef } =
@@ -24,7 +26,7 @@ describe("CampaignController", () => {
 		createCampaignUseCase = unitRef.get(CreateCampaignUseCase);
 		getCampaignUseCase = unitRef.get(GetCampaignUseCase);
 		deleteCampaignUseCase = unitRef.get(DeleteCampaignUseCase);
-		campaignRepository = unitRef.get(ICampaignRepository);
+		campaignRepository = unitRef.get(SearchCampaignPrismaRepository);
 	});
 
 	it("should be defined", () => {
@@ -153,15 +155,28 @@ describe("CampaignController", () => {
 				new CampaignBuilder().aCampaign(),
 			];
 			const result = campaigns.map((c) => c.value);
+			const metadata = new SearchMetadataDTO();
 
-			jest
-				.spyOn(campaignRepository, "getAll")
-				.mockResolvedValue(Result.ok(result));
+			const dtos = result.map((c) => new GetCampaignResponseDto(c));
+			const resultDTO = new SearchCampaignDTO(dtos);
+			resultDTO.metadata = metadata;
+			resultDTO.value = dtos;
+			resultDTO.isSuccess = true;
+			resultDTO.isFailure = false;
+			resultDTO.error = undefined;
 
-			await controller.getAllCampaigns({});
+			jest.spyOn(campaignRepository, "getAll").mockResolvedValue(resultDTO);
+
+			await controller.getAllCampaigns({
+				category: "regular",
+				status: "active",
+			});
 
 			expect(campaignRepository.getAll).toHaveBeenCalled();
-			expect(campaignRepository.getAll).toHaveBeenCalledWith({});
+			expect(campaignRepository.getAll).toHaveBeenCalledWith({
+				category: "regular",
+				status: "active",
+			});
 		});
 
 		it("should return the campaigns", async () => {
@@ -170,9 +185,27 @@ describe("CampaignController", () => {
 				new CampaignBuilder().aCampaign(),
 			];
 			const result = campaigns.map((c) => c.value);
-			jest
-				.spyOn(campaignRepository, "getAll")
-				.mockResolvedValue(Result.ok(result));
+			const metadata = new SearchMetadataDTO();
+
+			const dtos = result.map(
+				(c) =>
+					new GetCampaignResponseDto({
+						id: c.id,
+						name: c.name,
+						category: c.category,
+						status: c.status,
+						startDate: c.startDate,
+						endDate: c.endDate,
+						createdAt: c.createdAt,
+					}),
+			);
+			const resultDTO = new SearchCampaignDTO(dtos);
+			resultDTO.value = dtos;
+			resultDTO.isSuccess = true;
+			resultDTO.isFailure = false;
+			resultDTO.error = undefined;
+			resultDTO.metadata = metadata;
+			jest.spyOn(campaignRepository, "getAll").mockResolvedValue(resultDTO);
 
 			const response = await controller.getAllCampaigns({});
 
@@ -181,7 +214,7 @@ describe("CampaignController", () => {
 			expect(response.error).toBeUndefined();
 			expect(response.isSuccess).toBe(true);
 			expect(response.isFailure).toBe(false);
-			expect(response.value).toMatchObject(result);
+			expect(response.value).toMatchObject(dtos);
 		});
 	});
 });

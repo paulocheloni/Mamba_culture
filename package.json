@@ -15,6 +15,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "biome \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "compodoc": "compodoc -p tsconfig.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -27,7 +28,9 @@
     "@nestjs/common": "11.0.10",
     "@nestjs/config": "4.0.0",
     "@nestjs/core": "11.0.10",
+    "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/platform-express": "11.0.10",
+    "@nestjs/swagger": "11.0.5",
     "@prisma/client": "6.4.1",
     "class-transformer": "0.5.1",
     "class-validator": "0.14.1",
@@ -35,6 +38,7 @@
     "jest-ctrf-json-reporter": "0.0.9",
     "nest-winston": "1.10.2",
     "nestjs-prisma": "0.25.0-dev.0",
+    "prisma-paginate": "^5.2.1",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.1",
     "uuid": "11.1.0",
@@ -42,7 +46,13 @@
     "winston-daily-rotate-file": "5.0.0",
     "zod": "^3.24.2"
   },
+  "pnpm": {
+    "overrides": {
+      "chokidar": "3.6.0"
+    }
+  },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.26",
     "@nestjs/cli": "11.0.4",
     "@nestjs/schematics": "11.0.1",
     "@nestjs/testing": "11.0.10",

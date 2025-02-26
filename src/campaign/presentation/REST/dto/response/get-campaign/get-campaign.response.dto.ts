@@ -1,21 +1,22 @@
-import type { ICampaign } from "src/campaign/domain/campaign/entity/campaign.interface";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class GetCampaignResponseDto {
+	@ApiProperty()
 	id: string;
+	@ApiProperty()
 	name: string;
+	@ApiProperty()
 	category: "seasonal" | "regular" | "special";
+	@ApiProperty()
 	startDate: Date;
+	@ApiProperty()
 	endDate: Date;
+	@ApiProperty()
 	status: "active" | "paused" | "expired";
+	@ApiProperty()
 	createdAt: Date;
 
-	constructor(props: ICampaign) {
-		this.id = props.id;
-		this.name = props.name;
-		this.category = props.category;
-		this.startDate = props.startDate;
-		this.endDate = props.endDate;
-		this.status = props.status;
-		this.createdAt = props.createdAt;
+	constructor(obj: GetCampaignResponseDto) {
+		Object.assign(this, obj);
 	}
 }

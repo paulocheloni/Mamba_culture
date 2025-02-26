@@ -9,7 +9,7 @@ export const envSchema = z.object({
 	DB_USER: z.string(),
 	DB_PASS: z.string(),
 	DB_NAME: z.string(),
-	DB_URL: z.string(),
+	DATABASE_URL: z.string(),
 	HOST: z.string(),
 });
 

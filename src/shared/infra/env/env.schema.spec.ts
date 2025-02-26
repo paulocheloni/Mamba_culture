@@ -11,7 +11,7 @@ describe("envSchema", () => {
 			DB_USER: "user",
 			DB_PASS: "pass",
 			DB_NAME: "dbname",
-			DB_URL: "postgres://user:pass@localhost:5432/dbname",
+			DATABASE_URL: "postgres://user:pass@localhost:5432/dbname",
 			HOST: "127.0.0.1",
 		};
 		const result = envSchema.safeParse(validEnv);
@@ -36,7 +36,7 @@ describe("envSchema", () => {
 			DB_USER: "user",
 			DB_PASS: "pass",
 			DB_NAME: "dbname",
-			DB_URL: "postgres://user:pass@localhost:5432/dbname",
+			DATABASE_URL: "postgres://user:pass@localhost:5432/dbname",
 			HOST: "127.0.0.1",
 		};
 		const result = envSchema.safeParse(invalidEnv);
@@ -52,7 +52,7 @@ describe("envSchema", () => {
 			DB_USER: "user",
 			DB_PASS: "pass",
 			DB_NAME: "dbname",
-			DB_URL: "postgres://user:pass@localhost:5432/dbname",
+			DATABASE_URL: "postgres://user:pass@localhost:5432/dbname",
 			HOST: "127.0.0.1",
 		};
 		const result = envSchema.safeParse(validEnv);

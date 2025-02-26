@@ -12,12 +12,14 @@ import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campa
 import { HttpExceptionFilter } from "src/shared/infra/filters/http-exception.filter";
 import { ResultInterceptor } from "src/shared/infra/interceptors/result.interceptor";
 import { Reflector } from "@nestjs/core";
-import { PrismaService } from "nestjs-prisma";
 import { CampaignPrismaRepository } from "src/campaign/infra/repository/prisma/campaign-prisma.repository";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
+import type { CustomPrismaService } from "nestjs-prisma";
 
 describe("AppController (e2e) - Prisma", () => {
 	let app: INestApplication;
-	let prismaService: PrismaService;
+	let prismaService: CustomPrismaService<ExtendedPrismaClient>;
 
 	beforeAll(async () => {
 		const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -45,7 +47,7 @@ describe("AppController (e2e) - Prisma", () => {
 	});
 
 	beforeEach(async () => {
-		await prismaService.campaign.deleteMany();
+		await prismaService.client.campaign.deleteMany();
 	});
 
 	afterAll(async () => {
@@ -72,7 +74,7 @@ describe("AppController (e2e) - Prisma", () => {
 
 			expect(response.body.isSuccess).toBe(true);
 			expect(response.body.isFailure).toBe(false);
-			expect(response.body.value).toBeUndefined();
+			expect(response.body.value).toBeDefined();
 			expect(response.body.error).toBeUndefined();
 		});
 
@@ -179,7 +181,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const response = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 
 			expect(response.body.isSuccess).toBe(true);
@@ -206,7 +214,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const responseGetAll = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 			const campaignId = responseGetAll.body.value[0].id;
 
@@ -216,7 +230,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const response = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 
 			expect(response.body.isSuccess).toBe(true);
@@ -246,7 +266,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const responseGetAll = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 			const campaignToDeleteId = responseGetAll.body.value.find(
 				(c: any) => c.name === "To Delete",
@@ -258,7 +284,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const response = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 
 			expect(response.body.isSuccess).toBe(true);
@@ -290,7 +322,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const responseGetAll = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 			const campaignIds = responseGetAll.body.value.map((c: any) => c.id);
 
@@ -302,7 +340,13 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const response = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
 				.expect(200);
 
 			expect(response.body.isSuccess).toBe(true);
@@ -323,18 +367,14 @@ describe("AppController (e2e) - Prisma", () => {
 				endDate: futureEnd,
 			}).expect(201);
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Campaign B",
 				category: "regular" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignIdToDelete = responseGetAll.body.value[1].id;
+			const campaignIdToDelete = created.body.value.id;
 
 			await request(app.getHttpServer())
 				.delete(`/campaign/${campaignIdToDelete}`)
@@ -342,7 +382,7 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const responsePage1 = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 0, limit: 1, orderBy: "name", order: "asc" })
+				.query({ page: 1, limit: 1, orderBy: "name", order: "asc", search: "" })
 				.expect(200);
 
 			expect(responsePage1.body.isSuccess).toBe(true);
@@ -352,31 +392,231 @@ describe("AppController (e2e) - Prisma", () => {
 
 			const responsePage2 = await request(app.getHttpServer())
 				.get("/campaign")
-				.query({ page: 1, limit: 1, orderBy: "name", order: "asc" })
+				.query({ page: 2, limit: 1, orderBy: "name", order: "asc", search: "" })
 				.expect(200);
 
 			expect(responsePage2.body.isSuccess).toBe(true);
-			expect(responsePage2.body.value.length).toBe(0); // No more active campaigns
+			expect(responsePage2.body.value.length).toBe(0);
+		});
+
+		it("should search campaigns by name with partial match", async () => {
+			await createCampaign({
+				name: "Summer Campaign",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "sum",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBe(1);
+			expect(response.body.value[0].name).toBe("Summer Campaign");
+		});
+
+		it("should handle case-insensitive search", async () => {
+			await createCampaign({
+				name: "SUMMER Campaign",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "summer",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBe(1);
+			expect(response.body.value[0].name).toBe("SUMMER Campaign");
+		});
+
+		it("should return all campaigns for empty search", async () => {
+			await createCampaign({
+				name: "Campaign One",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			await createCampaign({
+				name: "Campaign Two",
+				category: "regular" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBe(2);
+			expect(response.body.value.map((c) => c.name).sort()).toEqual([
+				"Campaign One",
+				"Campaign Two",
+			]);
+		});
+
+		it("should order by createdAt ascending", async () => {
+			await createCampaign({
+				name: "Older Campaign",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			await createCampaign({
+				name: "Newer Campaign",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "createdAt",
+					order: "asc",
+					search: "",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBe(2);
+			expect(response.body.value[0].name).toBe("Older Campaign");
+			expect(response.body.value[1].name).toBe("Newer Campaign");
+		});
+
+		it("should order by name descending", async () => {
+			await createCampaign({
+				name: "Zebra Campaign",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			await createCampaign({
+				name: "Apple Campaign",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: 1,
+					limit: 10,
+					orderBy: "name",
+					order: "desc",
+					search: "",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBe(2);
+			expect(response.body.value[0].name).toBe("Zebra Campaign");
+			expect(response.body.value[1].name).toBe("Apple Campaign");
+		});
+
+		// Add edge cases for pagination
+		it("should handle invalid page number", async () => {
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: -1,
+					limit: 10,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBeDefined();
+		});
+
+		it("should handle zero limit", async () => {
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({ page: 1, limit: 0, orderBy: "name", order: "asc", search: "" })
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+		});
+
+		it("should handle page beyond total pages", async () => {
+			await createCampaign({
+				name: "Campaign One",
+				category: "seasonal" as CampaignCategory,
+				startDate: new Date("2025-03-01"),
+				endDate: new Date("2025-04-01"),
+			}).expect(201);
+
+			const response = await request(app.getHttpServer())
+				.get("/campaign")
+				.query({
+					page: 10,
+					limit: 1,
+					orderBy: "name",
+					order: "asc",
+					search: "",
+				})
+				.expect(200);
+
+			expect(response.body.isSuccess).toBe(true);
+			expect(response.body.isFailure).toBe(false);
+			expect(response.body.value.length).toBe(0);
 		});
 	});
-
 	describe("GET /campaign/:id - Output Validation", () => {
 		it("should return a campaign by ID when not deleted", async () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Specific Campaign",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			const response = await request(app.getHttpServer())
 				.get(`/campaign/${campaignId}`)
@@ -408,18 +648,14 @@ describe("AppController (e2e) - Prisma", () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "To Delete",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			await request(app.getHttpServer())
 				.delete(`/campaign/${campaignId}`)
@@ -440,35 +676,27 @@ describe("AppController (e2e) - Prisma", () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Campaign 1",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll1 = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignIdToDelete = responseGetAll1.body.value[0].id;
+			const campaignIdToDelete = created.body.value.id;
 
 			await request(app.getHttpServer())
 				.delete(`/campaign/${campaignIdToDelete}`)
 				.expect(200);
 
-			await createCampaign({
+			const created2 = await createCampaign({
 				name: "Campaign 2",
 				category: "regular" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll2 = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const newCampaignId = responseGetAll2.body.value[0].id;
+			const newCampaignId = created2.body.value.id as string;
 
 			const responseDeleted = await request(app.getHttpServer())
 				.get(`/campaign/${campaignIdToDelete}`)
@@ -498,18 +726,14 @@ describe("AppController (e2e) - Prisma", () => {
 			const futureStart = new Date("2025-03-01");
 			const futureEnd = new Date("2025-04-01");
 
-			await createCampaign({
+			const created = await createCampaign({
 				name: "Old Campaign",
 				category: "seasonal" as CampaignCategory,
 				startDate: futureStart,
 				endDate: futureEnd,
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			const updatedData = {
 				name: "Updated Campaign",
@@ -531,18 +755,14 @@ describe("AppController (e2e) - Prisma", () => {
 		});
 
 		it("should fail if endDate is before startDate", async () => {
-			await createCampaign({
+			const created = await createCampaign({
 				name: "To Update",
 				category: "seasonal" as CampaignCategory,
 				startDate: new Date("2025-03-01"),
 				endDate: new Date("2025-04-01"),
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			const invalidData = {
 				endDate: new Date("2025-02-01"),
@@ -567,19 +787,14 @@ describe("AppController (e2e) - Prisma", () => {
 		});
 
 		it("should fail if category is invalid", async () => {
-			await createCampaign({
+			const created = await createCampaign({
 				name: "To Update",
 				category: "seasonal" as CampaignCategory,
 				startDate: new Date("2025-03-01"),
 				endDate: new Date("2025-04-01"),
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
-
+			const campaignId = created.body.value.id;
 			const invalidData = {
 				name: "Updated",
 				category: "invalid" as any,
@@ -600,18 +815,14 @@ describe("AppController (e2e) - Prisma", () => {
 
 	describe("DELETE /campaign/:id", () => {
 		it("should soft delete a campaign", async () => {
-			await createCampaign({
+			const created = await createCampaign({
 				name: "To Delete",
 				category: "seasonal" as CampaignCategory,
 				startDate: new Date("2025-03-01"),
 				endDate: new Date("2025-04-01"),
 			}).expect(201);
 
-			const responseGetAll = await request(app.getHttpServer())
-				.get("/campaign")
-				.query({ page: 0, limit: 10, orderBy: "name", order: "asc" })
-				.expect(200);
-			const campaignId = responseGetAll.body.value[0].id;
+			const campaignId = created.body.value.id;
 
 			const deleteResponse = await request(app.getHttpServer())
 				.delete(`/campaign/${campaignId}`)

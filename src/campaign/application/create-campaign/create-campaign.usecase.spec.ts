@@ -5,6 +5,7 @@ import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campa
 import type { Mocked } from "@suites/doubles.jest";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import type { CreateCampaignBodyDto } from "src/campaign/presentation/REST/dto/request/create-campaign-body.dto";
 
 describe("CreateCampaignUsecase", () => {
 	let usecase: CreateCampaignUseCase;
@@ -30,13 +31,20 @@ describe("CreateCampaignUsecase", () => {
 		nexthour.setHours(now.getHours() + 1);
 		tomorrow.setDate(now.getDate() + 1);
 
-		const data = {
+		const data: CreateCampaignBodyDto = {
 			category: "regular" as keyof typeof CampaignCategory,
 			name: "Campaign 1",
 			startDate: nexthour,
 			endDate: tomorrow,
-			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: false,
+			isSuccess: true,
+			value: null,
+			error: null,
+		});
+
 		await usecase.execute(data);
 		expect(repository.create).toHaveBeenCalled();
 	});
@@ -56,6 +64,17 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			isSuccess: false,
+			value: null,
+			error: {
+				message: "endDate must be greater than startDate",
+				code: CampaignErrorCodes.END_DATE_BEFORE_START_DATE,
+			},
+		});
+
 		const result = await usecase.execute(data as any);
 		expect(result.isFailure).toBe(true);
 		expect(result.error.message).toBe("endDate must be greater than startDate");
@@ -76,6 +95,16 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			isSuccess: false,
+			value: null,
+			error: {
+				message: "startDate must be greater than createdAt",
+				code: CampaignErrorCodes.START_DATE_BEFORE_CREATED_AT,
+			},
+		});
 
 		const result = await usecase.execute(data as any);
 		expect(result.isFailure).toBe(true);
@@ -98,6 +127,17 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			isSuccess: false,
+			value: null,
+			error: {
+				message: "startDate is required",
+				code: CampaignErrorCodes.START_DATE_REQUIRED,
+			},
+		});
+
 		const result = await usecase.execute(data as any);
 		expect(result.isFailure).toBe(true);
 		expect(result.error.message).toBe("startDate is required");
@@ -136,6 +176,17 @@ describe("CreateCampaignUsecase", () => {
 			startDate: nexthour,
 			endDate: yesterday,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			isSuccess: false,
+			value: null,
+			error: {
+				message: "startDate must be greater than createdAt",
+				code: CampaignErrorCodes.START_DATE_BEFORE_CREATED_AT,
+			},
+		});
+
 		const result = await usecase.execute(data as any);
 		expect(result.isFailure).toBe(true);
 		expect(result.error.message).toBe(
@@ -157,6 +208,17 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			isSuccess: false,
+			value: null,
+			error: {
+				message: "Name is required",
+				code: CampaignErrorCodes.NAME_REQUIRED,
+			},
+		});
+
 		const result = await usecase.execute(data as any);
 		expect(result.isFailure).toBe(true);
 		expect(result.error.message).toBe("Name is required");
@@ -176,6 +238,17 @@ describe("CreateCampaignUsecase", () => {
 			endDate: yesterday,
 			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: true,
+			isSuccess: false,
+			value: null,
+			error: {
+				message: "Category is required",
+				code: CampaignErrorCodes.CATEGORY_REQUIRED,
+			},
+		});
+
 		const result = await usecase.execute(data as any);
 		expect(result.isFailure).toBe(true);
 		expect(result.error.message).toBe("Category is required");
@@ -196,6 +269,14 @@ describe("CreateCampaignUsecase", () => {
 			endDate: tomorrow,
 			createdAt: now,
 		};
+
+		repository.create.mockResolvedValue({
+			isFailure: false,
+			isSuccess: true,
+			value: null,
+			error: null,
+		});
+
 		await usecase.execute(data as any);
 		expect(repository.create).toHaveBeenCalledWith(
 			expect.objectContaining({

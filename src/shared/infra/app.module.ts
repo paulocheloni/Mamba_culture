@@ -2,7 +2,8 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { CampaignModule } from "src/campaign/infra/modules/campaign.module";
 import { envSchema } from "./env/env.schema";
-import { PrismaModule } from "nestjs-prisma";
+import { CustomPrismaModule } from "nestjs-prisma";
+import { ExtendedPrismaConfigService } from "./prisma/prisma-extended.service";
 
 @Module({
 	imports: [
@@ -10,7 +11,9 @@ import { PrismaModule } from "nestjs-prisma";
 			isGlobal: true,
 			validate: (config) => envSchema.parse(config),
 		}),
-		PrismaModule.forRoot({
+		CustomPrismaModule.forRootAsync({
+			name: "PrismaService",
+			useClass: ExtendedPrismaConfigService,
 			isGlobal: true,
 		}),
 		CampaignModule,

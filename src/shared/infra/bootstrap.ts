@@ -4,6 +4,7 @@ import { AppModule } from "./app.module";
 import { ClassSerializerInterceptor, ValidationPipe } from "@nestjs/common";
 import { ResultInterceptor } from "./interceptors/result.interceptor";
 import { HttpExceptionFilter } from "./filters/http-exception.filter";
+import { initSwagger } from "./docs/swagger/init";
 
 const bootStrap = async () => {
 	const app = await NestFactory.create(AppModule);
@@ -27,6 +28,8 @@ const bootStrap = async () => {
 		optionsSuccessStatus: 204,
 		credentials: true,
 	});
+	initSwagger(app);
+
 	return app;
 };
 

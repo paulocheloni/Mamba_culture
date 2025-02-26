@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import type { UpdateCampaignDto } from "./dto/update-campaign.dto";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
@@ -6,6 +6,7 @@ import { Result } from "src/shared/domain/result/result";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 
+@Injectable()
 export class UpdateCampaignUseCase {
 	constructor(
 		@Inject(ICampaignRepository)
@@ -19,7 +20,7 @@ export class UpdateCampaignUseCase {
 			return Result.fail(campaignExists.error);
 		}
 		if (!campaignExists?.value || campaignExists?.value.isDeleted()) {
-			return Result.fail(
+			return Result.fail<void>(
 				new CampaignError(
 					CampaignErrorCodes.CAMPAIGN_NOT_FOUND,
 					"Campaign not found",

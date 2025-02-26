@@ -20,7 +20,7 @@ export class Result<T> {
 		return new Result<U>(true, undefined, value);
 	}
 
-	public static fail<U>(error: any): Result<U> {
+	public static fail<U = void>(error: any): Result<U> {
 		return new Result<U>(false, error);
 	}
 }

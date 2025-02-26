@@ -1,15 +1,17 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { PrismaService } from "nestjs-prisma";
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import type {
 	ICampaignRepository,
 	IQueryable,
+	QueryableDTO,
 } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 import { Result } from "src/shared/domain/result/result";
-import type { Campaign as CampaignModel } from "@prisma/client";
 import { TestableRepository } from "src/shared/domain/repository/testable.repository";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import type { CustomPrismaService } from "nestjs-prisma";
+import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
 
 @Injectable()
 export class CampaignPrismaRepository
@@ -17,18 +19,19 @@ export class CampaignPrismaRepository
 	implements ICampaignRepository
 {
 	constructor(
-		@Inject(PrismaService) private readonly prismaService: PrismaService,
+		@Inject(PrismaService)
+		private readonly prismaService: CustomPrismaService<ExtendedPrismaClient>,
 	) {
 		super();
 	}
 
 	protected async callReset(): Promise<void> {
-		await this.prismaService.campaign.deleteMany();
+		await this.prismaService.client.campaign.deleteMany();
 	}
 
 	async create(campaign: Campaign): Promise<Result<void>> {
 		try {
-			await this.prismaService.campaign.create({
+			await this.prismaService.client.campaign.create({
 				data: {
 					id: campaign.id,
 					name: campaign.name,
@@ -46,7 +49,7 @@ export class CampaignPrismaRepository
 	}
 	async getById(id: string): Promise<Result<Campaign>> {
 		try {
-			const campaignData = await this.prismaService.campaign.findUnique({
+			const campaignData = await this.prismaService.client.campaign.findUnique({
 				where: { id, deletedAt: null },
 			});
 			if (!campaignData) {
@@ -74,7 +77,7 @@ export class CampaignPrismaRepository
 	}
 	async save(campaign: Campaign): Promise<Result<void>> {
 		try {
-			await this.prismaService.campaign.update({
+			await this.prismaService.client.campaign.update({
 				where: { id: campaign.id },
 				data: {
 					name: campaign.name,
@@ -90,40 +93,14 @@ export class CampaignPrismaRepository
 			return Result.fail(error);
 		}
 	}
-	async getAll(query: IQueryable): Promise<Result<CampaignModel[]>> {
-		try {
-			const response = await this.prismaService.campaign.findMany({
-				where: {
-					name: { contains: query.search },
-					deletedAt: null,
-				},
-				distinct: ["id"],
-
-				skip: query.page * query.limit,
-				take: query.limit,
-				orderBy: { [query.orderBy]: query.order },
-				select: {
-					id: true,
-					name: true,
-					category: true,
-					status: true,
-					createdAt: true,
-					startDate: true,
-					endDate: true,
-					deletedAt: true,
-				},
-			});
-			return Result.ok(response);
-		} catch (error) {
-			return Result.fail(error);
-		}
-	}
 
 	async getByName(name: string): Promise<Result<Campaign>> {
 		try {
-			const prismaResponse = await this.prismaService.campaign.findFirst({
-				where: { name, deletedAt: null },
-			});
+			const prismaResponse = await this.prismaService.client.campaign.findFirst(
+				{
+					where: { name, deletedAt: null },
+				},
+			);
 			if (!prismaResponse) {
 				return Result.fail(
 					new CampaignError(
