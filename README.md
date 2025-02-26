@@ -53,8 +53,8 @@ Before running the application, ensure you have the following installed:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/yourprojectname.git
-   cd yourprojectname
+   git clone https://github.com/paulocheloni/Mamba_culture.git
+   cd Mamba_culture
    ```
 
 2. **Install dependencies**:
