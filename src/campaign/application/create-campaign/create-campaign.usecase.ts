@@ -1,11 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
-import type { CreateCampaignDto } from "./dto/create-campaign.dto";
-import { CampaignBuilder } from "../../domain/campaign/builder/campaign.builder";
-import { v4 as uuid } from "uuid";
-import { Result } from "src/shared/domain/result/result";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { Result } from "src/shared/domain/result/result";
+import { v4 as uuid } from "uuid";
+import { CampaignBuilder } from "../../domain/campaign/builder/campaign.builder";
+import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
+import type { CreateCampaignDto } from "./dto/create-campaign.dto";
 
 @Injectable()
 export class CreateCampaignUseCase {

@@ -1,13 +1,13 @@
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 import { Result } from "src/shared/domain/result/result";
+import { v4 as uuid } from "uuid";
 import { Campaign } from "../entity/campaign";
 import {
 	CampaignCategory,
 	CampaignStatus,
 	type ICampaign,
 } from "../entity/campaign.interface";
-import { v4 as uuid } from "uuid";
-import { CampaignError } from "src/shared/domain/errors/campaign-error";
-import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
 
 export class CampaignBuilder {
 	private _id?: string;

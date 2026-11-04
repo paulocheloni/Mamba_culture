@@ -1,21 +1,13 @@
 // campaign.entity.ts
+
+import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { Result } from "src/shared/domain/result/result";
 import {
 	type CampaignCategory,
 	CampaignStatus,
 	type ICampaign,
 } from "./campaign.interface";
-import { CampaignError } from "src/shared/domain/errors/campaign-error";
-import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
-import { Result } from "src/shared/domain/result/result";
-
-export enum CampaignErrorDomainCodes {
-	START_DATE_BEFORE_CREATED_AT = "START_DATE_BEFORE_CREATED_AT",
-	END_DATE_BEFORE_START_DATE = "END_DATE_BEFORE_START_DATE",
-	CANNOT_PAUSE_EXPIRED_CAMPAIGN = "CANNOT_PAUSE_EXPIRED_CAMPAIGN",
-	CANNOT_PAUSE_DELETED_CAMPAIGN = "CANNOT_PAUSE_DELETED_CAMPAIGN",
-	CANNOT_ACTIVATE_EXPIRED_CAMPAIGN = "CANNOT_ACTIVATE_EXPIRED_CAMPAIGN",
-	CANNOT_ACTIVATE_DELETED_CAMPAIGN = "CANNOT_ACTIVATE_DELETED_CAMPAIGN",
-}
 
 export class Campaign {
 	private readonly _id: string;

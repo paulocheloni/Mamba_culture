@@ -1,7 +1,7 @@
 import { Test } from "@nestjs/testing";
-import { CampaignModule } from "./campaign.module";
 import { CustomPrismaModule } from "nestjs-prisma";
 import { ExtendedPrismaConfigService } from "src/shared/infra/prisma/prisma-extended.service";
+import { CampaignModule } from "./campaign.module";
 
 describe("CampaignModule", () => {
 	let module: CampaignModule;

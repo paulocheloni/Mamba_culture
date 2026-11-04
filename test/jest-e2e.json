@@ -1,10 +1,35 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
-  "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
-
-  "transform": {
-    "^.+\\.(t|j)s$": "@swc/jest"
-  }
+	"moduleFileExtensions": ["js", "json", "ts"],
+	"rootDir": ".",
+	"testEnvironment": "node",
+	"testRegex": ".e2e-spec.ts$",
+	"testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+	"setupFiles": ["<rootDir>/../jest.setup.cjs"],
+	"transform": {
+		"^.+\\.(t|j)s$": [
+			"@swc/jest",
+			{
+				"swcrc": false,
+				"sourceMaps": "inline",
+				"jsc": {
+					"parser": {
+						"syntax": "typescript",
+						"decorators": true,
+						"dynamicImport": true
+					},
+					"transform": {
+						"legacyDecorator": true,
+						"decoratorMetadata": true
+					},
+					"baseUrl": ".",
+					"paths": {
+						"src/*": ["src/*"]
+					}
+				},
+				"module": {
+					"type": "commonjs"
+				}
+			}
+		]
+	}
 }

@@ -1,14 +1,14 @@
-import { TestBed } from "@suites/unit";
-import { CampaignPrismaRepository } from "./campaign-prisma.repository";
 import type { Mocked } from "@suites/doubles.jest";
+import { TestBed } from "@suites/unit";
+import type { CustomPrismaService } from "nestjs-prisma";
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import type {
 	CampaignCategory,
 	CampaignStatus,
 } from "src/campaign/domain/campaign/entity/campaign.interface";
-import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
-import type { CustomPrismaService } from "nestjs-prisma";
 import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import { CampaignPrismaRepository } from "./campaign-prisma.repository";
 
 interface MockCampaignData {
 	id: string;

@@ -1,17 +1,13 @@
 import { Inject, Injectable } from "@nestjs/common";
+import type { CustomPrismaService } from "nestjs-prisma";
 import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
-import type {
-	ICampaignRepository,
-	IQueryable,
-	QueryableDTO,
-} from "src/campaign/domain/campaign/repository/campaign.repository.interface";
+import type { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
-import { Result } from "src/shared/domain/result/result";
 import { TestableRepository } from "src/shared/domain/repository/testable.repository";
-import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
-import type { CustomPrismaService } from "nestjs-prisma";
+import { Result } from "src/shared/domain/result/result";
 import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
 
 @Injectable()
 export class CampaignPrismaRepository

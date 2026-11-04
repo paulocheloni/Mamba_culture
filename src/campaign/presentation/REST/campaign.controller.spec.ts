@@ -1,16 +1,16 @@
-import { CreateCampaignUseCase } from "src/campaign/application/create-campaign/create-campaign.usecase";
-import { CampaignController } from "./campaign.controller";
-import { TestBed } from "@suites/unit";
 import type { Mocked } from "@suites/doubles.jest";
-import { CreateCampaignBodyDto } from "./dto/request/create-campaign-body.dto";
-import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-campaign.usecase";
-import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
-import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { TestBed } from "@suites/unit";
+import { CreateCampaignUseCase } from "src/campaign/application/create-campaign/create-campaign.usecase";
 import { DeleteCampaignUseCase } from "src/campaign/application/delete-campaign/delete-campaign.usecase";
-import { SearchMetadataDTO } from "src/shared/infra/result/search.metadata.dto";
+import { GetCampaignUseCase } from "src/campaign/application/get-campaign/get-campaign.usecase";
+import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { Campaign } from "src/campaign/domain/campaign/entity/campaign";
 import { SearchCampaignDTO } from "src/campaign/infra/repository/prisma/dto/search-campaign.dto";
-import { GetCampaignResponseDto } from "./dto/response/get-campaign/get-campaign.response.dto";
 import { SearchCampaignPrismaRepository } from "src/campaign/infra/repository/prisma/search-campaign-prisma.repository";
+import { SearchMetadataDTO } from "src/shared/infra/result/search.metadata.dto";
+import { CampaignController } from "./campaign.controller";
+import { CreateCampaignBodyDto } from "./dto/request/create-campaign-body.dto";
+import { GetCampaignResponseDto } from "./dto/response/get-campaign/get-campaign.response.dto";
 
 describe("CampaignController", () => {
 	let controller: CampaignController;

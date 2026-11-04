@@ -1,8 +1,8 @@
-import { TestBed } from "@suites/unit";
-import { SearchCampaignPrismaRepository } from "./search-campaign-prisma.repository";
-import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
-import type { QueryableDTO } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import type { Mocked } from "@suites/doubles.jest";
+import { TestBed } from "@suites/unit";
+import type { QueryableDTO } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import { SearchCampaignPrismaRepository } from "./search-campaign-prisma.repository";
 
 describe("SearchCampaignPrismaRepository", () => {
 	let repository: SearchCampaignPrismaRepository;
