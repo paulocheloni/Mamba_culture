@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { CustomPrismaModule } from "nestjs-prisma";
 import { CampaignModule } from "src/campaign/infra/modules/campaign.module";
 import { envSchema } from "./env/env.schema";
-import { CustomPrismaModule } from "nestjs-prisma";
 import { ExtendedPrismaConfigService } from "./prisma/prisma-extended.service";
 
 @Module({

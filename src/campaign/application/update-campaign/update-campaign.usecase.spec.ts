@@ -1,15 +1,15 @@
 import type { Mocked } from "@suites/doubles.jest";
-import type { UpdateCampaignDto } from "./dto/update-campaign.dto";
-import { UpdateCampaignUseCase } from "./update-campaign.usecase";
-import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { TestBed } from "@suites/unit";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
 import type {
 	CampaignCategory,
 	CampaignStatus,
 } from "src/campaign/domain/campaign/entity/campaign.interface";
-import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import type { UpdateCampaignDto } from "./dto/update-campaign.dto";
+import { UpdateCampaignUseCase } from "./update-campaign.usecase";
 
 describe("UpdateCampaignUseCase", () => {
 	let useCase: UpdateCampaignUseCase;

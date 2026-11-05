@@ -1,10 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
-import type { UpdateCampaignDto } from "./dto/update-campaign.dto";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
-import { Result } from "src/shared/domain/result/result";
-import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
+import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { Result } from "src/shared/domain/result/result";
+import type { UpdateCampaignDto } from "./dto/update-campaign.dto";
 
 @Injectable()
 export class UpdateCampaignUseCase {

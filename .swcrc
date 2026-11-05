@@ -1,29 +1,33 @@
 {
-    "$schema": "https://swc.rs/schema.json",
-    
-    "sourceMaps": true,
-    "jsc": {
-      "parser": {
-        "syntax": "typescript",
-        "tsx": false,
-        "decorators": true,
-        "dynamicImport": true,
-        "paths": {
-          "src/*": ["src/*"]
-        }
-        
-      },
-      "transform": {
-        "legacyDecorator": true,
-        "decoratorMetadata": true
-      },
-      "baseUrl": "./"
+  "$schema": "https://swc.rs/schema.json",
+  "sourceMaps": true,
+  "exclude": [
+    "node_modules",
+    "dist",
+    "\\.spec\\.ts$",
+    "\\.e2e-spec\\.ts$"
+  ],
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
     },
-    "module": {
-      "type": "commonjs",
-      "strict": false,
-      "lazy": false,
-      "noInterop": false
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
     },
-    "minify": false
-  }
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"]
+    }
+  },
+  "module": {
+    "type": "commonjs",
+    "strict": false,
+    "lazy": false,
+    "noInterop": false
+  },
+  "minify": false
+}

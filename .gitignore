@@ -19,6 +19,9 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+/ctrf
+/test-results
+*.tsbuildinfo
 
 # IDEs and editors
 /.idea

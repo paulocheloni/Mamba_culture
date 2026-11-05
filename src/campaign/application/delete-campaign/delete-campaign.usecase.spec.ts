@@ -1,10 +1,10 @@
 import type { Mocked } from "@suites/doubles.jest";
-import { DeleteCampaignUseCase } from "./delete-campaign.usecase";
-import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { TestBed } from "@suites/unit";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
+import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
+import { DeleteCampaignUseCase } from "./delete-campaign.usecase";
 
 describe("DeleteCampaignUseCase", () => {
 	let useCase: DeleteCampaignUseCase;

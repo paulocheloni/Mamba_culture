@@ -1,7 +1,7 @@
-import { ResultDto } from "src/shared/infra/result/result.dto";
-import { GetCampaignResponseDto } from "./get-campaign.response.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
+import { ResultDto } from "src/shared/infra/result/result.dto";
+import { GetCampaignResponseDto } from "./get-campaign.response.dto";
 
 export class GetAllCampaignResultDTO extends ResultDto {
 	@Type(() => GetCampaignResponseDto)

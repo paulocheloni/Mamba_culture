@@ -1,41 +1,39 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "formatter": {
-    "enabled": true
-  },
-  "files": {
-    "ignore": ["dist", "node_modules"]
-  },
-  "javascript": {
-    "parser": {
-      "unsafeParameterDecoratorsEnabled": true
-    }
-  },
+	"$schema": "https://biomejs.dev/schemas/2.6.5/schema.json",
+	"formatter": {
+		"enabled": true
+	},
+	"files": {
+		"includes": ["**", "!**/dist", "!**/node_modules", "!**/src/metadata.ts"]
+	},
+	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	},
 
-  "linter": {
-    "enabled": true,
-    "rules": {
-      "complexity": {
-        "noStaticOnlyClass": "off"
-      },
-      "suspicious": {
-        "noExplicitAny": "off"
-      }
-    }
-  },
-  "organizeImports": {
-    "enabled": true
-  },
-  "overrides": [
-    {
-      "include": ["**/*.controller.ts"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useImportType": "off"
-          }
-        }
-      }
-    }
-  ]
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"complexity": {
+				"noStaticOnlyClass": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
+			}
+		}
+	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"overrides": [
+		{
+			"includes": ["**/*.controller.ts"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useImportType": "off"
+					}
+				}
+			}
+		}
+	]
 }

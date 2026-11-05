@@ -1,11 +1,11 @@
-import { TestBed } from "@suites/unit";
-import { CreateCampaignUseCase } from "./create-campaign.usecase";
-import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
-import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
 import type { Mocked } from "@suites/doubles.jest";
+import { TestBed } from "@suites/unit";
+import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
+import type { CreateCampaignBodyDto } from "src/campaign/presentation/REST/dto/request/create-campaign-body.dto";
 import { CampaignError } from "src/shared/domain/errors/campaign-error";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
-import type { CreateCampaignBodyDto } from "src/campaign/presentation/REST/dto/request/create-campaign-body.dto";
+import { ICampaignRepository } from "../../domain/campaign/repository/campaign.repository.interface";
+import { CreateCampaignUseCase } from "./create-campaign.usecase";
 
 describe("CreateCampaignUsecase", () => {
 	let usecase: CreateCampaignUseCase;

@@ -1,5 +1,5 @@
-import { CampaignErrorCodes } from "./campaign-error-codes";
 import { CampaignError } from "./campaign-error";
+import { CampaignErrorCodes } from "./campaign-error-codes";
 
 describe("CampaignError", () => {
 	const errorData: Array<[CampaignErrorCodes, string]> = [

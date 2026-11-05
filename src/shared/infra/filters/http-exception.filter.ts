@@ -1,8 +1,8 @@
 import {
 	type ArgumentsHost,
 	Catch,
-	HttpException,
 	type ExceptionFilter,
+	HttpException,
 } from "@nestjs/common";
 import { Result } from "src/shared/domain/result/result";
 

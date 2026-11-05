@@ -1,20 +1,8 @@
+import { CampaignStatus } from "@prisma/client";
+import { Transform, Type } from "class-transformer";
+import { IsBoolean, IsOptional } from "class-validator";
 import type { Result } from "src/shared/domain/result/result";
 import type { Campaign } from "../entity/campaign";
-import type { ICampaign } from "../entity/campaign.interface";
-import { Query } from "@nestjs/common";
-import type { SearchResultDTO } from "src/shared/infra/result/search-result.dto";
-import { SearchCampaignDTO } from "src/campaign/infra/repository/prisma/dto/search-campaign.dto";
-import {
-	IsBoolean,
-	IsEnum,
-	IsNumber,
-	IsOptional,
-	IsPositive,
-	Matches,
-	MaxLength,
-} from "class-validator";
-import { Transform, Type } from "class-transformer";
-import { CampaignStatus } from "@prisma/client";
 
 export type IQueryable = {
 	sort?: "asc" | "desc";

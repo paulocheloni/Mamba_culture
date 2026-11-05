@@ -1,25 +1,21 @@
 services:
   postgres:
     container_name: postgres_mamba
-    image: postgres:latest
-    restart: always
-    env_file:
-      - .env
+    image: postgres:16
+    restart: unless-stopped
     environment:
-      PGUSER: ${DB_USER}
-      PGPASSWORD: ${DB_PASS}
-      PGDB: ${DB_NAME}
-      PGPORT: ${DB_PORT}
-
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - mamba_postgres:/var/lib/postgresql/data
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "${DB_PORT}:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
-      interval: 1m30s
-      timeout: 30s
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
       retries: 5
-      start_period: 30s
+      start_period: 10s
 volumes:
   mamba_postgres:

@@ -1,18 +1,22 @@
-import { Test, type TestingModule } from "@nestjs/testing";
 import {
 	ClassSerializerInterceptor,
-	ValidationPipe,
 	type INestApplication,
+	ValidationPipe,
 } from "@nestjs/common";
-import request from "supertest";
-import { AppModule } from "src/shared/infra/app.module";
+import { Reflector } from "@nestjs/core";
+import { Test, type TestingModule } from "@nestjs/testing";
+import type { CustomPrismaService } from "nestjs-prisma";
+import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
 import { ICampaignRepository } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
 import { CampaignRepository } from "src/campaign/infra/repository/campaign.repository";
 import type { CreateCampaignBodyDto } from "src/campaign/presentation/REST/dto/request/create-campaign-body.dto";
-import type { CampaignCategory } from "src/campaign/domain/campaign/entity/campaign.interface";
+import { AppModule } from "src/shared/infra/app.module";
 import { HttpExceptionFilter } from "src/shared/infra/filters/http-exception.filter";
 import { ResultInterceptor } from "src/shared/infra/interceptors/result.interceptor";
-import { Reflector } from "@nestjs/core";
+import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import request from "supertest";
+import { daysFromNow } from "./dates";
 
 describe("AppController (e2e)", () => {
 	let app: INestApplication;
@@ -45,6 +49,9 @@ describe("AppController (e2e)", () => {
 	});
 
 	afterEach(async () => {
+		const prisma =
+			app.get<CustomPrismaService<ExtendedPrismaClient>>(PrismaService);
+		await prisma.client.$disconnect();
 		await app.close();
 	});
 
@@ -54,8 +61,8 @@ describe("AppController (e2e)", () => {
 
 	describe("POST /campaign", () => {
 		it("should create a campaign with valid data", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
+			const futureStart = daysFromNow(30);
+			const futureEnd = daysFromNow(60);
 
 			const campaignData = {
 				name: "Summer Sale",
@@ -73,8 +80,8 @@ describe("AppController (e2e)", () => {
 		});
 
 		it("should fail if startDate is in the past", async () => {
-			const pastDate = new Date("2024-01-01");
-			const futureEnd = new Date("2025-04-01");
+			const pastDate = daysFromNow(-400);
+			const futureEnd = daysFromNow(60);
 
 			const campaignData = {
 				name: "Past Campaign",
@@ -95,8 +102,8 @@ describe("AppController (e2e)", () => {
 		});
 
 		it("should fail if endDate is before startDate", async () => {
-			const futureStart = new Date("2025-03-01");
-			const pastEnd = new Date("2025-02-01");
+			const futureStart = daysFromNow(30);
+			const pastEnd = daysFromNow(10);
 
 			const campaignData = {
 				name: "Invalid Dates",
@@ -119,8 +126,8 @@ describe("AppController (e2e)", () => {
 
 	describe("GET /campaign/:id", () => {
 		it("should return a campaign by ID when not deleted", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
+			const futureStart = daysFromNow(30);
+			const futureEnd = daysFromNow(60);
 
 			const created = await createCampaign({
 				name: "Specific Campaign",
@@ -158,8 +165,8 @@ describe("AppController (e2e)", () => {
 		});
 
 		it("should return 404 if campaign is deleted", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
+			const futureStart = daysFromNow(30);
+			const futureEnd = daysFromNow(60);
 
 			const created = await createCampaign({
 				name: "To Delete",
@@ -186,8 +193,8 @@ describe("AppController (e2e)", () => {
 		});
 
 		it("should return active campaign and ignore deleted ones with same ID pattern", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
+			const futureStart = daysFromNow(30);
+			const futureEnd = daysFromNow(60);
 
 			const created = await createCampaign({
 				name: "Campaign 1",
@@ -236,8 +243,8 @@ describe("AppController (e2e)", () => {
 
 	describe("PUT /campaign/:id", () => {
 		it("should update a campaign", async () => {
-			const futureStart = new Date("2025-03-01");
-			const futureEnd = new Date("2025-04-01");
+			const futureStart = daysFromNow(30);
+			const futureEnd = daysFromNow(60);
 
 			const created = await createCampaign({
 				name: "Old Campaign",
@@ -251,8 +258,8 @@ describe("AppController (e2e)", () => {
 			const updatedData = {
 				name: "Updated Campaign",
 				category: "special",
-				startDate: new Date("2025-03-02"),
-				endDate: new Date("2025-04-02"),
+				startDate: daysFromNow(31),
+				endDate: daysFromNow(61),
 				status: "active",
 			};
 
@@ -271,15 +278,15 @@ describe("AppController (e2e)", () => {
 			const created = await createCampaign({
 				name: "To Update",
 				category: "seasonal" as CampaignCategory,
-				startDate: new Date("2025-03-01"),
-				endDate: new Date("2025-04-01"),
+				startDate: daysFromNow(30),
+				endDate: daysFromNow(60),
 			}).expect(201);
 
 			const campaignId = created.body.value.id;
 
 			const invalidData = {
-				endDate: new Date("2025-02-01"),
-				startDate: new Date("2025-03-01"),
+				endDate: daysFromNow(10),
+				startDate: daysFromNow(30),
 				name: "Invalid Dates",
 				category: "seasonal" as CampaignCategory,
 				status: "active",
@@ -305,8 +312,8 @@ describe("AppController (e2e)", () => {
 			const response = await createCampaign({
 				name: "To Delete",
 				category: "seasonal" as CampaignCategory,
-				startDate: new Date("2025-03-01"),
-				endDate: new Date("2025-04-01"),
+				startDate: daysFromNow(30),
+				endDate: daysFromNow(60),
 			}).expect(201);
 
 			const campaignId = response.body.value.id;

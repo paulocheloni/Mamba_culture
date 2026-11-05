@@ -1,15 +1,14 @@
 import {
+	type CallHandler,
+	type ExecutionContext,
 	Injectable,
 	type NestInterceptor,
-	type ExecutionContext,
-	type CallHandler,
 } from "@nestjs/common";
+import type { Request, Response } from "express";
 import type { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { isResult, type Result } from "src/shared/domain/result/result";
 import { CampaignErrorCodes } from "src/shared/domain/errors/campaign-error-codes";
-import type { Request, Response } from "express";
-import { plainToInstance } from "class-transformer";
+import { isResult, type Result } from "src/shared/domain/result/result";
 
 @Injectable()
 export class ResultInterceptor<T> implements NestInterceptor {

@@ -1,9 +1,9 @@
-import type { CustomPrismaService } from "nestjs-prisma";
-import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
-import { SearchCampaignDTO } from "./dto/search-campaign.dto";
 import { Inject, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import type { CustomPrismaService } from "nestjs-prisma";
 import type { QueryableDTO } from "src/campaign/domain/campaign/repository/campaign.repository.interface";
+import type { ExtendedPrismaClient } from "src/shared/infra/prisma/prisma.extension";
+import { PrismaService } from "src/shared/infra/prisma/prisma-extended.service";
+import { SearchCampaignDTO } from "./dto/search-campaign.dto";
 
 @Injectable()
 export class SearchCampaignPrismaRepository {

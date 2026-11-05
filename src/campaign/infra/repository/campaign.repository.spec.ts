@@ -1,14 +1,13 @@
 import { TestBed } from "@suites/unit";
-import { CampaignRepository } from "./campaign.repository";
 import { CampaignBuilder } from "src/campaign/domain/campaign/builder/campaign.builder";
 import { GetCampaignResponseDto } from "src/campaign/presentation/REST/dto/response/get-campaign/get-campaign.response.dto";
+import { CampaignRepository } from "./campaign.repository";
 
 describe("CampaignRepository", () => {
 	let repository: CampaignRepository;
 
 	beforeEach(async () => {
-		const { unit, unitRef } =
-			await TestBed.solitary(CampaignRepository).compile();
+		const { unit } = await TestBed.solitary(CampaignRepository).compile();
 
 		repository = unit;
 	});

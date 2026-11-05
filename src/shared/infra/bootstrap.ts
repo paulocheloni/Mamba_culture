@@ -1,10 +1,10 @@
-import { NestFactory, Reflector } from "@nestjs/core";
-import { ConfigService } from "@nestjs/config";
-import { AppModule } from "./app.module";
 import { ClassSerializerInterceptor, ValidationPipe } from "@nestjs/common";
-import { ResultInterceptor } from "./interceptors/result.interceptor";
-import { HttpExceptionFilter } from "./filters/http-exception.filter";
+import { ConfigService } from "@nestjs/config";
+import { NestFactory, Reflector } from "@nestjs/core";
+import { AppModule } from "./app.module";
 import { initSwagger } from "./docs/swagger/init";
+import { HttpExceptionFilter } from "./filters/http-exception.filter";
+import { ResultInterceptor } from "./interceptors/result.interceptor";
 
 const bootStrap = async () => {
 	const app = await NestFactory.create(AppModule);
